@@ -1,3 +1,8 @@
+## 0.1.3 ##
+
+* Fixed crash when undefined objects are converted to strings
+* Add callMemberFunctions parameter
+
 ## 0.1.2 ##
 
 * Fixed crash when null objects are converted to strings
