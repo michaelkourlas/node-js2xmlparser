@@ -1,7 +1,8 @@
 ## 0.1.3 ##
 
 * Fixed crash when undefined objects are converted to strings
-* Add callMemberFunctions parameter
+* Add callFunctions parameter
+* Added copyright year back to license
 
 ## 0.1.2 ##
 
