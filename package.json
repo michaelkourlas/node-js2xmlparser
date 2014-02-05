@@ -10,5 +10,11 @@
         "type":    "git",
         "url":     "git://github.com/michaelkourlas/node-js2xmlparser.git"
     },
+    "devDependencies"     : {
+        "async"             : "*",
+        "jshint"            : "*",
+        "mocha"             : "*",
+        "should"            : "*"
+    },
     "license":     "MIT"
 }
