@@ -23,7 +23,7 @@ describe("the XML parser", function () {
       res.should.eql("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>");
     });
 
-    it("should correctly serialize an empty object", function () {
+    it("should raise an error when no root is provided", function () {
       var res;
       try {
         res = js2xmlparser(undefined, {}, opts);
