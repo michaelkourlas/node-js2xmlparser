@@ -37,6 +37,10 @@ The js2xmlparser module contains one function which takes the following argument
 * `options` - options object (optional)
     * `callFunctions` - if true, calls member functions (with no arguments) and includes their return value in the XML;
       if false, returns the text of the function (optional, default is true)
+    * `wrapArray` - array wrapping options object (optional)
+        * `enabled` - if true, all elements in an array will be added to a single XML element as child elements; if
+          false, each array element will
+        * `elementName`
     * `declaration` - XML declaration options object (optional)
         * `include` - if true, includes an XML declaration (optional, default is true)
         * `encoding` - string representing the XML encoding for the corresponding attribute in the declaration; a value
@@ -116,4 +120,39 @@ Here's a more complex example that builds on the first:
     >     <phone type="home">123-555-4567</phone>
     >     <phone type="cell">456-555-7890</phone>
     >     <email>john@smith.com</email>
+    > </person>
+
+Here's an example that makes use of array wrapping:
+
+    var data  = {
+        "phone": [
+            {
+                "@": {
+                    "type": "home"
+                },
+                "#": "123-555-4567"
+            },
+            {
+                "@": {
+                    "type": "cell"
+                },
+                "#": "456-555-7890"
+            }
+        ]
+    }
+
+    var options = {
+        wrapArray: {
+            enabled: true
+        }
+    }
+
+    console.log(js2xmlparser("person", data, options));
+
+    > <?xml version="1.0" encoding="UTF-8"?>
+    > <person>
+    >     <phone>
+    > 	      <item type="home">123-555-4567</item>
+    > 	      <item type="cell">456-555-7890</item>
+    >     </phone>
     > </person>

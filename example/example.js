@@ -1,6 +1,20 @@
 var js2xmlparser = require("../lib/js2xmlparser.js");
 
-var data = {
+console.log("EXAMPLE 1");
+console.log("=========");
+
+var example1 = {
+    "firstName": "John",
+    "lastName": "Smith"
+};
+
+console.log(js2xmlparser("person", example1));
+console.log();
+
+console.log("EXAMPLE 2");
+console.log("=========");
+
+var example2 = {
     "firstName": "John",
     "lastName": "Smith",
     "dateOfBirth": new Date(1964, 7, 26),
@@ -30,10 +44,33 @@ var data = {
     "email": function() {return "john@smith.com";}
 };
 
-console.log(js2xmlparser("person", data));
-console.log(js2xmlparser("person", data, {
+console.log(js2xmlparser("person", example2));
+console.log();
+
+console.log("EXAMPLE 3");
+console.log("=========");
+
+var example3  = {
+    "phone": [
+        {
+            "@": {
+                "type": "home"
+            },
+            "#": "123-555-4567"
+        },
+        {
+            "@": {
+                "type": "cell"
+            },
+            "#": "456-555-7890"
+        }
+    ]
+}
+
+var example3Options = {
     wrapArray: {
-        enabled: true,
-        element: "item"
+        enabled: true
     }
-}));
+}
+
+console.log(js2xmlparser("person", example3, example3Options));

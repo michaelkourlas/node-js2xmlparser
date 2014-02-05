@@ -2,6 +2,7 @@
 
 * Fixed crash when undefined objects are converted to strings
 * Add callFunctions parameter
+* Added wrapArray parameter
 * Added copyright year back to license
 
 ## 0.1.2 ##
