@@ -32,5 +32,30 @@ describe("the XML parser", function () {
       }
       should.not.exist(res);
     });
+
+    it("should correctly serialize an array without the wrapArray option enabled", function () {
+      var res = js2xmlparser("root",
+        [ {"name":"1"}, {"name":"2"}, {"name":"3"}, {"name":"4"} ],
+        opts);
+      var expected =  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+          expected += "<root><name>1</name><name>2</name><name>3</name><name>4</name></root>";
+      res.should.eql(expected);
+    });
+
+     it("should correctly serialize an array with the wrapArray option enabled", function () {
+      var res = js2xmlparser("root",
+        [ {"name":"1"}, {"name":"2"} ],
+        {
+          prettyPrinting: {
+            enabled : false
+          },
+          wrapArray: {
+            enabled : true
+          }
+        });
+      var expected =  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+          expected += "<root><item><name>1</name></item><item><name>2</name></item></root>";
+      res.should.eql(expected);
+    });
   });
 });
