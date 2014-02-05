@@ -39,8 +39,10 @@ The js2xmlparser module contains one function which takes the following argument
       if false, returns the text of the function (optional, default is true)
     * `wrapArray` - array wrapping options object (optional)
         * `enabled` - if true, all elements in an array will be added to a single XML element as child elements; if
-          false, each array element will
-        * `elementName`
+          false, array elements will be placed in their own XML elements (optional, default is false)
+        * `elementName` - name of XML child elements when array wrapping is enabled (optional, default is "item")
+    * `useCDATA` - if true, all strings are enclosed in CDATA tags instead of escaping illegal XML characters (optional,
+      default is false)
     * `declaration` - XML declaration options object (optional)
         * `include` - if true, includes an XML declaration (optional, default is true)
         * `encoding` - string representing the XML encoding for the corresponding attribute in the declaration; a value
@@ -101,7 +103,8 @@ Here's a more complex example that builds on the first:
                 "#": "456-555-7890"
             }
         ],
-        "email": function() {return "john@smith.com";}
+        "email": function() {return "john@smith.com";},
+        "notes": "John's profile is not complete."
     }
 
     console.log(js2xmlparser("person", data));
@@ -120,9 +123,12 @@ Here's a more complex example that builds on the first:
     >     <phone type="home">123-555-4567</phone>
     >     <phone type="cell">456-555-7890</phone>
     >     <email>john@smith.com</email>
+    >     <notes>John&apos;s profile is not complete.</notes>
     > </person>
 
 Here's an example that makes use of array wrapping:
+
+    var js2xmlparser = require("js2xmlparser");
 
     var data  = {
         "phone": [
@@ -155,4 +161,23 @@ Here's an example that makes use of array wrapping:
     > 	      <item type="home">123-555-4567</item>
     > 	      <item type="cell">456-555-7890</item>
     >     </phone>
+    > </person>
+
+Here's an example that uses CDATA instead of escaping invalid characters.
+
+    var js2xmlparser = require("js2xmlparser");
+
+    var data = {
+        "notes": "John's profile is not complete."
+    }
+
+    var options = {
+        useCDATA: true
+    }
+
+    console.log(js2xmlparser("person", data, options));
+
+    > <?xml version="1.0" encoding="UTF-8"?>
+    > <person>
+    >     <notes><![CDATA[John's profile is not complete.]]></notes>
     > </person>

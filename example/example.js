@@ -41,7 +41,8 @@ var example2 = {
             "#": "456-555-7890"
         }
     ],
-    "email": function() {return "john@smith.com";}
+    "email": function() {return "john@smith.com";},
+    "notes": "John's profile is not complete."
 };
 
 console.log(js2xmlparser("person", example2));
@@ -74,3 +75,17 @@ var example3Options = {
 }
 
 console.log(js2xmlparser("person", example3, example3Options));
+console.log();
+
+console.log("EXAMPLE 4");
+console.log("=========");
+
+var example4 = {
+    "notes": "John's profile is not complete."
+}
+
+var example4Options = {
+    useCDATA: true
+}
+
+console.log(js2xmlparser("person", example4, example4Options));
