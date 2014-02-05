@@ -31,3 +31,9 @@ var data = {
 };
 
 console.log(js2xmlparser("person", data));
+console.log(js2xmlparser("person", data, {
+    wrapArray: {
+        enabled: true,
+        element: "item"
+    }
+}));
