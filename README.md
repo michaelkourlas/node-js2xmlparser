@@ -43,6 +43,9 @@ The js2xmlparser module contains one function which takes the following argument
         * `elementName` - name of XML child elements when array wrapping is enabled (optional, default is "item")
     * `useCDATA` - if true, all strings are enclosed in CDATA tags instead of escaping illegal XML characters (optional,
       default is false)
+    * `convertMap` - object mapping certain types of objects (as given by `Object.prototype.toString.call(<object>)`) to
+      functions to convert those types of objects to a particular string representation; "*" can be used as a wildcard
+      for all types of objects (optional, default is an empty object)
     * `declaration` - XML declaration options object (optional)
         * `include` - if true, includes an XML declaration (optional, default is true)
         * `encoding` - string representing the XML encoding for the corresponding attribute in the declaration; a value
@@ -105,7 +108,7 @@ Here's a more complex example that builds on the first:
         ],
         "email": function() {return "john@smith.com";},
         "notes": "John's profile is not complete."
-    }
+    };
 
     console.log(js2xmlparser("person", data));
 
@@ -145,13 +148,13 @@ Here's an example that makes use of array wrapping:
                 "#": "456-555-7890"
             }
         ]
-    }
+    };
 
     var options = {
         wrapArray: {
             enabled: true
         }
-    }
+    };
 
     console.log(js2xmlparser("person", data, options));
 
@@ -163,21 +166,44 @@ Here's an example that makes use of array wrapping:
     >     </phone>
     > </person>
 
-Here's an example that uses CDATA instead of escaping invalid characters.
+Here's an example that wraps strings in CDATA tags instead of escaping invalid characters.
 
     var js2xmlparser = require("js2xmlparser");
 
     var data = {
         "notes": "John's profile is not complete."
-    }
+    };
 
     var options = {
         useCDATA: true
-    }
+    };
 
     console.log(js2xmlparser("person", data, options));
 
     > <?xml version="1.0" encoding="UTF-8"?>
     > <person>
     >     <notes><![CDATA[John's profile is not complete.]]></notes>
+    > </person>
+
+Here's an example that uses the convert map feature:
+
+    var js2xmlparser = require("js2xmlparser");
+
+    var data = {
+        "dateOfBirth": new Date(1964, 7, 26)
+    };
+
+    var options = {
+        convertMap: {
+            "[object Date]": function(date) {
+                return date.toISOString();
+            }
+        }
+    };
+
+    console.log(js2xmlparser("person", data, options));
+
+    > <?xml version="1.0" encoding="UTF-8"?>
+    > <person>
+    >     <dateOfBirth>1964-08-26T04:00:00.000Z</dateOfBirth>
     > </person>

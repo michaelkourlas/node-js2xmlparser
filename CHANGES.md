@@ -1,9 +1,10 @@
 ## 0.1.3 ##
 
 * Fixed crash when undefined objects are converted to strings
-* Added callFunctions parameter
-* Added wrapArray parameter
-* Added useCDATA parameter
+* Added callFunctions option
+* Added wrapArray option
+* Added useCDATA option
+* Added convertMap option
 * Added copyright year back to license
 
 ## 0.1.2 ##

@@ -66,13 +66,13 @@ var example3  = {
             "#": "456-555-7890"
         }
     ]
-}
+};
 
 var example3Options = {
     wrapArray: {
         enabled: true
     }
-}
+};
 
 console.log(js2xmlparser("person", example3, example3Options));
 console.log();
@@ -82,10 +82,28 @@ console.log("=========");
 
 var example4 = {
     "notes": "John's profile is not complete."
-}
+};
 
 var example4Options = {
     useCDATA: true
-}
+};
 
 console.log(js2xmlparser("person", example4, example4Options));
+console.log();
+
+console.log("EXAMPLE 5");
+console.log("=========");
+
+var example5 = {
+    "dateOfBirth": new Date(1964, 7, 26)
+};
+
+var example5Options = {
+    convertMap: {
+        "[object Date]": function(date) {
+            return date.toISOString();
+        }
+    }
+};
+
+console.log(js2xmlparser("person", example5, example5Options));
