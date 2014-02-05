@@ -35,11 +35,13 @@ The js2xmlparser module contains one function which takes the following argument
 * `root` - string containing the root element of the XML
 * `data` - object or JSON string to be converted to XML
 * `options` - object containing options (optional)
+    * `callMemberFunctions` - if true, will call function with no parameters and put there results as string in the XML (optional, default: true)
     * `declaration` - XML declaration options object (optional)
         * `include` - boolean representing whether an XML declaration is included (optional, default: true)
         * `encoding` - string representing the XML encoding for the corresponding attribute in the declaration; a value
           of null represents no encoding attribute (optional, default: "UTF-8")
     * `attributeString` - string containing the attribute property (optional, default: "@")
+    * `excludedTypes` - a list of string, that are types to be excluded from serialization (optional, default: [])
     * `valueString` - string containing the value property (optional, default: "#")
     * `prettyPrinting` - pretty-printing options object (optional)
         * `enabled` - boolean representing whether pretty-printing is enabled (optional, default: true)
