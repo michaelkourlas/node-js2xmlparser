@@ -56,6 +56,11 @@ The js2xmlparser module contains one function which takes the following argument
         * `enabled` - if true, pretty-printing is enabled (optional, default is true)
         * `indentString` - string representing the indent (optional, default is "\t")
 
+## Tests ##
+
+* Install the dependencies with `npm install`
+* Run the tests with `mocha` or `mocha --reporter spec`
+
 ## Example ##
 
 The following example illustrates the basic usage of js2xmlparser:
