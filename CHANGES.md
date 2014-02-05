@@ -1,3 +1,7 @@
+## 0.1.4 ##
+
+* Add excludedTypes parameter
+
 ## 0.1.3 ##
 
 * Fixed crash when undefined objects are converted to strings

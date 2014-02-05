@@ -41,6 +41,7 @@ The js2xmlparser module contains one function which takes the following argument
         * `encoding` - string representing the XML encoding for the corresponding attribute in the declaration; a value
           of null represents no encoding attribute (optional, default: "UTF-8")
     * `attributeString` - string containing the attribute property (optional, default: "@")
+    * `excludedTypes` - a list of string, that are types to be excluded from serialization (optional, default: [])
     * `valueString` - string containing the value property (optional, default: "#")
     * `prettyPrinting` - pretty-printing options object (optional)
         * `enabled` - boolean representing whether pretty-printing is enabled (optional, default: true)

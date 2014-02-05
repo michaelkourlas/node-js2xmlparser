@@ -1,11 +1,11 @@
 {
-    "name": "js2xmlparser",
+    "name":        "js2xmlparser",
     "description": "Parses JavaScript objects into XML",
-    "keywords": ["convert","converter","js","json","object","objects","parse","parser","xml"],
-    "homepage": "http://www.kourlas.net",
-    "version": "0.1.3",
-    "author": "Michael Kourlas <michaelkourlas@gmail.com>",
-    "main": "./lib/js2xmlparser.js",
+    "keywords":    ["convert","converter","js","json","object","objects","parse","parser","xml"],
+    "homepage":    "http://www.kourlas.net",
+    "version":     "0.1.4",
+    "author":      "Michael Kourlas <michaelkourlas@gmail.com>",
+    "main":        "./lib/js2xmlparser.js",
     "repository" : {
         "type" : "git",
         "url"  : "git://github.com/michaelkourlas/node-js2xmlparser.git"
