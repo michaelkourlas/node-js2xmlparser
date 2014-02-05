@@ -32,19 +32,20 @@ Alternatively, you may download the source from GitHub and copy it to a folder n
 
 The js2xmlparser module contains one function which takes the following arguments:
 
-* `root` - string containing the root element of the XML
+* `root` - string representing the XML root element's name
 * `data` - object or JSON string to be converted to XML
-* `options` - object containing options (optional)
-    * `callMemberFunctions` - if true, will call function with no parameters and put there results as string in the XML (optional, default: true)
+* `options` - options object (optional)
+    * `callFunctions` - if true, calls member functions (with no arguments) and includes their return value in the XML;
+      if false, returns the text of the function (optional, default is true)
     * `declaration` - XML declaration options object (optional)
-        * `include` - boolean representing whether an XML declaration is included (optional, default: true)
+        * `include` - if true, includes an XML declaration (optional, default is true)
         * `encoding` - string representing the XML encoding for the corresponding attribute in the declaration; a value
-          of null represents no encoding attribute (optional, default: "UTF-8")
-    * `attributeString` - string containing the attribute property (optional, default: "@")
-    * `valueString` - string containing the value property (optional, default: "#")
+          of null represents no encoding attribute (optional, default is "UTF-8")
+    * `attributeString` - string representing attribute property (optional, default is "@")
+    * `valueString` - string representing the value property (optional, default is "#")
     * `prettyPrinting` - pretty-printing options object (optional)
-        * `enabled` - boolean representing whether pretty-printing is enabled (optional, default: true)
-        * `indentString` - string representing the indent (optional, default: "\t")
+        * `enabled` - if true, pretty-printing is enabled (optional, default is true)
+        * `indentString` - string representing the indent (optional, default is "\t")
 
 ## Example ##
 
