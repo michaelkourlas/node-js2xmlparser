@@ -5,7 +5,7 @@
 * Added wrapArray option
 * Added useCDATA option
 * Added convertMap option
-* Added copyright year back to license
+* Added copyright year and "and other contributors" to license
 
 ## 0.1.2 ##
 
