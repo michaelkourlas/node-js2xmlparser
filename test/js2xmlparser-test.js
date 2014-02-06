@@ -42,7 +42,7 @@ describe("the XML parser", function () {
       res.should.eql(expected);
     });
 
-     it("should correctly serialize an array with the wrapArray option enabled", function () {
+    it("should correctly serialize an array with the wrapArray option enabled", function () {
       var res = js2xmlparser("root",
         [ {"name":"1"}, {"name":"2"} ],
         {
