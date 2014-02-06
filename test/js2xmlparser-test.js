@@ -57,5 +57,31 @@ describe("the XML parser", function () {
           expected += "<root><item><name>1</name></item><item><name>2</name></item></root>";
       res.should.eql(expected);
     });
+
+    it("should correctly serialize an array of string", function () {
+      var res = js2xmlparser("root", [ "Hello", "World" ], opts);
+      var expected =  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+          expected += "<root><item>Hello</item><item>World</item></root>";
+      res.should.eql(expected);
+    });
+
+    it("should correctly serialize an array with the wrapArray option enabled", function () {
+      var res = js2xmlparser("root", {
+      id: "my-fancy-id",
+      sub_object:
+       {
+          field1: "hello",
+          field2: "world",
+          field_array: [ "You", "Rock My World" ]
+       },
+      }, opts);
+      var expected =  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+          expected += "<root><id>my-fancy-id</id>";
+          expected += "<sub_object><field1>hello</field1><field2>world</field2>";
+          expected += "<field_array><item>You</item><item>Rock My World</item></field_array>";
+          expected += "</sub_object></root>";
+      res.should.eql(expected);
+    });
+
   });
 });
