@@ -107,3 +107,29 @@ var example5Options = {
 };
 
 console.log(js2xmlparser("person", example5, example5Options));
+console.log();
+
+console.log("EXAMPLE 6");
+console.log("=========");
+
+var example6 = {
+    ">": [{
+        "Car": {
+            "@": {type: "passenger"},
+            "wheels": 4,
+            "doors": 4
+        }
+    }, {
+        "Car": {
+            "@": {type: "transport"},
+            "wheels": 18,
+            "doors": 2
+        }
+    }]
+};
+
+var example6Options = {};
+
+console.log(js2xmlparser("Vehicles", example6, example6Options));
+console.log();
+
