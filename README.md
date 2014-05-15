@@ -40,7 +40,8 @@ The js2xmlparser module contains one function which takes the following argument
     * `wrapArray` - array wrapping options object (optional)
         * `enabled` - if true, all elements in an array will be added to a single XML element as child elements; if
           false, array elements will be placed in their own XML elements (optional, default is false)
-        * `elementName` - name of XML child elements when array wrapping is enabled (optional, default is "item")
+        * `elementName` - string or function to define the name of XML child elements when array wrapping is enabled (optional, default is "item")
+            * when `elementName` is a function, it should return a string. The only parameter passed to the function is the parent name.
     * `useCDATA` - if true, all strings are enclosed in CDATA tags instead of escaping illegal XML characters (optional,
       default is false)
     * `convertMap` - object mapping certain types of objects (as given by `Object.prototype.toString.call(<object>)`) to
