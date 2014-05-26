@@ -33,7 +33,8 @@ Alternatively, you may download the source from GitHub and copy it to a folder n
 The js2xmlparser module contains one function which takes the following arguments:
 
 * `root` - the XML root element's name (string, mandatory)
-* `data` - the data to be converted to XML (object or JSON string, mandatory)
+* `data` - the data to be converted to XML; while the data object can contain arrays, it cannot itself be an array
+  (object or JSON string, mandatory)
 * `options` - module options (object, optional)
     * `declaration` - XML declaration options (object, optional)
         * `include` - specifies whether an XML declaration should be included (boolean, optional, default: true)
@@ -50,6 +51,12 @@ The js2xmlparser module contains one function which takes the following argument
     * `useCDATA` - specifies whether strings should be enclosed in CDATA tags; otherwise, illegal XML characters will
       be escaped (boolean, optional, default: false)
 
+## Tests ##
+
+js2xmlparser comes with a set of tests that verify its core functionality. To run the tests:
+
+* Install the test dependencies with `npm install`.
+* Run the tests with `mocha` or `mocha --reporter spec`.
 
 ## Example ##
 

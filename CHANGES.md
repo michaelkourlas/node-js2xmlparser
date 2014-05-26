@@ -4,6 +4,7 @@
 * Removed wrapArray option (functionality already provided by existing array functionality)
 * Escape numbers when at tbe beginning of an element name
 * Edits to documentation
+* Added tests
 
 ## 0.1.3 ##
 
