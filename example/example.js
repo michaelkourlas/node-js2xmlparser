@@ -69,6 +69,7 @@
     console.log("=========");
 
     var example4 = {
+        "email": function() {return "john@smith.com";},
         "dateOfBirth": new Date(1964, 7, 26)
     };
 
@@ -76,6 +77,9 @@
         convertMap: {
             "[object Date]": function(date) {
                 return date.toISOString();
+            },
+            "[object Function]": function(func) {
+                return func.toString();
             }
         }
     };
