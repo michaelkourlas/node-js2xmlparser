@@ -44,7 +44,7 @@ The js2xmlparser module contains one function which takes the following argument
     * `useCDATA` - if true, all strings are enclosed in CDATA tags instead of escaping illegal XML characters (optional,
       default is false)
     * `convertMap` - object mapping certain types of objects (as given by `Object.prototype.toString.call(<object>)`) to
-      functions to convert those types of objects to a particular string representation; "*" can be used as a wildcard
+      functions to convert those types of objects to a particular string representation; `*` can be used as a wildcard
       for all types of objects (optional, default is an empty object)
     * `declaration` - XML declaration options object (optional)
         * `include` - if true, includes an XML declaration (optional, default is true)
