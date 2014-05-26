@@ -1,3 +1,10 @@
+## 0.1.4 ##
+
+* Removed callFunctions option (functionality already provided by convertMap option)
+* Removed wrapArray option (functionality already provided by existing array functionality)
+* Escape numbers when at tbe beginning of an element name
+* Edits to documentation
+
 ## 0.1.3 ##
 
 * Fixed crash when undefined objects are converted to strings
