@@ -37,10 +37,6 @@ The js2xmlparser module contains one function which takes the following argument
 * `options` - options object (optional)
     * `callFunctions` - if true, calls member functions (with no arguments) and includes their return value in the XML;
       if false, returns the text of the function (optional, default is true)
-    * `wrapArray` - array wrapping options object (optional)
-        * `enabled` - if true, all elements in an array will be added to a single XML element as child elements; if
-          false, array elements will be placed in their own XML elements (optional, default is false)
-        * `elementName` - name of XML child elements when array wrapping is enabled (optional, default is "item")
     * `useCDATA` - if true, all strings are enclosed in CDATA tags instead of escaping illegal XML characters (optional,
       default is false)
     * `convertMap` - object mapping certain types of objects (as given by `Object.prototype.toString.call(<object>)`) to
@@ -127,43 +123,6 @@ Here's a more complex example that builds on the first:
     >     <phone type="cell">456-555-7890</phone>
     >     <email>john@smith.com</email>
     >     <notes>John&apos;s profile is not complete.</notes>
-    > </person>
-
-Here's an example that makes use of array wrapping:
-
-    var js2xmlparser = require("js2xmlparser");
-
-    var data  = {
-        "phone": [
-            {
-                "@": {
-                    "type": "home"
-                },
-                "#": "123-555-4567"
-            },
-            {
-                "@": {
-                    "type": "cell"
-                },
-                "#": "456-555-7890"
-            }
-        ]
-    };
-
-    var options = {
-        wrapArray: {
-            enabled: true
-        }
-    };
-
-    console.log(js2xmlparser("person", data, options));
-
-    > <?xml version="1.0" encoding="UTF-8"?>
-    > <person>
-    >     <phone>
-    > 	      <item type="home">123-555-4567</item>
-    > 	      <item type="cell">456-555-7890</item>
-    >     </phone>
     > </person>
 
 Here's an example that wraps strings in CDATA tags instead of escaping invalid characters.
