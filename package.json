@@ -4,11 +4,17 @@
     "keywords":    ["convert","converter","js","json","object","objects","parse","parser","xml"],
     "homepage":    "http://www.kourlas.net",
     "version":     "0.1.4",
-    "author":      "Michael Kourlas <michaelkourlas@gmail.com>",
+    "author":      "Michael Kourlas <michael@kourlas.net>",
     "main":        "./lib/js2xmlparser.js",
     "repository" : {
         "type":    "git",
         "url":     "git://github.com/michaelkourlas/node-js2xmlparser.git"
+    },
+    "devDependencies"     : {
+        "async"             : "*",
+        "jshint"            : "*",
+        "mocha"             : "*",
+        "should"            : "*"
     },
     "license":     "MIT"
 }
