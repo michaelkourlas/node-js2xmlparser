@@ -45,7 +45,7 @@ The js2xmlparser module contains one function which takes the following argument
     * `prettyPrinting` - pretty-printing options (object, optional)
         * `enabled` - specifies whether pretty-printing is enabled (boolean, optional, default: true)
         * `indentString` - indent string (string, optional, default: "\t")
-    * `convertMap` - maps object types (as given by `Object.prototype.toString.call(<object>)`) to functions to convert 
+    * `convertMap` - maps object types (as given by the `Object.prototype.toString.call` method) to functions to convert 
       those objects to a particular string representation; `*` can be used as a wildcard for all types of objects 
       (object, optional, default: {})
     * `useCDATA` - specifies whether strings should be enclosed in CDATA tags; otherwise, illegal XML characters will
