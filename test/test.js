@@ -6,33 +6,23 @@
     var js2xmlparser = require("../lib/js2xmlparser");
     var should = require("should");
 
-    describe("the XML parser", function () {
+    var opts = {
+        prettyPrinting: {
+            enabled : false
+        }
+    };
 
-        describe("when prettyPrinting is disabled", function () {
-            var opts = {
-                prettyPrinting: {
-                    enabled : false
-                }
-            };
+    describe("js2xmlparser", function () {
 
-            it("should correctly serialize a simple object", function () {
-                var res = js2xmlparser("root", {"hello":"world"}, opts);
-                res.should.eql("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root><hello>world</hello></root>");
-            });
-
+        describe("data", function() {
             it("should correctly serialize an empty object", function () {
                 var res = js2xmlparser("root", {}, opts);
                 res.should.eql("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root/>");
             });
 
-            it("should raise an error when no root is provided", function () {
-                var res;
-                try {
-                    res = js2xmlparser(undefined, {}, opts);
-                } catch (e) {
-                    e.should.match(/root element must be a string/);
-                }
-                should.not.exist(res);
+            it("should correctly convert a simple object", function () {
+                var res = js2xmlparser("root", {"hello":"world"}, opts);
+                res.should.eql("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root><hello>world</hello></root>");
             });
 
             it("should correctly serialize an array", function () {
@@ -50,6 +40,60 @@
                 expected += "<root><item>Hello</item><item>World</item></root>";
                 res.should.eql(expected);
             });
+        });
+
+        describe("root", function() {
+            it("should raise an error when root is undefined", function () {
+                var res;
+                try {
+                    res = js2xmlparser(undefined, {
+                        "hello": "world"
+                    }, opts);
+                } catch (e) {
+                    e.should.match(/root element must be a string/);
+                }
+                should.not.exist(res);
+            });
+
+            it("should raise an error when root is null", function () {
+                var res;
+                try {
+                    res = js2xmlparser(null, {
+                        "hello": "world"
+                    }, opts);
+                } catch (e) {
+                    e.should.match(/root element must be a string/);
+                }
+                should.not.exist(res);
+            });
+
+            it("should raise an error when root is an empty string", function () {
+                var res;
+                try {
+                    res = js2xmlparser("", {
+                        "hello": "world"
+                    }, opts);
+                } catch (e) {
+                    e.should.match(/root element cannot be empty/);
+                }
+                should.not.exist(res);
+            });
+
+            it("should raise an error when root is a random object", function () {
+                var res;
+                try {
+                    res = js2xmlparser({}, {
+                        "hello": "world"
+                    }, opts);
+                } catch (e) {
+                    e.should.match(/root element must be a string/);
+                }
+                should.not.exist(res);
+            });
+        });
+
+        describe("options", function() {
+
         });
     });
 })();
