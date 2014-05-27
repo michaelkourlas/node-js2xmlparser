@@ -51,14 +51,7 @@ The js2xmlparser module contains one function which takes the following argument
     * `useCDATA` - specifies whether strings should be enclosed in CDATA tags; otherwise, illegal XML characters will
       be escaped (boolean, optional, default: false)
 
-## Tests ##
-
-js2xmlparser comes with a set of tests that verify its core functionality. To run the tests:
-
-* Install the test dependencies with `npm install`.
-* Run the tests with `mocha` or `mocha --reporter spec`.
-
-## Example ##
+## Examples ##
 
 The following example illustrates the basic usage of js2xmlparser:
 
@@ -172,3 +165,10 @@ Here's an example that wraps strings in CDATA tags instead of escaping invalid c
     > <person>
     >     <notes><![CDATA[John's profile is not complete.]]></notes>
     > </person>
+
+## Tests ##
+
+js2xmlparser comes with a set of tests that verify its core functionality. To run the tests:
+
+* Install the test dependencies with `npm install`.
+* Run the tests with `mocha` or `mocha --reporter spec`.
