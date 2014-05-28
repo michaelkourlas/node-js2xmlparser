@@ -168,7 +168,7 @@ Here's an example that wraps strings in CDATA tags instead of escaping invalid c
 
 ## Tests ##
 
-js2xmlparser comes with a set of tests that verify its core functionality. To run the tests:
+js2xmlparser comes with a set of tests that evaluate and verify the package's core functionality. To run the tests:
 
 * Install the test dependencies with `npm install`.
-* Run the tests with `mocha` or `mocha --reporter spec`.
+* Run the tests with `mocha`.
