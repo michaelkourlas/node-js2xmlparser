@@ -5,6 +5,7 @@
 * Escape numbers when at tbe beginning of an element name
 * Edits to documentation
 * Added tests
+* Added copyright headers to individual JS files
 
 ## 0.1.3 ##
 
