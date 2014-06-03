@@ -75,6 +75,9 @@ Here's a more complex example that builds on the first:
     var js2xmlparser = require("js2xmlparser");
 
     var data = {
+        "@": {
+          "type": "individual"
+        }
         "firstName": "John",
         "lastName": "Smith",
         "dateOfBirth": new Date(1964, 07, 26),
@@ -108,7 +111,7 @@ Here's a more complex example that builds on the first:
     console.log(js2xmlparser("person", data));
 
     > <?xml version="1.0" encoding="UTF-8"?>
-    > <person>
+    > <person type="individual">
     >     <firstName>John</firstName>
     >     <lastName>Smith</lastName>
     >     <dateOfBirth>Wed Aug 26 1964 00:00:00 GMT-0400 (Eastern Daylight Time)</dateOfBirth>
