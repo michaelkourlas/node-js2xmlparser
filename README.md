@@ -77,7 +77,7 @@ Here's a more complex example that builds on the first:
     var data = {
         "@": {
           "type": "individual"
-        }
+        },
         "firstName": "John",
         "lastName": "Smith",
         "dateOfBirth": new Date(1964, 07, 26),
