@@ -38,6 +38,9 @@
     console.log("=========");
 
     var example2 = {
+        "@": {
+            "type": "individual"
+        },
         "firstName": "John",
         "lastName": "Smith",
         "dateOfBirth": new Date(1964, 7, 26),
