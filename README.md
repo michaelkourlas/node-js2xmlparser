@@ -1,4 +1,4 @@
-# node-js2xmlparser #
+# js2xmlparser #
 
 ## Overview ##
 
