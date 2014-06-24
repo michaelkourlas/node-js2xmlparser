@@ -175,3 +175,8 @@ js2xmlparser comes with a set of tests that evaluate and verify the package's co
 
 * Install the test dependencies with `npm install`.
 * Run the tests with `mocha`.
+
+## License ##
+
+js2xmlparser is licensed under the [MIT license](http://opensource.org/licenses/MIT). Please see the LICENSE.md file
+for more information.
