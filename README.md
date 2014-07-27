@@ -40,8 +40,12 @@ The js2xmlparser module contains one function which takes the following argument
         * `include` - specifies whether an XML declaration should be included (boolean, optional, default: true)
         * `encoding` - value of XML encoding attribute in declaration; a value of null represents no encoding attribute
           (string, optional, default: "UTF-8")
-    * `attributeString` - the name of the property representing an element's attributes (string, optional, default: "@")
-    * `valueString` - the name of the property representing an element's value (string, optional, default: "#")
+    * `attributeString` - the name of the property representing an element's attributes; note that any property with a
+      name equal to the attribute string is ignored except in the context of XML attributes (string, optional, default: 
+      "@")
+    * `valueString` - the name of the property representing an element's value; note that any property with a name equal
+      to the value string is ignored except in the context of supplying a value for a tag containing attributes (string,
+      optional, default: "#")
     * `prettyPrinting` - pretty-printing options (object, optional)
         * `enabled` - specifies whether pretty-printing is enabled (boolean, optional, default: true)
         * `indentString` - indent string (string, optional, default: "\t")
@@ -80,7 +84,7 @@ Here's a more complex example that builds on the first:
         },
         "firstName": "John",
         "lastName": "Smith",
-        "dateOfBirth": new Date(1964, 07, 26),
+        "dateOfBirth": new Date(1964, 7, 26),
         "address": {
             "@": {
                 "type": "home"
