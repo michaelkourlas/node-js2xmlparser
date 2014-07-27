@@ -78,11 +78,19 @@
     console.log("=========");
 
     var example3 = {
-        "notes": "John's profile is not complete."
+        "email": function() {return "john@smith.com";},
+        "dateOfBirth": new Date(1964, 7, 26)
     };
 
     var example3Options = {
-        useCDATA: true
+        convertMap: {
+            "[object Date]": function(date) {
+                return date.toISOString();
+            },
+            "[object Function]": function(func) {
+                return func.toString();
+            }
+        }
     };
 
     console.log(js2xmlparser("person", example3, example3Options));
@@ -92,19 +100,11 @@
     console.log("=========");
 
     var example4 = {
-        "email": function() {return "john@smith.com";},
-        "dateOfBirth": new Date(1964, 7, 26)
+        "notes": "John's profile is not complete."
     };
 
     var example4Options = {
-        convertMap: {
-            "[object Date]": function(date) {
-                return date.toISOString();
-            },
-            "[object Function]": function(func) {
-                return func.toString();
-            }
-        }
+        useCDATA: true
     };
 
     console.log(js2xmlparser("person", example4, example4Options));
