@@ -1155,7 +1155,7 @@
                     "notes": "John's profile is not complete."
                 }, defaultOptions);
                 res.should.equal("<person type=\"individual\"><firstName>John</firstName><lastName>Smith</lastName>" +
-                    "<dateOfBirth>Wed Aug 26 1964 00:00:00 GMT-0400 (Eastern Daylight Time)</dateOfBirth><address " +
+                    "<dateOfBirth>"+new Date(1964, 7, 26)+"</dateOfBirth><address " +
                     "type=\"home\"><streetAddress>3212 22nd St</streetAddress><city>Chicago</city><state>Illinois" +
                     "</state><zip>10000</zip></address><phone type=\"home\">123-555-4567</phone><phone type=\"cell\">" +
                     "456-555-7890</phone><email>john@smith.com</email><notes>John&apos;s profile is not complete." +
@@ -1203,7 +1203,7 @@
                     }
                 });
                 res.should.equal("<person type=\"individual\">\n\t<firstName>John</firstName>\n\t<lastName>Smith" +
-                    "</lastName>\n\t<dateOfBirth>Wed Aug 26 1964 00:00:00 GMT-0400 (Eastern Daylight Time)" +
+                    "</lastName>\n\t<dateOfBirth>"+ new Date(1964, 7, 26) +
                     "</dateOfBirth>\n\t<address type=\"home\">\n\t\t<streetAddress>3212 22nd St</streetAddress>" +
                     "\n\t\t<city>Chicago</city>\n\t\t<state>Illinois</state>\n\t\t<zip>10000</zip>\n\t</address>" +
                     "\n\t<phone type=\"home\">123-555-4567</phone>\n\t<phone type=\"cell\">456-555-7890</phone>\n\t" +
@@ -1241,7 +1241,7 @@
                         }
                     }
                 });
-                res.should.equal("<person><dateOfBirth>1964-08-26T04:00:00.000Z</dateOfBirth></person>");
+                res.should.equal("<person><dateOfBirth>"+(new Date(1964, 7, 26)).toISOString()+"</dateOfBirth></person>");
             });
         });
     });
