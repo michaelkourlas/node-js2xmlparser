@@ -41,7 +41,7 @@ The js2xmlparser module contains one function which takes the following argument
         * `encoding` - value of XML encoding attribute in declaration; a value of null represents no encoding attribute
           (string, optional, default: "UTF-8")
     * `attributeString` - the name of the property representing an element's attributes; note that any property with a
-      name equal to the attribute string is ignored except in the context of XML attributes (string, optional, default: 
+      name equal to the attribute string is ignored except in the context of XML attributes (string, optional, default:
       "@")
     * `valueString` - the name of the property representing an element's value; note that any property with a name equal
       to the value string is ignored except in the context of supplying a value for a tag containing attributes (string,
@@ -49,8 +49,8 @@ The js2xmlparser module contains one function which takes the following argument
     * `prettyPrinting` - pretty-printing options (object, optional)
         * `enabled` - specifies whether pretty-printing is enabled (boolean, optional, default: true)
         * `indentString` - indent string (string, optional, default: "\t")
-    * `convertMap` - maps object types (as given by the `Object.prototype.toString.call` method) to functions to convert 
-      those objects to a particular string representation; `*` can be used as a wildcard for all types of objects 
+    * `convertMap` - maps object types (as given by the `Object.prototype.toString.call` method) to functions to convert
+      those objects to a particular string representation; `*` can be used as a wildcard for all types of objects
       (object, optional, default: {})
     * `useCDATA` - specifies whether strings should be enclosed in CDATA tags; otherwise, illegal XML characters will
       be escaped (boolean, optional, default: false)
