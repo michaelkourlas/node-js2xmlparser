@@ -1,3 +1,7 @@
+## 0.1.5 ##
+
+* Bug fixes
+
 ## 0.1.4 ##
 
 * Removed callFunctions option (functionality already provided by convertMap option)
