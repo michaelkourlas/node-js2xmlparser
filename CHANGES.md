@@ -1,6 +1,7 @@
 ## 0.1.5 ##
 
 * Bug fixes
+* Minor changes to examples
 
 ## 0.1.4 ##
 
