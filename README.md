@@ -136,13 +136,17 @@ Here's an example that uses the convert map feature:
     var js2xmlparser = require("js2xmlparser");
 
     var data = {
+        "email": function() {return "john@smith.com";},
         "dateOfBirth": new Date(1964, 7, 26)
-    };
+    }
 
     var options = {
         convertMap: {
             "[object Date]": function(date) {
                 return date.toISOString();
+            },
+            "[object Function]": function(func) {
+                return func.toString();
             }
         }
     };
@@ -151,6 +155,7 @@ Here's an example that uses the convert map feature:
 
     > <?xml version="1.0" encoding="UTF-8"?>
     > <person>
+    >     <email>function () {return &quot;john@smith.com&quot;;}</email>
     >     <dateOfBirth>1964-08-26T04:00:00.000Z</dateOfBirth>
     > </person>
 
@@ -159,7 +164,12 @@ Here's an example that wraps strings in CDATA tags instead of escaping invalid c
     var js2xmlparser = require("js2xmlparser");
 
     var data = {
-        "notes": "John's profile is not complete."
+        "notes": {
+            "@": {
+                "type": "status"
+            },
+            "#": "John's profile is not complete."
+        }
     };
 
     var options = {
@@ -170,7 +180,7 @@ Here's an example that wraps strings in CDATA tags instead of escaping invalid c
 
     > <?xml version="1.0" encoding="UTF-8"?>
     > <person>
-    >     <notes><![CDATA[John's profile is not complete.]]></notes>
+    >     <notes type="status"><![CDATA[John's profile is not complete.]]></notes>
     > </person>
 
 ## Tests ##

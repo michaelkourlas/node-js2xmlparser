@@ -100,7 +100,12 @@
     console.log("=========");
 
     var example4 = {
-        "notes": "John's profile is not complete."
+        "notes": {
+            "@": {
+                "type": "status"
+            },
+            "#":"John's profile is not complete."
+        }
     };
 
     var example4Options = {

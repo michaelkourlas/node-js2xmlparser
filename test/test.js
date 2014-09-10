@@ -1212,21 +1212,7 @@
 
             it("should correctly parse example 3", function () {
                 var res = js2xmlparser("person", {
-                    "notes": "John's profile is not complete."
-                }, {
-                    declaration: {
-                        include: false
-                    },
-                    prettyPrinting: {
-                        enabled: false
-                    },
-                    useCDATA: true
-                });
-                res.should.equal("<person><notes><![CDATA[John's profile is not complete.]]></notes></person>");
-            });
-
-            it("should correctly parse example 4", function () {
-                var res = js2xmlparser("person", {
+                    "email": function() {return "john@smith.com";},
                     "dateOfBirth": new Date(1964, 7, 26)
                 }, {
                     declaration: {
@@ -1238,10 +1224,35 @@
                     convertMap: {
                         "[object Date]": function (date) {
                             return date.toISOString();
+                        },
+                        "[object Function]": function(func) {
+                            return func.toString();
                         }
                     }
                 });
-                res.should.equal("<person><dateOfBirth>"+(new Date(1964, 7, 26)).toISOString()+"</dateOfBirth></person>");
+                res.should.equal("<person><email>function () {return &quot;john@smith.com&quot;;}</email>" +
+                    "<dateOfBirth>1964-08-26T04:00:00.000Z</dateOfBirth></person>");
+            });
+
+            it("should correctly parse example 4", function () {
+                var res = js2xmlparser("person", {
+                    "notes": {
+                        "@": {
+                            "type": "status"
+                        },
+                        "#":"John's profile is not complete."
+                    }
+                }, {
+                    declaration: {
+                        include: false
+                    },
+                    prettyPrinting: {
+                        enabled: false
+                    },
+                    useCDATA: true
+                });
+                res.should.equal("<person><notes type=\"status\"><![CDATA[John's profile is not complete.]]></notes>" +
+                    "</person>");
             });
         });
     });
