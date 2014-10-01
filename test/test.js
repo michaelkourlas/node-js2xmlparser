@@ -1213,7 +1213,7 @@
             it("should correctly parse example 3", function () {
                 var res = js2xmlparser("person", {
                     "email": function() {return "john@smith.com";},
-                    "dateOfBirth": new Date(1964, 7, 26)
+                    "dateOfBirth": new Date(Date.UTC(1964, 7, 26))
                 }, {
                     declaration: {
                         include: false
@@ -1231,7 +1231,7 @@
                     }
                 });
                 res.should.equal("<person><email>function () {return &quot;john@smith.com&quot;;}</email>" +
-                    "<dateOfBirth>1964-08-26T04:00:00.000Z</dateOfBirth></person>");
+                    "<dateOfBirth>1964-08-26T00:00:00.000Z</dateOfBirth></person>");
             });
 
             it("should correctly parse example 4", function () {
