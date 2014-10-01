@@ -968,6 +968,107 @@
                     res.should.equal("<base><a><![CDATA[b'c]]></a></base>");
                 });
             });
+
+            describe("nodeAliasString", function () {
+
+                it("should raise an error when options is defined and options.nodeAliasString is undefined", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            nodeAliasString: undefined
+                        });
+                    } catch (e) {
+                        e.should.match(/nodeAliasString option must be a string/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should raise an error when options is defined and options.nodeAliasString is an object", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            nodeAliasString: {}
+                        });
+                    } catch (e) {
+                        e.should.match(/nodeAliasString option must be a string/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should raise an error when options is defined and options.nodeAliasString is an array", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            nodeAliasString: []
+                        });
+                    } catch (e) {
+                        e.should.match(/nodeAliasString option must be a string/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should raise an error when options is defined and options.nodeAliasString is a number", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            nodeAliasString: 2
+                        });
+                    } catch (e) {
+                        e.should.match(/nodeAliasString option must be a string/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should raise an error when options is defined and options.nodeAliasString is a boolean", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            nodeAliasString: true
+                        });
+                    } catch (e) {
+                        e.should.match(/nodeAliasString option must be a string/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should create XML with node alias string '=' when options.nodeAliasString is not specified", function () {
+                    var res = js2xmlparser(defaultRoot, {
+                        a: {
+                            "=": "b"
+                        }
+                    }, defaultOptions);
+                    res.should.equal("<base><b></b></base>");
+                });
+
+                it("should create XML with node alias string '__alias' when options.nodeAliasString is '__alias'", function () {
+                    var res = js2xmlparser(defaultRoot, {
+                        a: {
+                            "__alias": "b"
+                        }
+                    }, {
+                        declaration: {
+                            include: false
+                        },
+                        prettyPrinting: {
+                            enabled: false
+                        },
+                        nodeAliasString: "__alias"
+                    });
+                    res.should.equal("<base><b></b></base>");
+                });
+
+                it("should create XML with options.nodeAliasString and data is an array", function () {
+                    var res = js2xmlparser(defaultRoot, {
+                        a: [{
+                            "=": "b"
+                        }, {
+                            "=": "c"
+                        }]
+                    }, defaultOptions);
+                    res.should.equal("<base><b></b><c></c></base>");
+                });
+
+            })
         });
 
         describe("data", function () {
