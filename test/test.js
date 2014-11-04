@@ -969,69 +969,69 @@
                 });
             });
 
-            describe("nodeAliasString", function () {
+            describe("aliasString", function () {
 
-                it("should raise an error when options is defined and options.nodeAliasString is undefined", function () {
+                it("should raise an error when options is defined and options.aliasString is undefined", function () {
                     var res;
                     try {
                         res = js2xmlparser(defaultRoot, defaultData, {
-                            nodeAliasString: undefined
+                            aliasString: undefined
                         });
                     } catch (e) {
-                        e.should.match(/nodeAliasString option must be a string/);
+                        e.should.match(/aliasString option must be a string/);
                     }
                     should.not.exist(res);
                 });
 
-                it("should raise an error when options is defined and options.nodeAliasString is an object", function () {
+                it("should raise an error when options is defined and options.aliasString is an object", function () {
                     var res;
                     try {
                         res = js2xmlparser(defaultRoot, defaultData, {
-                            nodeAliasString: {}
+                            aliasString: {}
                         });
                     } catch (e) {
-                        e.should.match(/nodeAliasString option must be a string/);
+                        e.should.match(/aliasString option must be a string/);
                     }
                     should.not.exist(res);
                 });
 
-                it("should raise an error when options is defined and options.nodeAliasString is an array", function () {
+                it("should raise an error when options is defined and options.aliasString is an array", function () {
                     var res;
                     try {
                         res = js2xmlparser(defaultRoot, defaultData, {
-                            nodeAliasString: []
+                            aliasString: []
                         });
                     } catch (e) {
-                        e.should.match(/nodeAliasString option must be a string/);
+                        e.should.match(/aliasString option must be a string/);
                     }
                     should.not.exist(res);
                 });
 
-                it("should raise an error when options is defined and options.nodeAliasString is a number", function () {
+                it("should raise an error when options is defined and options.aliasString is a number", function () {
                     var res;
                     try {
                         res = js2xmlparser(defaultRoot, defaultData, {
-                            nodeAliasString: 2
+                            aliasString: 2
                         });
                     } catch (e) {
-                        e.should.match(/nodeAliasString option must be a string/);
+                        e.should.match(/aliasString option must be a string/);
                     }
                     should.not.exist(res);
                 });
 
-                it("should raise an error when options is defined and options.nodeAliasString is a boolean", function () {
+                it("should raise an error when options is defined and options.aliasString is a boolean", function () {
                     var res;
                     try {
                         res = js2xmlparser(defaultRoot, defaultData, {
-                            nodeAliasString: true
+                            aliasString: true
                         });
                     } catch (e) {
-                        e.should.match(/nodeAliasString option must be a string/);
+                        e.should.match(/aliasString option must be a string/);
                     }
                     should.not.exist(res);
                 });
 
-                it("should create XML with node alias string '=' when options.nodeAliasString is not specified", function () {
+                it("should create XML with alias string '=' when options.aliasString is not specified", function () {
                     var res = js2xmlparser(defaultRoot, {
                         a: {
                             "=": "b"
@@ -1040,7 +1040,7 @@
                     res.should.equal("<base><b></b></base>");
                 });
 
-                it("should create XML with node alias string '__alias' when options.nodeAliasString is '__alias'", function () {
+                it("should create XML with alias string '__alias' when options.aliasString is '__alias'", function () {
                     var res = js2xmlparser(defaultRoot, {
                         a: {
                             "__alias": "b"
@@ -1052,12 +1052,12 @@
                         prettyPrinting: {
                             enabled: false
                         },
-                        nodeAliasString: "__alias"
+                        aliasString: "__alias"
                     });
                     res.should.equal("<base><b></b></base>");
                 });
 
-                it("should create XML with options.nodeAliasString and data is an array", function () {
+                it("should create XML with options.aliasString and data is an array", function () {
                     var res = js2xmlparser(defaultRoot, {
                         a: [{
                             "=": "b"
@@ -1068,7 +1068,7 @@
                     res.should.equal("<base><b></b><c></c></base>");
                 });
 
-            })
+            });
         });
 
         describe("data", function () {
@@ -1245,22 +1245,27 @@
                         },
                         {
                             "@": {
+                                "type": "work"
+                            },
+                            "#": "123-555-4567",
+                            "=": "telephone"
+                        },
+                        {
+                            "@": {
                                 "type": "cell"
                             },
                             "#": "456-555-7890"
                         }
                     ],
-                    "email": function () {
-                        return "john@smith.com";
-                    },
+                    "email": function() {return "john@smith.com";},
                     "notes": "John's profile is not complete."
                 }, defaultOptions);
                 res.should.equal("<person type=\"individual\"><firstName>John</firstName><lastName>Smith</lastName>" +
                     "<dateOfBirth>"+new Date(1964, 7, 26)+"</dateOfBirth><address " +
                     "type=\"home\"><streetAddress>3212 22nd St</streetAddress><city>Chicago</city><state>Illinois" +
-                    "</state><zip>10000</zip></address><phone type=\"home\">123-555-4567</phone><phone type=\"cell\">" +
-                    "456-555-7890</phone><email>john@smith.com</email><notes>John&apos;s profile is not complete." +
-                    "</notes></person>");
+                    "</state><zip>10000</zip></address><phone type=\"home\">123-555-4567</phone><telephone " +
+                    "type=\"work\">123-555-4567</telephone><phone type=\"cell\">456-555-7890</phone><email>" +
+                    "john@smith.com</email><notes>John&apos;s profile is not complete.</notes></person>");
             });
 
             it("should correctly parse example 2 with pretty printing", function () {
@@ -1289,14 +1294,19 @@
                         },
                         {
                             "@": {
+                                "type": "work"
+                            },
+                            "#": "123-555-4567",
+                            "=": "telephone"
+                        },
+                        {
+                            "@": {
                                 "type": "cell"
                             },
                             "#": "456-555-7890"
                         }
                     ],
-                    "email": function () {
-                        return "john@smith.com";
-                    },
+                    "email": function() {return "john@smith.com";},
                     "notes": "John's profile is not complete."
                 }, {
                     declaration: {
@@ -1307,8 +1317,9 @@
                     "</lastName>\n\t<dateOfBirth>"+ new Date(1964, 7, 26) +
                     "</dateOfBirth>\n\t<address type=\"home\">\n\t\t<streetAddress>3212 22nd St</streetAddress>" +
                     "\n\t\t<city>Chicago</city>\n\t\t<state>Illinois</state>\n\t\t<zip>10000</zip>\n\t</address>" +
-                    "\n\t<phone type=\"home\">123-555-4567</phone>\n\t<phone type=\"cell\">456-555-7890</phone>\n\t" +
-                    "<email>john@smith.com</email>\n\t<notes>John&apos;s profile is not complete.</notes>\n</person>");
+                    "\n\t<phone type=\"home\">123-555-4567</phone>\n\t<telephone type=\"work\">123-555-4567" +
+                    "</telephone>\n\t<phone type=\"cell\">456-555-7890</phone>\n\t<email>john@smith.com</email>\n\t" +
+                    "<notes>John&apos;s profile is not complete.</notes>\n</person>");
             });
 
             it("should correctly parse example 3", function () {

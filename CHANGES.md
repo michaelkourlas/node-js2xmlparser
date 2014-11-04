@@ -1,3 +1,9 @@
+## 0.1.6 ##
+
+* Addition of alias string option
+* Minor changes to examples
+* Minor fixes to tests
+
 ## 0.1.5 ##
 
 * Bug fixes

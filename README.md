@@ -46,6 +46,8 @@ The js2xmlparser module contains one function which takes the following argument
     * `valueString` - the name of the property representing an element's value; note that any property with a name equal
       to the value string is ignored except in the context of supplying a value for a tag containing attributes (string,
       optional, default: "#")
+    * `aliasString` - the name of the property representing an element's alias; the name of the containing element will
+      be replaced with the alias (string, optional, default: "=")
     * `prettyPrinting` - pretty-printing options (object, optional)
         * `enabled` - specifies whether pretty-printing is enabled (boolean, optional, default: true)
         * `indentString` - indent string (string, optional, default: "\t")
@@ -103,6 +105,13 @@ Here's a more complex example that builds on the first:
             },
             {
                 "@": {
+                    "type": "work"
+                },
+                "#": "123-555-4567",
+                "=": "telephone"
+            },
+            {
+                "@": {
                     "type": "cell"
                 },
                 "#": "456-555-7890"
@@ -126,6 +135,7 @@ Here's a more complex example that builds on the first:
     >         <zip>10000</zip>
     >     </address>
     >     <phone type="home">123-555-4567</phone>
+    >     <telephone type="work">123-555-4567</telephone>
     >     <phone type="cell">456-555-7890</phone>
     >     <email>john@smith.com</email>
     >     <notes>John&apos;s profile is not complete.</notes>
