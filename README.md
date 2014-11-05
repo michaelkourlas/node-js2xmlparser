@@ -40,6 +40,7 @@ The js2xmlparser module contains one function which takes the following argument
         * `include` - specifies whether an XML declaration should be included (boolean, optional, default: true)
         * `encoding` - value of XML encoding attribute in declaration; a value of null represents no encoding attribute
           (string, optional, default: "UTF-8")
+    * `nestArrays` - specifies whether arrays should be enclosed within a nested element group.  When set, nested element names will be inflected (singularized) based on the name of the array attribute. (default false)          
     * `attributeString` - the name of the property representing an element's attributes; note that any property with a
       name equal to the attribute string is ignored except in the context of XML attributes (string, optional, default:
       "@")
@@ -192,6 +193,99 @@ Here's an example that wraps strings in CDATA tags instead of escaping invalid c
     > <person>
     >     <notes type="status"><![CDATA[John's profile is not complete.]]></notes>
     > </person>
+
+
+Here's an example that uses the nest arrays feature:
+
+    var js2xmlparser = require("js2xmlparser");
+
+    var data = {
+        category: 'Potential Clients',
+        people: [{
+               "firstName": "John",
+               "lastName": "Smith"
+           }, {
+               "firstName": "Andrew",
+               "lastName": "Jackson"
+           }, {
+               "firstName": "Kristy",
+               "lastName": "Jones"
+           }
+       ]
+    };
+
+    var options = {
+        nestArrays: true
+    };
+
+    console.log(js2xmlparser("response", data, options));
+
+    > <?xml version="1.0" encoding="UTF-8"?>
+    > <response>
+    >     <category>Potential Clients</category>
+    >     <people>
+    >        <person>
+    >            <firstName>John</firstName>
+    >            <lastName>Smith</lastName>
+    >        </person>
+    >        <person>
+    >            <firstName>Andrew</firstName>
+    >            <lastName>Jackson</lastName>
+    >        </person>
+    >        <person>
+    >            <firstName>Kristy</firstName>
+    >            <lastName>Jones</lastName>
+    >        </person>
+    >     </people>
+    > </response>
+
+
+Here's an example that uses the nest arrays along with the element alias feature to override the inflected element names:
+
+    var js2xmlparser = require("js2xmlparser");
+
+    var data = {
+        url: 'api/v1/clients',
+        result: [{
+                  "=": "client",
+                  "firstName": "John",
+                  "lastName": "Smith"
+              }, {
+                  "=": "client",
+                  "firstName": "Andrew",
+                  "lastName": "Jackson"
+              }, {
+                  "=": "client",
+                  "firstName": "Kristy",
+                  "lastName": "Jones"
+            }
+        ]
+    };
+
+    var options = {
+        nestArrays: true
+    };
+
+    console.log(js2xmlparser("response", data, options));
+
+    > <?xml version="1.0" encoding="UTF-8"?>
+    > <response>
+    >     <url>api/v1/clients</url>
+    >     <result>
+    >         <client>
+    >             <firstName>John</firstName>
+    >             <lastName>Smith</lastName>
+    >         </client>
+    >         <client>
+    >             <firstName>Andrew</firstName>
+    >             <lastName>Jackson</lastName>
+    >         </client>
+    >         <client>
+    >             <firstName>Kristy</firstName>
+    >             <lastName>Jones</lastName>
+    >         </client>
+    >     </result>
+    > </response>
 
 ## Tests ##
 
