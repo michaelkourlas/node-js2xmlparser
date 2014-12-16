@@ -73,9 +73,7 @@
                 "#": "456-555-7890"
             }
         ],
-        "email": function () {
-            return "john@smith.com";
-        },
+        "email": function () {return "john@smith.com";},
         "comment": "John's profile is not complete."
     };
 
