@@ -1208,7 +1208,7 @@
                     }
                 }, defaultOptions);
                 res.should.equal("<base><a>b</a><a>c</a><a>d</a><e>f</e><e>g</e><e>h</e><e>i</e><e>j</e><k><l>m</l>" +
-                    "<l>n</l><l>o</l></k></base>");
+                "<l>n</l><l>o</l></k></base>");
             });
 
             it("should correctly parse example 1", function () {
@@ -1247,8 +1247,7 @@
                             "@": {
                                 "type": "work"
                             },
-                            "#": "123-555-4567",
-                            "=": "telephone"
+                            "#": "123-555-4567"
                         },
                         {
                             "@": {
@@ -1257,15 +1256,17 @@
                             "#": "456-555-7890"
                         }
                     ],
-                    "email": function() {return "john@smith.com";},
+                    "email": function () {
+                        return "john@smith.com";
+                    },
                     "notes": "John's profile is not complete."
                 }, defaultOptions);
                 res.should.equal("<person type=\"individual\"><firstName>John</firstName><lastName>Smith</lastName>" +
-                    "<dateOfBirth>"+new Date(1964, 7, 26)+"</dateOfBirth><address " +
-                    "type=\"home\"><streetAddress>3212 22nd St</streetAddress><city>Chicago</city><state>Illinois" +
-                    "</state><zip>10000</zip></address><phone type=\"home\">123-555-4567</phone><telephone " +
-                    "type=\"work\">123-555-4567</telephone><phone type=\"cell\">456-555-7890</phone><email>" +
-                    "john@smith.com</email><notes>John&apos;s profile is not complete.</notes></person>");
+                "<dateOfBirth>" + new Date(1964, 7, 26) + "</dateOfBirth><address " +
+                "type=\"home\"><streetAddress>3212 22nd St</streetAddress><city>Chicago</city><state>Illinois" +
+                "</state><zip>10000</zip></address><phone type=\"home\">123-555-4567</phone><phone " +
+                "type=\"work\">123-555-4567</phone><phone type=\"cell\">456-555-7890</phone><email>" +
+                "john@smith.com</email><notes>John&apos;s profile is not complete.</notes></person>");
             });
 
             it("should correctly parse example 2 with pretty printing", function () {
@@ -1296,6 +1297,46 @@
                             "@": {
                                 "type": "work"
                             },
+                            "#": "123-555-4567"
+                        },
+                        {
+                            "@": {
+                                "type": "cell"
+                            },
+                            "#": "456-555-7890"
+                        }
+                    ],
+                    "email": function () {
+                        return "john@smith.com";
+                    },
+                    "notes": "John's profile is not complete."
+                }, {
+                    declaration: {
+                        include: false
+                    }
+                });
+                res.should.equal("<person type=\"individual\">\n\t<firstName>John</firstName>\n\t<lastName>Smith" +
+                "</lastName>\n\t<dateOfBirth>" + new Date(1964, 7, 26) +
+                "</dateOfBirth>\n\t<address type=\"home\">\n\t\t<streetAddress>3212 22nd St</streetAddress>" +
+                "\n\t\t<city>Chicago</city>\n\t\t<state>Illinois</state>\n\t\t<zip>10000</zip>\n\t</address>" +
+                "\n\t<phone type=\"home\">123-555-4567</phone>\n\t<phone type=\"work\">123-555-4567" +
+                "</phone>\n\t<phone type=\"cell\">456-555-7890</phone>\n\t<email>john@smith.com</email>\n\t" +
+                "<notes>John&apos;s profile is not complete.</notes>\n</person>");
+            });
+
+            it("should correctly parse example 3", function () {
+                var res = js2xmlparser("person", {
+                    "phone": [
+                        {
+                            "@": {
+                                "type": "home"
+                            },
+                            "#": "123-555-4567"
+                        },
+                        {
+                            "@": {
+                                "type": "work"
+                            },
                             "#": "123-555-4567",
                             "=": "telephone"
                         },
@@ -1305,26 +1346,22 @@
                             },
                             "#": "456-555-7890"
                         }
-                    ],
-                    "email": function() {return "john@smith.com";},
-                    "notes": "John's profile is not complete."
+                    ]
                 }, {
                     declaration: {
                         include: false
+                    },
+                    prettyPrinting: {
+                        enabled: false
                     }
                 });
-                res.should.equal("<person type=\"individual\">\n\t<firstName>John</firstName>\n\t<lastName>Smith" +
-                    "</lastName>\n\t<dateOfBirth>"+ new Date(1964, 7, 26) +
-                    "</dateOfBirth>\n\t<address type=\"home\">\n\t\t<streetAddress>3212 22nd St</streetAddress>" +
-                    "\n\t\t<city>Chicago</city>\n\t\t<state>Illinois</state>\n\t\t<zip>10000</zip>\n\t</address>" +
-                    "\n\t<phone type=\"home\">123-555-4567</phone>\n\t<telephone type=\"work\">123-555-4567" +
-                    "</telephone>\n\t<phone type=\"cell\">456-555-7890</phone>\n\t<email>john@smith.com</email>\n\t" +
-                    "<notes>John&apos;s profile is not complete.</notes>\n</person>");
+                res.should.equal("<person><phone type=\"home\">123-555-4567</phone><telephone type=\"work\">" +
+                "123-555-4567</telephone><phone type=\"cell\">456-555-7890</phone></person>");
             });
 
-            it("should correctly parse example 3", function () {
+            it("should correctly parse example 4", function () {
                 var res = js2xmlparser("person", {
-                    "email": function() {return "john@smith.com";},
+                    "email": function () {return "john@smith.com";},
                     "dateOfBirth": new Date(Date.UTC(1964, 7, 26))
                 }, {
                     declaration: {
@@ -1337,22 +1374,22 @@
                         "[object Date]": function (date) {
                             return date.toISOString();
                         },
-                        "[object Function]": function(func) {
+                        "[object Function]": function (func) {
                             return func.toString();
                         }
                     }
                 });
                 res.should.equal("<person><email>function () {return &quot;john@smith.com&quot;;}</email>" +
-                    "<dateOfBirth>1964-08-26T00:00:00.000Z</dateOfBirth></person>");
+                "<dateOfBirth>1964-08-26T00:00:00.000Z</dateOfBirth></person>");
             });
 
-            it("should correctly parse example 4", function () {
+            it("should correctly parse example 5", function () {
                 var res = js2xmlparser("person", {
                     "notes": {
                         "@": {
                             "type": "status"
                         },
-                        "#":"John's profile is not complete."
+                        "#": "John's profile is not complete."
                     }
                 }, {
                     declaration: {
@@ -1364,7 +1401,7 @@
                     useCDATA: true
                 });
                 res.should.equal("<person><notes type=\"status\"><![CDATA[John's profile is not complete.]]></notes>" +
-                    "</person>");
+                "</person>");
             });
         });
     });

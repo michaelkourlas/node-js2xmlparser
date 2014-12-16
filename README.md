@@ -76,7 +76,7 @@ The following example illustrates the basic usage of js2xmlparser:
     >     <lastName>Smith</lastName>
     > </person>
 
-Here's a more complex example that builds on the first:
+This is a more complex example that builds on the first:
 
     var js2xmlparser = require("js2xmlparser");
 
@@ -141,7 +141,44 @@ Here's a more complex example that builds on the first:
     >     <notes>John&apos;s profile is not complete.</notes>
     > </person>
 
-Here's an example that uses the convert map feature:
+This example uses the alias string feature:
+
+    var js2xmlparser = require("js2xmlparser");
+
+    var data = {
+        "phone": [
+            {
+                "@": {
+                    "type": "home"
+                },
+                "#": "123-555-4567"
+            },
+            {
+                "@": {
+                    "type": "work"
+                },
+                "#": "123-555-4567",
+                "=": "telephone"
+            },
+            {
+                "@": {
+                    "type": "cell"
+                },
+                "#": "456-555-7890"
+            }
+        ]
+    };
+
+    console.log(js2xmlparser("person", data));
+
+    > <?xml version="1.0" encoding="UTF-8"?>
+    > <person>
+    > 	<phone type="home">123-555-4567</phone>
+    > 	<telephone type="work">123-555-4567</telephone>
+    > 	<phone type="cell">456-555-7890</phone>
+    > </person>
+
+The following an example that uses the convert map feature:
 
     var js2xmlparser = require("js2xmlparser");
 
@@ -169,7 +206,7 @@ Here's an example that uses the convert map feature:
     >     <dateOfBirth>1964-08-26T04:00:00.000Z</dateOfBirth>
     > </person>
 
-Here's an example that wraps strings in CDATA tags instead of escaping invalid characters.
+Here's an example that wraps strings in CDATA tags instead of escaping invalid characters:
 
     var js2xmlparser = require("js2xmlparser");
 

@@ -18,7 +18,7 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-(function() {
+(function () {
     "use strict";
 
     var js2xmlparser = require("../lib/js2xmlparser.js");
@@ -64,8 +64,7 @@
                 "@": {
                     "type": "work"
                 },
-                "#": "123-555-4567",
-                "=": "telephone"
+                "#": "123-555-4567"
             },
             {
                 "@": {
@@ -74,8 +73,10 @@
                 "#": "456-555-7890"
             }
         ],
-        "email": function() {return "john@smith.com";},
-        "notes": "John's profile is not complete."
+        "email": function () {
+            return "john@smith.com";
+        },
+        "comment": "John's profile is not complete."
     };
 
     console.log(js2xmlparser("person", example2));
@@ -85,39 +86,71 @@
     console.log("=========");
 
     var example3 = {
-        "email": function() {return "john@smith.com";},
-        "dateOfBirth": new Date(1964, 7, 26)
-    };
-
-    var example3Options = {
-        convertMap: {
-            "[object Date]": function(date) {
-                return date.toISOString();
+        "phone": [
+            {
+                "@": {
+                    "type": "home"
+                },
+                "#": "123-555-4567"
             },
-            "[object Function]": function(func) {
-                return func.toString();
+            {
+                "@": {
+                    "type": "work"
+                },
+                "#": "123-555-4567",
+                "=": "telephone"
+            },
+            {
+                "@": {
+                    "type": "cell"
+                },
+                "#": "456-555-7890"
             }
-        }
+        ]
     };
 
-    console.log(js2xmlparser("person", example3, example3Options));
+    console.log(js2xmlparser("person", example3));
     console.log();
 
     console.log("EXAMPLE 4");
     console.log("=========");
 
     var example4 = {
-        "notes": {
-            "@": {
-                "type": "status"
-            },
-            "#":"John's profile is not complete."
-        }
+        "email": function () {
+            return "john@smith.com";
+        },
+        "dateOfBirth": new Date(1964, 7, 26)
     };
 
     var example4Options = {
-        useCDATA: true
+        convertMap: {
+            "[object Date]": function (date) {
+                return date.toISOString();
+            },
+            "[object Function]": function (func) {
+                return func.toString();
+            }
+        }
     };
 
     console.log(js2xmlparser("person", example4, example4Options));
+    console.log();
+
+    console.log("EXAMPLE 5");
+    console.log("=========");
+
+    var example5 = {
+        "comment": {
+            "@": {
+                "type": "status"
+            },
+            "#": "John's profile is not complete."
+        }
+    };
+
+    var example5Options = {
+        useCDATA: true
+    };
+
+    console.log(js2xmlparser("person", example5, example5Options));
 })();
