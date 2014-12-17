@@ -1,3 +1,8 @@
+## 0.1.7 ##
+
+* Added .gitattributes to .gitignore file
+* Minor tweaks to examples
+
 ## 0.1.6 ##
 
 * Addition of alias string option
