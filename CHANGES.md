@@ -1,6 +1,6 @@
 ## 0.1.8 ##
 
-* Reconcile readme with examples
+* Reconcile readme and tests with examples
 
 ## 0.1.7 ##
 
