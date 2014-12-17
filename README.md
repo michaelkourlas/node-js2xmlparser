@@ -107,8 +107,7 @@ This is a more complex example that builds on the first:
                 "@": {
                     "type": "work"
                 },
-                "#": "123-555-4567",
-                "=": "telephone"
+                "#": "123-555-4567"
             },
             {
                 "@": {
@@ -135,7 +134,7 @@ This is a more complex example that builds on the first:
     >         <zip>10000</zip>
     >     </address>
     >     <phone type="home">123-555-4567</phone>
-    >     <telephone type="work">123-555-4567</telephone>
+    >     <phone type="work">123-555-4567</telephone>
     >     <phone type="cell">456-555-7890</phone>
     >     <email>john@smith.com</email>
     >     <notes>John&apos;s profile is not complete.</notes>
