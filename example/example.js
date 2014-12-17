@@ -64,7 +64,7 @@
                 "@": {
                     "type": "work"
                 },
-                "#": "123-555-4567"
+                "#": "789-555-4567"
             },
             {
                 "@": {
@@ -73,7 +73,9 @@
                 "#": "456-555-7890"
             }
         ],
-        "email": function () {return "john@smith.com";},
+        "email": function () {
+            return "john@smith.com";
+        },
         "comment": "John's profile is not complete."
     };
 
@@ -84,26 +86,13 @@
     console.log("=========");
 
     var example3 = {
-        "phone": [
+        "telephone": [
+            "123-555-4567",
             {
-                "@": {
-                    "type": "home"
-                },
-                "#": "123-555-4567"
+                "#": "789-555-4567",
+                "=": "fax"
             },
-            {
-                "@": {
-                    "type": "work"
-                },
-                "#": "123-555-4567",
-                "=": "telephone"
-            },
-            {
-                "@": {
-                    "type": "cell"
-                },
-                "#": "456-555-7890"
-            }
+            "456-555-7890"
         ]
     };
 

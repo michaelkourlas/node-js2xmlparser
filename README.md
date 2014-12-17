@@ -107,8 +107,7 @@ This is a more complex example that builds on the first:
                 "@": {
                     "type": "work"
                 },
-                "#": "123-555-4567",
-                "=": "telephone"
+                "#": "789-555-4567"
             },
             {
                 "@": {
@@ -117,7 +116,9 @@ This is a more complex example that builds on the first:
                 "#": "456-555-7890"
             }
         ],
-        "email": function() {return "john@smith.com";},
+        "email": function() {
+            return "john@smith.com";
+        },
         "notes": "John's profile is not complete."
     };
 
@@ -135,7 +136,7 @@ This is a more complex example that builds on the first:
     >         <zip>10000</zip>
     >     </address>
     >     <phone type="home">123-555-4567</phone>
-    >     <telephone type="work">123-555-4567</telephone>
+    >     <phone type="work">789-555-4567</telephone>
     >     <phone type="cell">456-555-7890</phone>
     >     <email>john@smith.com</email>
     >     <notes>John&apos;s profile is not complete.</notes>
@@ -146,26 +147,13 @@ This example uses the alias string feature:
     var js2xmlparser = require("js2xmlparser");
 
     var data = {
-        "phone": [
+        "telephone": [
+            "123-555-4567",
             {
-                "@": {
-                    "type": "home"
-                },
-                "#": "123-555-4567"
+                "#": "789-555-4567",
+                "=": "fax"
             },
-            {
-                "@": {
-                    "type": "work"
-                },
-                "#": "123-555-4567",
-                "=": "telephone"
-            },
-            {
-                "@": {
-                    "type": "cell"
-                },
-                "#": "456-555-7890"
-            }
+            "456-555-7890"
         ]
     };
 
@@ -173,9 +161,9 @@ This example uses the alias string feature:
 
     > <?xml version="1.0" encoding="UTF-8"?>
     > <person>
-    > 	<phone type="home">123-555-4567</phone>
-    > 	<telephone type="work">123-555-4567</telephone>
-    > 	<phone type="cell">456-555-7890</phone>
+    >     <telephone>123-555-4567</telephone>
+    >     <fax>789-555-4567</fax>
+    >     <telephone>456-555-7890</telephone>
     > </person>
 
 The following an example that uses the convert map feature:
@@ -183,7 +171,9 @@ The following an example that uses the convert map feature:
     var js2xmlparser = require("js2xmlparser");
 
     var data = {
-        "email": function() {return "john@smith.com";},
+        "email": function() {
+            return "john@smith.com";
+        },
         "dateOfBirth": new Date(1964, 7, 26)
     }
 
@@ -202,8 +192,10 @@ The following an example that uses the convert map feature:
 
     > <?xml version="1.0" encoding="UTF-8"?>
     > <person>
-    >     <email>function () {return &quot;john@smith.com&quot;;}</email>
-    >     <dateOfBirth>1964-08-26T04:00:00.000Z</dateOfBirth>
+    > 	  <email>function () {
+    >             return &quot;john@smith.com&quot;;
+    >         }</email>
+    > 	  <dateOfBirth>1964-08-26T05:00:00.000Z</dateOfBirth>
     > </person>
 
 Here's an example that wraps strings in CDATA tags instead of escaping invalid characters:

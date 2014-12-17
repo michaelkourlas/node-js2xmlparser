@@ -1326,26 +1326,13 @@
 
             it("should correctly parse example 3", function () {
                 var res = js2xmlparser("person", {
-                    "phone": [
+                    "telephone": [
+                        "123-555-4567",
                         {
-                            "@": {
-                                "type": "home"
-                            },
-                            "#": "123-555-4567"
+                            "#": "789-555-4567",
+                            "=": "fax"
                         },
-                        {
-                            "@": {
-                                "type": "work"
-                            },
-                            "#": "123-555-4567",
-                            "=": "telephone"
-                        },
-                        {
-                            "@": {
-                                "type": "cell"
-                            },
-                            "#": "456-555-7890"
-                        }
+                        "456-555-7890"
                     ]
                 }, {
                     declaration: {
@@ -1355,13 +1342,15 @@
                         enabled: false
                     }
                 });
-                res.should.equal("<person><phone type=\"home\">123-555-4567</phone><telephone type=\"work\">" +
-                "123-555-4567</telephone><phone type=\"cell\">456-555-7890</phone></person>");
+                res.should.equal("<person><telephone>123-555-4567</telephone><fax>789-555-4567</fax><telephone>" +
+                "456-555-7890</telephone></person>");
             });
 
             it("should correctly parse example 4", function () {
                 var res = js2xmlparser("person", {
-                    "email": function () {return "john@smith.com";},
+                    "email": function () {
+                        return "john@smith.com";
+                    },
                     "dateOfBirth": new Date(Date.UTC(1964, 7, 26))
                 }, {
                     declaration: {
@@ -1379,8 +1368,8 @@
                         }
                     }
                 });
-                res.should.equal("<person><email>function () {return &quot;john@smith.com&quot;;}</email>" +
-                "<dateOfBirth>1964-08-26T00:00:00.000Z</dateOfBirth></person>");
+                res.should.equal("<person><email>function () {\r\n                        return &quot;john@smith.com" +
+                "&quot;;\r\n                    }</email><dateOfBirth>1964-08-26T00:00:00.000Z</dateOfBirth></person>");
             });
 
             it("should correctly parse example 5", function () {
