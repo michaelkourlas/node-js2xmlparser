@@ -1,3 +1,7 @@
+## 0.1.8 ##
+
+* Reconcile readme with examples
+
 ## 0.1.7 ##
 
 * Added .gitattributes to .gitignore file
