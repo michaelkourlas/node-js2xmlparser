@@ -1,3 +1,7 @@
+## 0.1.9 ##
+
+* Fix error in example.js
+
 ## 0.1.8 ##
 
 * Reconcile readme and tests with examples
