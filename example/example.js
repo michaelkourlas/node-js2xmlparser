@@ -127,6 +127,26 @@
     console.log("=========");
 
     var example5 = {
+        "name": "jonathan",
+        "nicknames": [
+            "jon", "jonny", "jonno"
+        ],
+        "awards": [ "best teacher" ]
+    }
+
+    var example5Options = {
+        arrayMap: {
+            nicknames: "name"
+        }
+    };
+
+    console.log(js2xmlparser("person", example5, example5Options));
+    console.log();
+
+    console.log("EXAMPLE 6");
+    console.log("=========");
+
+    var example6 = {
         "comment": {
             "@": {
                 "type": "status"
@@ -135,9 +155,9 @@
         }
     };
 
-    var example5Options = {
+    var example6Options = {
         useCDATA: true
     };
 
-    console.log(js2xmlparser("person", example5, example5Options));
+    console.log(js2xmlparser("person", example6, example6Options));
 })();

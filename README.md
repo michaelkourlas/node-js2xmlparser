@@ -34,6 +34,7 @@ The js2xmlparser module contains one function which takes the following argument
 
 * `root` - the XML root element's name (string, mandatory)
 * `data` - the data to be converted to XML; while the data object can contain arrays, it cannot itself be an array
+  unless the root element is listed in the arrayMap option
   (object or JSON string, mandatory)
 * `options` - module options (object, optional)
     * `declaration` - XML declaration options (object, optional)
@@ -53,6 +54,9 @@ The js2xmlparser module contains one function which takes the following argument
         * `indentString` - indent string (string, optional, default: "\t")
     * `convertMap` - maps object types (as given by the `Object.prototype.toString.call` method) to functions to convert
       those objects to a particular string representation; `*` can be used as a wildcard for all types of objects
+      (object, optional, default: {})
+    * `arrayMap` - maps the names of arrays to the names of array elements. If an array name is listed in the map,
+      the element name will be used to wrap the array and each element will be named based on the mapped name
       (object, optional, default: {})
     * `useCDATA` - specifies whether strings should be enclosed in CDATA tags; otherwise, illegal XML characters will
       be escaped (boolean, optional, default: false)
@@ -166,7 +170,7 @@ This example uses the alias string feature:
     >     <telephone>456-555-7890</telephone>
     > </person>
 
-The following an example that uses the convert map feature:
+The following is an example that uses the convert map feature:
 
     var js2xmlparser = require("js2xmlparser");
 
@@ -196,6 +200,37 @@ The following an example that uses the convert map feature:
     >             return &quot;john@smith.com&quot;;
     >         }</email>
     > 	  <dateOfBirth>1964-08-26T05:00:00.000Z</dateOfBirth>
+    > </person>
+
+This is an example that uses the array map feature:
+
+    var js2xmlparser = require("js2xmlparser");
+
+    var data = {
+        "name": "jonathan",
+        "nicknames": [
+            "jon", "jonny", "jonno"
+        ],
+        "awards": [ "best teacher" ]
+    }
+
+    var options = {
+        arrayMap: {
+            nicknames: "name"
+        }
+    };
+
+    console.log(js2xmlparser("person", data, options));
+
+    > <?xml version="1.0" encoding="UTF-8"?>
+    > <person>
+    >     <name>jonathan</name>
+    >     <nicknames>
+    >         <name>jon</name>
+    >         <name>jonny</name>
+    >         <name>jonno</name>
+    >     </nicknames>
+    >     <awards>best teacher</awards>
     > </person>
 
 Here's an example that wraps strings in CDATA tags instead of escaping invalid characters:

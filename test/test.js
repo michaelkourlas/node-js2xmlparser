@@ -858,6 +858,116 @@
                 });
             });
 
+            describe("arrayMap", function () {
+                it("should raise an error when options is defined and options.arrayMap is undefined", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            declaration: {
+                                include: false
+                            },
+                            arrayMap: undefined
+                        });
+                    } catch (e) {
+                        e.should.match(/arrayMap option must be an object/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should raise an error when options is defined and options.arrayMap is null", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            declaration: {
+                                include: false
+                            },
+                            arrayMap: null
+                        });
+                    } catch (e) {
+                        e.should.match(/arrayMap option must be an object/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should raise an error when options is defined and options.arrayMap is an array", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            declaration: {
+                                include: false
+                            },
+                            arrayMap: []
+                        });
+                    } catch (e) {
+                        e.should.match(/arrayMap option must be an object/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should raise an error when options is defined and options.arrayMap is a boolean", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            declaration: {
+                                include: false
+                            },
+                            arrayMap: true
+                        });
+                    } catch (e) {
+                        e.should.match(/arrayMap option must be an object/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should raise an error when options is defined and options.arrayMap is a number", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            declaration: {
+                                include: false
+                            },
+                            arrayMap: 6
+                        });
+                    } catch (e) {
+                        e.should.match(/arrayMap option must be an object/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should raise an error when options is defined and options.arrayMap is a string", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            declaration: {
+                                include: false
+                            },
+                            convertMap: "test"
+                        });
+                    } catch (e) {
+                        e.should.match(/arrayMap option must be an object/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should correctly parse XML using arrayMap maps", function () {
+                    var res = js2xmlparser(defaultRoot, {
+                        "a": [ "d" ],
+                        "c": [ "e", "f" ]
+                    }, {
+                        declaration: {
+                            include: false
+                        },
+                        prettyPrinting: {
+                            enabled: false
+                        },
+                        arrayMap: {
+                            "c": "x"
+                        }
+                    });
+                    res.should.equal("<base><a>d</a><c><x>e</x><x>f</x></c></base>");
+                });
+            });
+
             describe("useCDATA", function () {
                 it("should raise an error when options is defined and options.useCDATA is undefined", function () {
                     var res;
@@ -1097,7 +1207,7 @@
                 try {
                     res = js2xmlparser(defaultRoot, [], defaultOptions);
                 } catch (e) {
-                    e.should.match(/data must be an object (excluding arrays) or a JSON string/);
+                    e.should.match(/data must be an object (excluding arrays) or a JSON string, unless an arrayMap option exists for root/);
                 }
                 should.not.exist(res);
             });
@@ -1107,9 +1217,24 @@
                 try {
                     res = js2xmlparser(defaultRoot, "test", defaultOptions);
                 } catch (e) {
-                    e.should.match(/data must be an object (excluding arrays) or a JSON string/);
+                    e.should.match(/data must be an object (excluding arrays) or a JSON string, unless an arrayMap option exists for root/);
                 }
                 should.not.exist(res);
+            });
+
+            it("should not raise an error when data is an array, and the root is in the arrayMap", function () {
+                var res = js2xmlparser(defaultRoot, [ "a" ], {
+                    declaration: {
+                        include: false
+                    },
+                    prettyPrinting: {
+                        enabled: false
+                    },
+                    arrayMap: {
+                        base: 'x'
+                    }
+                });
+                res.should.equal("<base><x>a</x></base>");
             });
 
             it("should correctly parse a number", function () {
