@@ -941,7 +941,7 @@
                             declaration: {
                                 include: false
                             },
-                            convertMap: "test"
+                            arrayMap: "test"
                         });
                     } catch (e) {
                         e.should.match(/arrayMap option must be an object/);
