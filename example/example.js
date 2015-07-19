@@ -127,12 +127,14 @@
     console.log("=========");
 
     var example5 = {
-        "name": "jonathan",
+        "firstName": "John",
+        "lastName": "Smith",
         "nicknames": [
-            "jon", "jonny", "jonno"
-        ],
-        "awards": [ "best teacher" ]
-    }
+            "Johnny",
+            "Jon",
+            "Jack"
+        ]
+    };
 
     var example5Options = {
         arrayMap: {

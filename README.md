@@ -34,8 +34,7 @@ The js2xmlparser module contains one function which takes the following argument
 
 * `root` - the XML root element's name (string, mandatory)
 * `data` - the data to be converted to XML; while the data object can contain arrays, it cannot itself be an array
-  unless the root element is listed in the arrayMap option
-  (object or JSON string, mandatory)
+  unless the root element is listed in the arrayMap option (object or JSON string, mandatory)
 * `options` - module options (object, optional)
     * `declaration` - XML declaration options (object, optional)
         * `include` - specifies whether an XML declaration should be included (boolean, optional, default: true)
@@ -170,7 +169,7 @@ This example uses the alias string feature:
     >     <telephone>456-555-7890</telephone>
     > </person>
 
-The following is an example that uses the convert map feature:
+This example uses the convert map feature:
 
     var js2xmlparser = require("js2xmlparser");
 
@@ -202,16 +201,18 @@ The following is an example that uses the convert map feature:
     > 	  <dateOfBirth>1964-08-26T05:00:00.000Z</dateOfBirth>
     > </person>
 
-This is an example that uses the array map feature:
+This example uses the array map feature:
 
     var js2xmlparser = require("js2xmlparser");
 
     var data = {
-        "name": "jonathan",
+        "firstName": "John",
+        "lastName": "Smith",
         "nicknames": [
-            "jon", "jonny", "jonno"
-        ],
-        "awards": [ "best teacher" ]
+            "Johnny", 
+            "Jon", 
+            "Jack"
+        ]
     }
 
     var options = {
@@ -224,16 +225,16 @@ This is an example that uses the array map feature:
 
     > <?xml version="1.0" encoding="UTF-8"?>
     > <person>
-    >     <name>jonathan</name>
+    >     <firstName>John</firstName>
+    >     <lastName>Smith</lastName>
     >     <nicknames>
-    >         <name>jon</name>
-    >         <name>jonny</name>
-    >         <name>jonno</name>
+    >         <name>Johnny</name>
+    >         <name>Jon</name>
+    >         <name>Jack</name>
     >     </nicknames>
-    >     <awards>best teacher</awards>
     > </person>
 
-Here's an example that wraps strings in CDATA tags instead of escaping invalid characters:
+This example wraps strings in CDATA tags instead of escaping invalid characters:
 
     var js2xmlparser = require("js2xmlparser");
 

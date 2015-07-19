@@ -950,10 +950,15 @@
                 });
 
                 it("should correctly parse XML using arrayMap maps", function () {
-                    var res = js2xmlparser(defaultRoot, {
-                        "a": [ "d" ],
-                        "c": [ "e", "f" ]
-                    }, {
+                    var res = js2xmlparser(defaultRoot, [
+                        {
+                            "a": [ "d" ],
+                            "c": [ "e", "f" ]
+                        },
+                        {
+                            "b": "h"
+                        }
+                    ], {
                         declaration: {
                             include: false
                         },
@@ -961,10 +966,11 @@
                             enabled: false
                         },
                         arrayMap: {
-                            "c": "x"
+                            "base": "root",
+                            "c": "g"
                         }
                     });
-                    res.should.equal("<base><a>d</a><c><x>e</x><x>f</x></c></base>");
+                    res.should.equal("<base><root><a>d</a><c><g>e</g><g>f</g></c></root><root><b>h</b></root></base>");
                 });
             });
 
@@ -1222,21 +1228,6 @@
                 should.not.exist(res);
             });
 
-            it("should not raise an error when data is an array, and the root is in the arrayMap", function () {
-                var res = js2xmlparser(defaultRoot, [ "a" ], {
-                    declaration: {
-                        include: false
-                    },
-                    prettyPrinting: {
-                        enabled: false
-                    },
-                    arrayMap: {
-                        base: 'x'
-                    }
-                });
-                res.should.equal("<base><x>a</x></base>");
-            });
-
             it("should correctly parse a number", function () {
                 var res = js2xmlparser(defaultRoot, 2, defaultOptions);
                 res.should.equal("<base>2</base>");
@@ -1250,6 +1241,21 @@
             it("should correctly parse a JSON string", function () {
                 var res = js2xmlparser(defaultRoot, "{\"hello\":\"world\"}", defaultOptions);
                 res.should.equal("<base><hello>world</hello></base>");
+            });
+
+            it("should correctly parse an array when the root is in the arrayMap", function () {
+                var res = js2xmlparser(defaultRoot, [ "a" ], {
+                    declaration: {
+                        include: false
+                    },
+                    prettyPrinting: {
+                        enabled: false
+                    },
+                    arrayMap: {
+                        base: 'x'
+                    }
+                });
+                res.should.equal("<base><x>a</x></base>");
             });
 
             it("should correctly parse an empty object", function () {
@@ -1498,6 +1504,30 @@
             });
 
             it("should correctly parse example 5", function () {
+                var res = js2xmlparser("person", {
+                    "firstName": "John",
+                    "lastName": "Smith",
+                    "nicknames": [
+                        "Johnny",
+                        "Jon",
+                        "Jack"
+                    ]
+                }, {
+                    declaration: {
+                        include: false
+                    },
+                    prettyPrinting: {
+                        enabled: false
+                    },
+                    arrayMap: {
+                        nicknames: "name"
+                    }
+                });
+                res.should.equal("<person><firstName>John</firstName><lastName>Smith</lastName><nicknames><name>" +
+                    "Johnny</name><name>Jon</name><name>Jack</name></nicknames></person>");
+            });
+
+            it("should correctly parse example 6", function () {
                 var res = js2xmlparser("person", {
                     "notes": {
                         "@": {
