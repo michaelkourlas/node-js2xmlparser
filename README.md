@@ -267,5 +267,5 @@ js2xmlparser comes with a set of tests that evaluate and verify the package's co
 
 ## License ##
 
-js2xmlparser is licensed under the [MIT license](http://opensource.org/licenses/MIT). Please see the LICENSE.md file
-for more information.
+j2xmlparser is licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0). Please see the 
+LICENSE.md file for more information.
