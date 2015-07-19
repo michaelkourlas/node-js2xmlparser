@@ -1,3 +1,10 @@
+## 1.0.0 ##
+
+* First stable release
+* Add arrayMap feature
+* Switch to semantic versioning
+* Switch to Apache 2.0 license
+
 ## 0.1.9 ##
 
 * Fix error in example.js
