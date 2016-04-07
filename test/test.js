@@ -1085,6 +1085,100 @@
                 });
             });
 
+            describe("useCDATATags", function () {
+                it("should raise an error when options is defined and options.useCDATATags is undefined", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            useCDATATags: undefined
+                        });
+                    } catch (e) {
+                        e.should.match(/useCDATATags option must be an array/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should raise an error when options is defined and options.useCDATATags is null", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            useCDATATags: null
+                        });
+                    } catch (e) {
+                        e.should.match(/useCDATATags option must be an array/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should raise an error when options is defined and options.useCDATATags is an object", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            useCDATATags: {}
+                        });
+                    } catch (e) {
+                        e.should.match(/useCDATA option must be an array/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should raise an error when options is defined and options.useCDATATags is a number", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            useCDATATags: 2
+                        });
+                    } catch (e) {
+                        e.should.match(/useCDATA option must be an array/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should raise an error when options is defined and options.useCDATATags is a string", function () {
+                    var res;
+                    try {
+                        res = js2xmlparser(defaultRoot, defaultData, {
+                            useCDATATags: "string"
+                        });
+                    } catch (e) {
+                        e.should.match(/useCDATA option must be an array/);
+                    }
+                    should.not.exist(res);
+                });
+
+                it("should create XML with CDATA strings when options.CDATA is true and no useCDATATags were defined", function () {
+                    var res = js2xmlparser(defaultRoot, {
+                        "a": "b'c"
+                    }, {
+                        useCDATA: true,
+                        declaration: {
+                            include: false
+                        },
+                        prettyPrinting: {
+                            enabled: false
+                        }
+                    });
+                    res.should.equal("<base><a><![CDATA[b'c]]></a></base>");
+                });
+
+                it("should create XML with selected CDATA strings when options.CDATA is true and useCDATATags were defined", function () {
+                    var res = js2xmlparser(defaultRoot, {
+                        "a": "no cdata tag",
+                        "text": "Test text"
+                    }, {
+                        useCDATA: true,
+                        useCDATATags: ['text'],
+                        declaration: {
+                            include: false
+                        },
+                        prettyPrinting: {
+                            enabled: false
+                        }
+                    });
+                    res.should.equal("<base><a>no cdata tag</a><text><![CDATA[Test text]]></text></base>");
+                });
+            });
+
             describe("aliasString", function () {
 
                 it("should raise an error when options is defined and options.aliasString is undefined", function () {
