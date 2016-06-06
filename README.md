@@ -59,6 +59,8 @@ The js2xmlparser module contains one function which takes the following argument
       (object, optional, default: {})
     * `useCDATA` - specifies whether strings should be enclosed in CDATA tags; otherwise, illegal XML characters will
       be escaped (boolean, optional, default: false)
+    * `prefix` - adds a prefix string before tag name
+      (string, optional, default: "" )
 
 ## Examples ##
 
@@ -209,8 +211,8 @@ This example uses the array map feature:
         "firstName": "John",
         "lastName": "Smith",
         "nicknames": [
-            "Johnny", 
-            "Jon", 
+            "Johnny",
+            "Jon",
             "Jack"
         ]
     }
@@ -267,5 +269,5 @@ js2xmlparser comes with a set of tests that evaluate and verify the package's co
 
 ## License ##
 
-j2xmlparser is licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0). Please see the 
+j2xmlparser is licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0). Please see the
 LICENSE.md file for more information.
