@@ -1,5 +1,12 @@
 # js2xmlparser #
 
+## Fork Changes
+
+- removed "root" element option to allow for passing general objects,
+  with only special "attribute" property. It seems to be more obvioues from users perspective.
+  Additionally the only benefit from having "root" options was to parse primitives
+  into <root>12<root> which is not needed for PeachWorks application.
+
 ## Overview ##
 
 js2xmlparser is a Node.js module that parses JavaScript objects into XML.
@@ -32,9 +39,7 @@ Alternatively, you may download the source from GitHub and copy it to a folder n
 
 The js2xmlparser module contains one function which takes the following arguments:
 
-* `root` - the XML root element's name (string, mandatory)
 * `data` - the data to be converted to XML; while the data object can contain arrays, it cannot itself be an array
-  unless the root element is listed in the arrayMap option (object or JSON string, mandatory)
 * `options` - module options (object, optional)
     * `declaration` - XML declaration options (object, optional)
         * `include` - specifies whether an XML declaration should be included (boolean, optional, default: true)
