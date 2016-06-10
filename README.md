@@ -64,6 +64,7 @@ The js2xmlparser module contains one function which takes the following argument
       (object, optional, default: {})
     * `useCDATA` - specifies whether strings should be enclosed in CDATA tags; otherwise, illegal XML characters will
       be escaped (boolean, optional, default: false)
+    * `singularItems` - specifies whether to try making array items have singular names
 
 ## Examples ##
 

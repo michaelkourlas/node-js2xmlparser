@@ -1,0 +1,30 @@
+{
+  "asi": true,
+  "esversion": 6,
+  "curly": false,
+  "eqeqeq": true,
+  "eqnull": true,
+  "evil": true,
+  "forin": true,
+  "immed": true,
+  "latedef": "nofunc",
+  "laxcomma": true,
+  "multistr": true,
+  "newcap": true,
+  "noarg": true,
+  "node": true,
+  "nonew": true,
+  "nonstandard": true,
+  "proto": true,
+  "smarttabs": true,
+  "strict": true,
+  "maxcomplexity": 14,
+  "sub": true,
+  "undef": true,
+  "unused": "vars",
+  "globals": {
+    "should": false,
+    "it": false,
+    "describe": false
+  }
+}

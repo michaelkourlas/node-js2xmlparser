@@ -907,6 +907,21 @@ describe("js2xmlparser", function () {
                        "<l>n</l><l>o</l></k></base>");
     });
 
+    it("should correctly parse arrays and change names to singular ones", function () {
+      var res = js2xmlparser({
+          checks: ["b", "c", "d"],
+      }, {
+      declaration: {
+        include: false
+      },
+      prettyPrinting: {
+        enabled: false
+      },
+      singularItems: true
+      });
+      res.should.eql("<check>b</check><check>c</check><check>d</check>")
+    });
+
     it("should correctly parse example 1", function () {
       var res = js2xmlparser({
         person: {
