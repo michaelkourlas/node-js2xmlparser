@@ -1,0 +1,29 @@
+{
+  "extends": "tslint:latest",
+  "rules": {
+    "max-line-length": [
+      true,
+      80
+    ],
+    "one-line": [
+      true,
+      "check-catch",
+      "check-finally",
+      "check-else",
+      "check-whitespace"
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "never",
+        "singleline": "never"
+      }
+    ],
+    "variable-name": [
+      true,
+      "check-format",
+      "allow-leading-underscore",
+      "ban-keywords"
+    ]
+  }
+}

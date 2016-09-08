@@ -1,9 +1,11 @@
 {
   "name": "js2xmlparser",
+  "version": "2.0.0",
   "description": "Parses JavaScript objects into XML",
   "keywords": [
     "convert",
     "converter",
+    "javascript",
     "js",
     "json",
     "object",
@@ -12,17 +14,43 @@
     "parser",
     "xml"
   ],
-  "homepage": "http://www.kourlas.net",
-  "version": "1.0.0",
-  "author": "Michael Kourlas <michael@kourlas.net>",
-  "main": "./lib/js2xmlparser.js",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Michael Kourlas",
+    "email": "michael@kourlas.net"
+  },
+  "files": [
+    "lib",
+    "CHANGES.md",
+    "LICENSE.md",
+    "NOTICE.md",
+    "npm-shrinkwrap.json",
+    "package.json",
+    "README.md"
+  ],
+  "main": "./lib/main.js",
+  "typings": "./lib/main",
   "repository": {
     "type": "git",
     "url": "git://github.com/michaelkourlas/node-js2xmlparser.git"
   },
-  "devDependencies": {
-    "mocha": "*",
-    "should": "*"
+  "dependencies": {
+    "xmlcreate": "^0.1.1"
   },
-  "license": "Apache-2.0"
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "es6-shim": "^0.35.1",
+    "gulp": "^3.9.1",
+    "gulp-filter": "^4.0.0",
+    "gulp-mocha": "^3.0.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-tslint": "^6.1.1",
+    "gulp-typedoc": "^2.0.0",
+    "gulp-typescript": "^2.13.6",
+    "merge2": "^1.0.2",
+    "mocha": "^3.0.2",
+    "tslint": "^3.15.1",
+    "typedoc": "^0.4.5",
+    "typings": "^1.3.3"
+  }
 }

@@ -1,271 +1,163 @@
 # js2xmlparser #
 
+[![Build Status](https://travis-ci.org/michaelkourlas/node-js2xmlparser.svg?branch=master)](https://travis-ci.org/michaelkourlas/node-js2xmlparser)
+
 ## Overview ##
 
 js2xmlparser is a Node.js module that parses JavaScript objects into XML.
 
 ## Features ##
 
-Since XML is a data-interchange format, js2xmlparser is designed primarily for JSON-type objects, arrays and primitive
-data types, like many of the other JavaScript to XML parsers currently available for Node.js.
+Since XML is a data-interchange format, js2xmlparser is designed primarily for 
+JSON-type objects, arrays and primitive data types, like many of the other 
+JavaScript to XML parsers currently available for Node.js.
 
-However, js2xmlparser is capable of parsing any object, including native JavaScript objects such as Date and RegExp, by
-taking advantage of each object's toString function. Functions are a special case where the return value of the function
-itself is used instead of the toString function, if available.
+However, js2xmlparser is capable of parsing any object, including native 
+JavaScript objects such as `Date` and `RegExp`, by taking advantage of each
+object's `toString` function or, if this function does not exist, the `String`
+constructor.
+
+js2xmlparser also has support for the new `Map` and `Set` objects introduced in
+ECMAScript 2015, treating them as JSON-type objects and arrays respectively.
+Support for `Map`s is necessary to generate XML with elements in a specific
+order, since JSON-type objects do not guarantee insertion order. `Map` keys are 
+always converted to strings using the method described above.
 
 js2xmlparser also supports a number of constructs unique to XML:
 
-* attributes (through a unique attribute property in objects)
-* mixed content (through a unique value property in objects)
+* attributes (through an attribute property in objects)
+* mixed content (through value properties in objects)
 * multiple elements with the same name (through arrays)
 
-js2xmlparser can also pretty-print the XML it outputs with the option of customizing the indent string.
+js2xmlparser can also pretty-print the XML it outputs.
 
 ## Installation ##
 
-The easiest way to install js2xmlparser is to use npm: `npm install js2xmlparser`.
+The easiest way to install js2xmlparser is using npm:
 
-Alternatively, you may download the source from GitHub and copy it to a folder named "js2xmlparser" within your
-"node_modules" directory.
+```
+npm install js2xmlparser
+```
+
+You can also build js2xmlparser from source using gulp:
+
+```
+git clone https://github.com/michaelkourlas/node-js2xmlparser.git
+npm install
+typings install
+gulp
+```
+
+You'll need to install gulp and typings first if you don't have them:
+
+```
+npm install -g gulp
+npm install -g typings
+```
+
+You can then copy the folder into your node_modules directory.
+
+The `default` target will build the production variant of js2xmlparser, run all
+tests, and build the documentation.
+
+You can build the production variant without running tests using the target
+`prod`. You can also build the development version using the target `dev`. At
+the moment, the only difference between the two is that the development version
+includes source maps.
 
 ## Usage ##
 
-The js2xmlparser module contains one function which takes the following arguments:
+The documentation for the current version is available [here](http://www.kourlas.com/node-js2xmlparser/docs/2.0.0/).
 
-* `root` - the XML root element's name (string, mandatory)
-* `data` - the data to be converted to XML; while the data object can contain arrays, it cannot itself be an array
-  unless the root element is listed in the arrayMap option (object or JSON string, mandatory)
-* `options` - module options (object, optional)
-    * `declaration` - XML declaration options (object, optional)
-        * `include` - specifies whether an XML declaration should be included (boolean, optional, default: true)
-        * `encoding` - value of XML encoding attribute in declaration; a value of null represents no encoding attribute
-          (string, optional, default: "UTF-8")
-    * `attributeString` - the name of the property representing an element's attributes; note that any property with a
-      name equal to the attribute string is ignored except in the context of XML attributes (string, optional, default:
-      "@")
-    * `valueString` - the name of the property representing an element's value; note that any property with a name equal
-      to the value string is ignored except in the context of supplying a value for a tag containing attributes (string,
-      optional, default: "#")
-    * `aliasString` - the name of the property representing an element's alias; the name of the containing element will
-      be replaced with the alias (string, optional, default: "=")
-    * `prettyPrinting` - pretty-printing options (object, optional)
-        * `enabled` - specifies whether pretty-printing is enabled (boolean, optional, default: true)
-        * `indentString` - indent string (string, optional, default: "\t")
-    * `convertMap` - maps object types (as given by the `Object.prototype.toString.call` method) to functions to convert
-      those objects to a particular string representation; `*` can be used as a wildcard for all types of objects
-      (object, optional, default: {})
-    * `arrayMap` - maps the names of arrays to the names of array elements. If an array name is listed in the map,
-      the element name will be used to wrap the array and each element will be named based on the mapped name
-      (object, optional, default: {})
-    * `useCDATA` - specifies whether strings should be enclosed in CDATA tags; otherwise, illegal XML characters will
-      be escaped (boolean, optional, default: false)
+You can also build the documentation using gulp:
+
+```
+gulp docs
+```
 
 ## Examples ##
 
 The following example illustrates the basic usage of js2xmlparser:
 
-    var js2xmlparser = require("js2xmlparser");
+```javascript
+var js2xmlparser = require("js2xmlparser");
 
-    var data = {
-        "firstName": "John",
-        "lastName": "Smith"
-    };
-
-    console.log(js2xmlparser("person", data));
-
-    > <?xml version="1.0" encoding="UTF-8"?>
-    > <person>
-    >     <firstName>John</firstName>
-    >     <lastName>Smith</lastName>
-    > </person>
-
-This is a more complex example that builds on the first:
-
-    var js2xmlparser = require("js2xmlparser");
-
-    var data = {
-        "@": {
-          "type": "individual"
+var obj = {
+    "firstName": "John",
+    "lastName": "Smith",
+    "dateOfBirth": new Date(1964, 7, 26),
+    "address": {
+        "__attr": {
+            "type": "home"
         },
-        "firstName": "John",
-        "lastName": "Smith",
-        "dateOfBirth": new Date(1964, 7, 26),
-        "address": {
-            "@": {
+        "streetAddress": "3212 22nd St",
+        "city": "Chicago",
+        "state": "Illinois",
+        "zip": 10000
+    },
+    "phone": [
+        {
+            "__attr": {
                 "type": "home"
             },
-            "streetAddress": "3212 22nd St",
-            "city": "Chicago",
-            "state": "Illinois",
-            "zip": 10000
+            "__val": "123-555-4567"
         },
-        "phone": [
-            {
-                "@": {
-                    "type": "home"
-                },
-                "#": "123-555-4567"
+        {
+            "__attr": {
+                "type": "cell"
             },
-            {
-                "@": {
-                    "type": "work"
-                },
-                "#": "789-555-4567"
-            },
-            {
-                "@": {
-                    "type": "cell"
-                },
-                "#": "456-555-7890"
-            }
-        ],
-        "email": function() {
-            return "john@smith.com";
+            "__val": "890-555-1234"
         },
-        "notes": "John's profile is not complete."
-    };
-
-    console.log(js2xmlparser("person", data));
-
-    > <?xml version="1.0" encoding="UTF-8"?>
-    > <person type="individual">
-    >     <firstName>John</firstName>
-    >     <lastName>Smith</lastName>
-    >     <dateOfBirth>Wed Aug 26 1964 00:00:00 GMT-0400 (Eastern Daylight Time)</dateOfBirth>
-    >     <address type="home">
-    >         <streetAddress>3212 22nd St</streetAddress>
-    >         <city>Chicago</city>
-    >         <state>Illinois</state>
-    >         <zip>10000</zip>
-    >     </address>
-    >     <phone type="home">123-555-4567</phone>
-    >     <phone type="work">789-555-4567</telephone>
-    >     <phone type="cell">456-555-7890</phone>
-    >     <email>john@smith.com</email>
-    >     <notes>John&apos;s profile is not complete.</notes>
-    > </person>
-
-This example uses the alias string feature:
-
-    var js2xmlparser = require("js2xmlparser");
-
-    var data = {
-        "telephone": [
-            "123-555-4567",
-            {
-                "#": "789-555-4567",
-                "=": "fax"
+        {
+            "__attr": {
+                "type": "work"
             },
-            "456-555-7890"
-        ]
-    };
-
-    console.log(js2xmlparser("person", data));
-
-    > <?xml version="1.0" encoding="UTF-8"?>
-    > <person>
-    >     <telephone>123-555-4567</telephone>
-    >     <fax>789-555-4567</fax>
-    >     <telephone>456-555-7890</telephone>
-    > </person>
-
-This example uses the convert map feature:
-
-    var js2xmlparser = require("js2xmlparser");
-
-    var data = {
-        "email": function() {
-            return "john@smith.com";
-        },
-        "dateOfBirth": new Date(1964, 7, 26)
-    }
-
-    var options = {
-        convertMap: {
-            "[object Date]": function(date) {
-                return date.toISOString();
-            },
-            "[object Function]": function(func) {
-                return func.toString();
-            }
+            "__val": "567-555-8901"
         }
-    };
+    ],
+    "email": "john@smith.com"
+};
 
-    console.log(js2xmlparser("person", data, options));
+console.log(js2xmlparser.parse("person", obj));
+```
 
-    > <?xml version="1.0" encoding="UTF-8"?>
-    > <person>
-    > 	  <email>function () {
-    >             return &quot;john@smith.com&quot;;
-    >         }</email>
-    > 	  <dateOfBirth>1964-08-26T05:00:00.000Z</dateOfBirth>
-    > </person>
+This example produces the following XML:
 
-This example uses the array map feature:
+```xml
+<?xml version='1.0'?>
+<person>
+    <firstName>John</firstName>
+    <lastName>Smith</lastName>
+    <dateOfBirth>Wed Aug 26 1964 00:00:00 GMT-0400 (Eastern Summer Time)</dateOfBirth>
+    <address type='home'>
+        <streetAddress>3212 22nd St</streetAddress>
+        <city>Chicago</city>
+        <state>Illinois</state>
+        <zip>10000</zip>
+    </address>
+    <phone type='home'>123-555-4567</phone>
+    <phone type='cell'>890-555-1234</phone>
+    <phone type='work'>567-555-8901</phone>
+    <email>john@smith.com</email>
+</person>
+```
 
-    var js2xmlparser = require("js2xmlparser");
-
-    var data = {
-        "firstName": "John",
-        "lastName": "Smith",
-        "nicknames": [
-            "Johnny", 
-            "Jon", 
-            "Jack"
-        ]
-    }
-
-    var options = {
-        arrayMap: {
-            nicknames: "name"
-        }
-    };
-
-    console.log(js2xmlparser("person", data, options));
-
-    > <?xml version="1.0" encoding="UTF-8"?>
-    > <person>
-    >     <firstName>John</firstName>
-    >     <lastName>Smith</lastName>
-    >     <nicknames>
-    >         <name>Johnny</name>
-    >         <name>Jon</name>
-    >         <name>Jack</name>
-    >     </nicknames>
-    > </person>
-
-This example wraps strings in CDATA tags instead of escaping invalid characters:
-
-    var js2xmlparser = require("js2xmlparser");
-
-    var data = {
-        "notes": {
-            "@": {
-                "type": "status"
-            },
-            "#": "John's profile is not complete."
-        }
-    };
-
-    var options = {
-        useCDATA: true
-    };
-
-    console.log(js2xmlparser("person", data, options));
-
-    > <?xml version="1.0" encoding="UTF-8"?>
-    > <person>
-    >     <notes type="status"><![CDATA[John's profile is not complete.]]></notes>
-    > </person>
+Additional examples can be found in examples/example.js.
 
 ## Tests ##
 
-js2xmlparser comes with a set of tests that evaluate and verify the package's core functionality. To run the tests:
+js2xmlparser includes a set of tests to verify core functionality. You can run
+the tests using gulp:
 
-* Install the test dependencies with `npm install`.
-* Run the tests with `mocha`.
+```
+gulp test
+```
+
+The `test` target builds the production variant of js2xmlparser before running
+the tests. The `test-prod` target does the same thing, while the `test-dev`
+target builds the development variant first instead.
 
 ## License ##
 
-j2xmlparser is licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0). Please see the 
-LICENSE.md file for more information.
+js2xmlparser is licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+Please see the LICENSE.md file for more information.

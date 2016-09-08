@@ -1,3 +1,10 @@
+## 2.0.0 ##
+
+* Re-write to use node-xmlcreate module
+* Add support for document type definitions
+* Add support for CDATA handlers
+* Standardize option formats 
+
 ## 1.0.0 ##
 
 * First stable release

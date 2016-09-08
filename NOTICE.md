@@ -1,2 +1,2 @@
 js2xmlparser  
-Copyright (C) 2012 Michael Kourlas and other contributors
+Copyright (C) 2016 Michael Kourlas
