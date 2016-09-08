@@ -472,7 +472,7 @@ describe("parser", () => {
                     "test17": () => null
                 };
                 let arraySetWrapHandlersOptions = {
-                    arraySetWrapHandlers: arraySetWrapHandlers,
+                    arraySetWrapHandlers,
                     decl: {
                         include: false
                     },
@@ -887,7 +887,7 @@ describe("parser", () => {
                     format: {
                         pretty: false
                     },
-                    typeHandlers: typeHandlers
+                    typeHandlers
                 };
 
                 let typeHandlersWildcard: ITypeHandlers = {

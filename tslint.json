@@ -5,6 +5,9 @@
       true,
       80
     ],
+    "object-literal-key-quotes": [
+      false
+    ],
     "one-line": [
       true,
       "check-catch",

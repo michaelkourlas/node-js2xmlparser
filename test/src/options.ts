@@ -58,15 +58,15 @@ describe("options", () => {
         describe("arraySetWrapHandlers", () => {
             it("should leave the specified property unchanged if valid", () => {
                 let arraySetWrapHandlers: IArraySetWrapHandlers = {
-                    "test1": function() {
+                    "test1": () => {
                         return "test2";
                     },
-                    "test3": function() {
+                    "test3": () => {
                         return "test4";
                     }
                 };
                 let options = {
-                    arraySetWrapHandlers: arraySetWrapHandlers
+                    arraySetWrapHandlers
                 };
                 let stringifiedOptions = JSON.stringify(
                     options.arraySetWrapHandlers);
@@ -338,15 +338,15 @@ describe("options", () => {
         describe("typeHandlers", () => {
             it("should leave the specified property unchanged if valid", () => {
                 let typeHandlers: ITypeHandlers = {
-                    "test1": function() {
+                    "test1": () => {
                         return "test2";
                     },
-                    "test3": function() {
+                    "test3": () => {
                         return "test4";
                     }
                 };
                 let options = {
-                    typeHandlers: typeHandlers
+                    typeHandlers
                 };
                 let stringifiedOptions = JSON.stringify(
                     options.typeHandlers);
