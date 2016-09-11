@@ -1,9 +1,35 @@
 ## 2.0.0 ##
 
-* Re-write to use node-xmlcreate module
-* Add support for document type definitions
-* Add support for CDATA handlers
-* Standardize option formats 
+* Re-write in TypeScript
+* Re-write to use xmlcreate (greatly simplifies module source)
+* Added support for the ECMAScript 2015 Map and Set objects
+* New method of calling module:
+  ```javascript
+  var js2xmlparser = require("js2xmlparser");
+
+  var root = "root";
+  var data = { hello: "world" };
+  var options = {};
+  
+  // old method (no longer works):
+  // js2xmlparser(root, data, options);
+  
+  // new method:
+  js2xmlparser.parse(root, data, options);
+  ```
+* New options and changes to functionality of some existing options:
+  * `declaration` contains additional options
+  * `attributeString` has additional functionality
+  * `valueString` has additional functionality
+  * The functionality provided by `prettyPrinting` is now provided by the new
+    `format` option, which contains additional options
+  * `arrayMap` is now `wrapHandlers` to reflect the fact that wrapping is 
+    provided for both arrays and ES2015 sets
+  * `convertMap` is now `typeHandlers` to match the name change to `arrayMap`
+  * The functionality provided by `useCDATA` is now provided by the new 
+    `cdataInvalidChars` and `cdataKeys` options, which also provide additional
+    functionality
+  * Added support for document type definitions using the `dtd` option
 
 ## 1.0.0 ##
 
