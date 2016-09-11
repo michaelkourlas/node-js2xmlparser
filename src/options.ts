@@ -27,7 +27,7 @@ export interface IOptions {
      * containing the object will be replaced with the value associated with
      * said key.
      *
-     * For example, if `alias` is `"="`, then the following object:
+     * For example, if `aliasString` is `"="`, then the following object:
      * ```javascript
      * {
      *     "abc": {
