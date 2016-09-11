@@ -1,3 +1,7 @@
+## 2.0.1 ##
+
+* Remove unnecessary development dependencies from npm shrinkwrap
+
 ## 2.0.0 ##
 
 * Re-write in TypeScript
