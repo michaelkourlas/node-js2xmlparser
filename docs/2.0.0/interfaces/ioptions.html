@@ -90,16 +90,16 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#alias" class="tsd-kind-icon">alias</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#arraysetwraphandlers" class="tsd-kind-icon">array<wbr>Set<wbr>Wrap<wbr>Handlers</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#attrprefix" class="tsd-kind-icon">attr<wbr>Prefix</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#cdata" class="tsd-kind-icon">cdata</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#aliasstring" class="tsd-kind-icon">alias<wbr>String</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#attributestring" class="tsd-kind-icon">attribute<wbr>String</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#cdatainvalidchars" class="tsd-kind-icon">cdata<wbr>Invalid<wbr>Chars</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#cdatakeys" class="tsd-kind-icon">cdata<wbr>Keys</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#decl" class="tsd-kind-icon">decl</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#declaration" class="tsd-kind-icon">declaration</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#dtd" class="tsd-kind-icon">dtd</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#format" class="tsd-kind-icon">format</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#typehandlers" class="tsd-kind-icon">type<wbr>Handlers</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#valprefix" class="tsd-kind-icon">val<wbr>Prefix</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#valuestring" class="tsd-kind-icon">value<wbr>String</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ioptions.html#wraphandlers" class="tsd-kind-icon">wrap<wbr>Handlers</a></li>
 							</ul>
 						</section>
 					</div>
@@ -108,9 +108,9 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="alias" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> alias</h3>
-					<div class="tsd-signature tsd-kind-icon">alias<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="aliasstring" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> alias<wbr>String</h3>
+					<div class="tsd-signature tsd-kind-icon">alias<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in options.ts:48</li>
@@ -119,14 +119,14 @@
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>If an object or map contains a key that, when converted to a string,
-								is equal to the value of <code>alias</code>, then the name of the XML element
+								is equal to the value of <code>aliasString</code>, then the name of the XML element
 								containing the object will be replaced with the value associated with
 							said key.</p>
 						</div>
-						<p>For example, if <code>alias</code> is <code>&quot;__alias&quot;</code>, then the following object:</p>
+						<p>For example, if <code>alias</code> is <code>&quot;=&quot;</code>, then the following object:</p>
 						<pre><code class="lang-javascript">{
     <span class="hljs-string">"abc"</span>: {
-        <span class="hljs-string">"__alias"</span>: <span class="hljs-string">"def"</span>
+        <span class="hljs-string">"="</span>: <span class="hljs-string">"def"</span>
         <span class="hljs-string">"__val"</span>: <span class="hljs-string">"ghi"</span>
     }
 }
@@ -136,94 +136,36 @@
     <span class="hljs-tag">&lt;<span class="hljs-name">def</span>&gt;</span>ghi<span class="hljs-tag">&lt;/<span class="hljs-name">def</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span>
 </code></pre>
-						<p>If left undefined, the default value is <code>&quot;__alias&quot;</code>.</p>
+						<p>If left undefined, the default value is <code>&quot;=&quot;</code>.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="arraysetwraphandlers" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> array<wbr>Set<wbr>Wrap<wbr>Handlers</h3>
-					<div class="tsd-signature tsd-kind-icon">array<wbr>Set<wbr>Wrap<wbr>Handlers<span class="tsd-signature-symbol">:</span> <a href="iarraysetwraphandlers.html" class="tsd-signature-type">IArraySetWrapHandlers</a></div>
+					<a name="attributestring" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> attribute<wbr>String</h3>
+					<div class="tsd-signature tsd-kind-icon">attribute<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.ts:103</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>If an object or map contains a key that, when converted to a string, is
-								equal to a key in <code>arraySetWrapHandlers</code>, and the key in said object or
-								map maps to an array or set, then all items in the array or set will be
-							wrapped in an XML element with the same name as the key.</p>
-						</div>
-						<p>The key in <code>arraySetWrapHandlers</code> must map to a function that is called
-							with the key name, as well as the array or set, as parameters. This
-							function must return a string, which will become the name for each XML
-							element for each item in the array or set. Alternatively, this function
-						may return <code>null</code> to indicate that no wrapping should occur.</p>
-						<p>For example, if <code>arraySetWrapHandlers</code> is:</p>
-						<pre><code class="lang-javascript">{
-    <span class="hljs-string">"abc"</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key, value</span>) </span>{
-        <span class="hljs-keyword">return</span> <span class="hljs-string">"def"</span>;
-    }
-}
-</code></pre>
-						<p>then the following object:</p>
-						<pre><code class="lang-javascript">{
-    <span class="hljs-string">"ghi"</span>: <span class="hljs-string">"jkl"</span>,
-    <span class="hljs-string">"mno"</span>: {
-        <span class="hljs-string">"pqr"</span>: [<span class="hljs-string">"s"</span>, <span class="hljs-string">"t"</span>]
-    },
-    <span class="hljs-string">"uvw"</span>: {
-        <span class="hljs-string">"abc"</span>: [<span class="hljs-string">"x"</span>, <span class="hljs-string">"y"</span>]
-    }
-}
-</code></pre>
-						<p>will result in the following XML for a root element named <code>&quot;root&quot;</code>:</p>
-						<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">root</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">ghi</span>&gt;</span>jkl<span class="hljs-tag">&lt;/<span class="hljs-name">ghi</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">mno</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">pqr</span>&gt;</span>s<span class="hljs-tag">&lt;/<span class="hljs-name">pqr</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">pqr</span>&gt;</span>t<span class="hljs-tag">&lt;/<span class="hljs-name">pqr</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">mno</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">uwv</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">abc</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">def</span>&gt;</span>x<span class="hljs-tag">&lt;/<span class="hljs-name">def</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">def</span>&gt;</span>y<span class="hljs-tag">&lt;/<span class="hljs-name">def</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">abc</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">uwv</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span>
-</code></pre>
-						<p>If <code>arraySetWrapHandlers</code> has a key named <code>&quot;*&quot;</code>, then that entry will
-						match all arrays and sets, unless there is a more specific entry.</p>
-						<p>If left undefined, the default value is an empty object.</p>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="attrprefix" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> attr<wbr>Prefix</h3>
-					<div class="tsd-signature tsd-kind-icon">attr<wbr>Prefix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in options.ts:137</li>
+							<li>Defined in options.ts:84</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>If an object or map contains a key that, when converted to a string,
-								begins with the value of <code>attrPrefix</code>, then the value mapped by said key
-								will be interpreted as attributes for the XML element for that object.
-								The attribute object must be an object containing keys that map to
-							strings.</p>
+								begins with the value of <code>attributeString</code>, then the value mapped by
+								said key will be interpreted as attributes for the XML element for that
+							object.</p>
 						</div>
-						<p>For example, if <code>attrPrefix</code> is <code>&quot;__attr&quot;</code>, then the following object:</p>
+						<p>The attribute object must be an object containing keys that map to
+						strings.</p>
+						<p>For example, if <code>attributeString</code> is <code>&quot;@&quot;</code>, then the following object:</p>
 						<pre><code class="lang-javascript">{
     <span class="hljs-string">"abc"</span>: {
-        <span class="hljs-string">"__attr1"</span>: {
+        <span class="hljs-string">"@1"</span>: {
             <span class="hljs-string">"ghi"</span>: <span class="hljs-string">"jkl"</span>,
             <span class="hljs-string">"mno"</span>: <span class="hljs-string">"pqr"</span>
         },
         <span class="hljs-string">"stu"</span>: <span class="hljs-string">"vwx"</span>,
-        <span class="hljs-string">"__attr2"</span>: {
+        <span class="hljs-string">"@2"</span>: {
             <span class="hljs-string">"yza"</span>: <span class="hljs-string">"bcd"</span>
         },
     }
@@ -236,23 +178,23 @@
     <span class="hljs-tag">&lt;/<span class="hljs-name">abc</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span>
 </code></pre>
-						<p>If left undefined, the default value is <code>&quot;__attr&quot;</code>.</p>
+						<p>If left undefined, the default value is <code>&quot;@&quot;</code>.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="cdata" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> cdata</h3>
-					<div class="tsd-signature tsd-kind-icon">cdata<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="cdatainvalidchars" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> cdata<wbr>Invalid<wbr>Chars</h3>
+					<div class="tsd-signature tsd-kind-icon">cdata<wbr>Invalid<wbr>Chars<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.ts:145</li>
+							<li>Defined in options.ts:92</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>If <code>cdata</code> is <code>true</code>, then any text containing the characters <code>&lt;</code> or <code>&amp;</code>
-								shall be enclosed in CDATA sections. Otherwise, those characters shall
-							be replaced with XML escape characters.</p>
+							<p>If <code>cdataInvalidChars</code> is <code>true</code>, then any text containing the
+								characters <code>&lt;</code> or <code>&amp;</code> shall be enclosed in CDATA sections. Otherwise,
+							those characters shall be replaced with XML escape characters.</p>
 						</div>
 						<p>If left undefined, the default value is <code>false</code>.</p>
 					</div>
@@ -263,7 +205,7 @@
 					<div class="tsd-signature tsd-kind-icon">cdata<wbr>Keys<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.ts:179</li>
+							<li>Defined in options.ts:126</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -297,12 +239,12 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="decl" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> decl</h3>
-					<div class="tsd-signature tsd-kind-icon">decl<span class="tsd-signature-symbol">:</span> <a href="ideclarationoptions.html" class="tsd-signature-type">IDeclarationOptions</a></div>
+					<a name="declaration" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> declaration</h3>
+					<div class="tsd-signature tsd-kind-icon">declaration<span class="tsd-signature-symbol">:</span> <a href="ideclarationoptions.html" class="tsd-signature-type">IDeclarationOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.ts:183</li>
+							<li>Defined in options.ts:130</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -317,7 +259,7 @@
 					<div class="tsd-signature tsd-kind-icon">dtd<span class="tsd-signature-symbol">:</span> <a href="idtdoptions.html" class="tsd-signature-type">IDtdOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.ts:187</li>
+							<li>Defined in options.ts:134</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -329,10 +271,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="format" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> format</h3>
-					<div class="tsd-signature tsd-kind-icon">format<span class="tsd-signature-symbol">:</span> <a href="iformattingoptions.html" class="tsd-signature-type">IFormattingOptions</a></div>
+					<div class="tsd-signature tsd-kind-icon">format<span class="tsd-signature-symbol">:</span> <a href="iformatoptions.html" class="tsd-signature-type">IFormatOptions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.ts:191</li>
+							<li>Defined in options.ts:138</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -347,7 +289,7 @@
 					<div class="tsd-signature tsd-kind-icon">type<wbr>Handlers<span class="tsd-signature-symbol">:</span> <a href="itypehandlers.html" class="tsd-signature-type">ITypeHandlers</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.ts:227</li>
+							<li>Defined in options.ts:174</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -382,28 +324,28 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="valprefix" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> val<wbr>Prefix</h3>
-					<div class="tsd-signature tsd-kind-icon">val<wbr>Prefix<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="valuestring" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> value<wbr>String</h3>
+					<div class="tsd-signature tsd-kind-icon">value<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in options.ts:254</li>
+							<li>Defined in options.ts:201</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>If an object or map contains a key that, when converted to a string,
-								begins with the value of <code>valPrefix</code>, then the value mapped by said key
+								begins with the value of <code>valueString</code>, then the value mapped by said key
 								will be represented as bare text within the XML element for that object.
 								The value must be a primitive (string, number, boolean, null, or
 							undefined).</p>
 						</div>
-						<p>For example, if <code>valPrefix</code> is <code>&quot;__val&quot;</code>, then the following object:</p>
-						<pre><code class="lang-javascript">{
-   <span class="hljs-string">"__val1"</span>: <span class="hljs-string">"abc"</span>,
-   <span class="hljs-string">"def"</span>: <span class="hljs-string">"ghi"</span>,
-   <span class="hljs-string">"__val2"</span>: <span class="hljs-string">"jkl"</span>
-}
+						<p>For example, if <code>valueString</code> is <code>&quot;#&quot;</code>, then the following object:</p>
+						<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> <span class="hljs-built_in">Map</span>([
+    [<span class="hljs-string">"#1"</span>, <span class="hljs-string">"abc"</span>],
+    [<span class="hljs-string">"def"</span>, <span class="hljs-string">"ghi"</span>],
+    [<span class="hljs-string">"#2"</span>, <span class="hljs-string">"jkl"</span>]
+])
 </code></pre>
 						<p>will result in the following XML for a root element named <code>&quot;root&quot;</code>:</p>
 						<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">root</span>&gt;</span>
@@ -412,7 +354,66 @@
     jkl
 <span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span>
 </code></pre>
-						<p>If left undefined, the default value is <code>&quot;__val&quot;</code>.</p>
+						<p>If left undefined, the default value is <code>&quot;#&quot;</code>.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="wraphandlers" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> wrap<wbr>Handlers</h3>
+					<div class="tsd-signature tsd-kind-icon">wrap<wbr>Handlers<span class="tsd-signature-symbol">:</span> <a href="iwraphandlers.html" class="tsd-signature-type">IWrapHandlers</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in options.ts:256</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>If an object or map contains a key that, when converted to a string, is
+								equal to a key in <code>wrapHandlers</code>, and the key in said object or map maps
+								to an array or set, then all items in the array or set will be wrapped
+							in an XML element with the same name as the key.</p>
+						</div>
+						<p>The key in <code>wrapHandlers</code> must map to a function that is called with the
+							key name, as well as the array or set, as parameters. This function must
+							return a string, which will become the name for each XML element for
+							each item in the array or set. Alternatively, this function may return
+						<code>null</code> to indicate that no wrapping should occur.</p>
+						<p>For example, if <code>wrapHandlers</code> is:</p>
+						<pre><code class="lang-javascript">{
+    <span class="hljs-string">"abc"</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key, value</span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"def"</span>;
+    }
+}
+</code></pre>
+						<p>then the following object:</p>
+						<pre><code class="lang-javascript">{
+    <span class="hljs-string">"ghi"</span>: <span class="hljs-string">"jkl"</span>,
+    <span class="hljs-string">"mno"</span>: {
+        <span class="hljs-string">"pqr"</span>: [<span class="hljs-string">"s"</span>, <span class="hljs-string">"t"</span>]
+    },
+    <span class="hljs-string">"uvw"</span>: {
+        <span class="hljs-string">"abc"</span>: [<span class="hljs-string">"x"</span>, <span class="hljs-string">"y"</span>]
+    }
+}
+</code></pre>
+						<p>will result in the following XML for a root element named <code>&quot;root&quot;</code>:</p>
+						<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">root</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ghi</span>&gt;</span>jkl<span class="hljs-tag">&lt;/<span class="hljs-name">ghi</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">mno</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">pqr</span>&gt;</span>s<span class="hljs-tag">&lt;/<span class="hljs-name">pqr</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">pqr</span>&gt;</span>t<span class="hljs-tag">&lt;/<span class="hljs-name">pqr</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">mno</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">uwv</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">abc</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">def</span>&gt;</span>x<span class="hljs-tag">&lt;/<span class="hljs-name">def</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">def</span>&gt;</span>y<span class="hljs-tag">&lt;/<span class="hljs-name">def</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">abc</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">uwv</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">root</span>&gt;</span>
+</code></pre>
+						<p>If <code>wrapHandlers</code> has a key named <code>&quot;*&quot;</code>, then that entry will
+						match all arrays and sets, unless there is a more specific entry.</p>
+						<p>If left undefined, the default value is an empty object.</p>
 					</div>
 				</section>
 			</section>
@@ -428,16 +429,13 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface">
-						<a href="iarraysetwraphandlers.html" class="tsd-kind-icon">IArray<wbr>Set<wbr>Wrap<wbr>Handlers</a>
-					</li>
-					<li class=" tsd-kind-interface">
 						<a href="ideclarationoptions.html" class="tsd-kind-icon">IDeclaration<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="idtdoptions.html" class="tsd-kind-icon">IDtd<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="iformattingoptions.html" class="tsd-kind-icon">IFormatting<wbr>Options</a>
+						<a href="iformatoptions.html" class="tsd-kind-icon">IFormat<wbr>Options</a>
 					</li>
 				</ul>
 				<ul class="current">
@@ -445,22 +443,19 @@
 						<a href="ioptions.html" class="tsd-kind-icon">IOptions</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ioptions.html#alias" class="tsd-kind-icon">alias</a>
+								<a href="ioptions.html#aliasstring" class="tsd-kind-icon">alias<wbr>String</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ioptions.html#arraysetwraphandlers" class="tsd-kind-icon">array<wbr>Set<wbr>Wrap<wbr>Handlers</a>
+								<a href="ioptions.html#attributestring" class="tsd-kind-icon">attribute<wbr>String</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ioptions.html#attrprefix" class="tsd-kind-icon">attr<wbr>Prefix</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ioptions.html#cdata" class="tsd-kind-icon">cdata</a>
+								<a href="ioptions.html#cdatainvalidchars" class="tsd-kind-icon">cdata<wbr>Invalid<wbr>Chars</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="ioptions.html#cdatakeys" class="tsd-kind-icon">cdata<wbr>Keys</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ioptions.html#decl" class="tsd-kind-icon">decl</a>
+								<a href="ioptions.html#declaration" class="tsd-kind-icon">declaration</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="ioptions.html#dtd" class="tsd-kind-icon">dtd</a>
@@ -472,7 +467,10 @@
 								<a href="ioptions.html#typehandlers" class="tsd-kind-icon">type<wbr>Handlers</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="ioptions.html#valprefix" class="tsd-kind-icon">val<wbr>Prefix</a>
+								<a href="ioptions.html#valuestring" class="tsd-kind-icon">value<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="ioptions.html#wraphandlers" class="tsd-kind-icon">wrap<wbr>Handlers</a>
 							</li>
 						</ul>
 					</li>
@@ -480,6 +478,9 @@
 				<ul class="after-current">
 					<li class=" tsd-kind-interface">
 						<a href="itypehandlers.html" class="tsd-kind-icon">IType<wbr>Handlers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="iwraphandlers.html" class="tsd-kind-icon">IWrap<wbr>Handlers</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-private">
 						<a href="../globals.html#istype" class="tsd-kind-icon">is<wbr>Type</a>
@@ -512,9 +513,6 @@
 						<a href="../globals.html#stringify" class="tsd-kind-icon">stringify</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
-						<a href="../globals.html#validatearraysetwraphandlers" class="tsd-kind-icon">validate<wbr>Array<wbr>Set<wbr>Wrap<wbr>Handlers</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
 						<a href="../globals.html#validatecdatakeys" class="tsd-kind-icon">validate<wbr>Cdata<wbr>Keys</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
@@ -528,6 +526,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
 						<a href="../globals.html#validatetypehandlers" class="tsd-kind-icon">validate<wbr>Type<wbr>Handlers</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+						<a href="../globals.html#validatewraphandlers" class="tsd-kind-icon">validate<wbr>Wrap<wbr>Handlers</a>
 					</li>
 					<li class=" tsd-kind-object-literal tsd-is-private tsd-is-not-exported">
 						<a href="../globals.html#defaults" class="tsd-kind-icon">defaults</a>
