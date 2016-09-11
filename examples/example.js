@@ -41,7 +41,7 @@ var example2 = function() {
         "lastName": "Smith",
         "dateOfBirth": new Date(1964, 7, 26),
         "address": {
-            "__attr": {
+            "@": {
                 "type": "home"
             },
             "streetAddress": "3212 22nd St",
@@ -51,22 +51,22 @@ var example2 = function() {
         },
         "phone": [
             {
-                "__attr": {
+                "@": {
                     "type": "home"
                 },
-                "__val": "123-555-4567"
+                "#": "123-555-4567"
             },
             {
-                "__attr": {
+                "@": {
                     "type": "cell"
                 },
-                "__val": "890-555-1234"
+                "#": "890-555-1234"
             },
             {
-                "__attr": {
+                "@": {
                     "type": "work"
                 },
-                "__val": "567-555-8901"
+                "#": "567-555-8901"
             }
         ],
         "email": "john@smith.com"
@@ -81,18 +81,13 @@ example2();
  */
 var example3 = function() {
     var options = {
-        alias: "exAlias",
-        arrayHandlers: {
-            "exArr": function() {
-                return "exArrInner";
-            }
-        },
-        attrPrefix: "exAttr",
+        aliasString: "exAlias",
+        attributeString: "exAttr",
         cdataKeys: [
             "exCdata",
             "exCdata2"
         ],
-        decl: {
+        declaration: {
             include: true,
             encoding: "UTF-16",
             standalone: "yes",
@@ -115,7 +110,12 @@ var example3 = function() {
                 return value + 17;
             }
         },
-        valPrefix: "exVal"
+        valueString: "exVal",
+        wrapHandlers: {
+            "exArr": function() {
+                return "exArrInner";
+            }
+        }
     };
 
     var obj = {

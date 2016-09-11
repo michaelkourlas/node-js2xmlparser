@@ -15,35 +15,35 @@
  */
 
 import {
-    IArraySetWrapHandlers,
     ITypeHandlers,
+    IWrapHandlers,
     validateOptions
 } from "../../lib/options";
 import {assert} from "chai";
 
 describe("options", () => {
     describe("#validateOptions", () => {
-        describe("alias", () => {
+        describe("aliasString", () => {
             it("should leave the specified property unchanged if valid", () => {
                 let options = {
-                    alias: "__alias"
+                    aliasString: "="
                 };
-                let originalOptions = options.alias;
+                let originalOptions = options.aliasString;
                 assert.strictEqual(
-                    validateOptions(options).alias,
+                    validateOptions(options).aliasString,
                     originalOptions);
 
-                options.alias = "test";
-                originalOptions = options.alias;
+                options.aliasString = "test";
+                originalOptions = options.aliasString;
                 assert.strictEqual(
-                    validateOptions(options).alias,
+                    validateOptions(options).aliasString,
                     originalOptions);
             });
 
             it("should throw an error if the value of the property is"
                + " invalid", () => {
                 let options: any = {
-                    alias: null
+                    aliasString: null
                 };
                 assert.throws(() => validateOptions(options));
             });
@@ -51,50 +51,31 @@ describe("options", () => {
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 let options = {};
-                assert.strictEqual(validateOptions(options).alias, "__alias");
+                assert.strictEqual(validateOptions(options).aliasString, "=");
             });
         });
 
-        describe("arraySetWrapHandlers", () => {
+        describe("attributeString", () => {
             it("should leave the specified property unchanged if valid", () => {
-                let arraySetWrapHandlers: IArraySetWrapHandlers = {
-                    "test1": () => {
-                        return "test2";
-                    },
-                    "test3": () => {
-                        return "test4";
-                    }
-                };
                 let options = {
-                    arraySetWrapHandlers
+                    attributeString: "@"
                 };
-                let stringifiedOptions = JSON.stringify(
-                    options.arraySetWrapHandlers);
+                let stringifiedOptions = options.attributeString;
                 assert.strictEqual(
-                    JSON.stringify(
-                        validateOptions(options).arraySetWrapHandlers),
+                    validateOptions(options).attributeString,
                     stringifiedOptions);
 
-                options.arraySetWrapHandlers = {};
-                stringifiedOptions = JSON.stringify(
-                    options.arraySetWrapHandlers);
+                options.attributeString = "test";
+                stringifiedOptions = options.attributeString;
                 assert.strictEqual(
-                    JSON.stringify(
-                        validateOptions(options).arraySetWrapHandlers),
+                    validateOptions(options).attributeString,
                     stringifiedOptions);
             });
 
             it("should throw an error if the value of the property is"
                + " invalid", () => {
                 let options: any = {
-                    arraySetWrapHandlers: null
-                };
-                assert.throws(() => validateOptions(options));
-
-                options = {
-                    arraySetWrapHandlers: {
-                        "test": null
-                    }
+                    attributeString: null
                 };
                 assert.throws(() => validateOptions(options));
             });
@@ -102,67 +83,32 @@ describe("options", () => {
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 let options = {};
-                assert.strictEqual(
-                    JSON.stringify(validateOptions(
-                        options).arraySetWrapHandlers),
-                    JSON.stringify({}));
+                assert.strictEqual(validateOptions(options).attributeString,
+                                   "@");
             });
         });
 
-        describe("attrPrefix", () => {
+        describe("cdataInvalidChars", () => {
             it("should leave the specified property unchanged if valid", () => {
                 let options = {
-                    attrPrefix: "__attr"
+                    cdataInvalidChars: false
                 };
-                let stringifiedOptions = options.attrPrefix;
+                let originalOptions = options.cdataInvalidChars;
                 assert.strictEqual(
-                    validateOptions(options).attrPrefix,
-                    stringifiedOptions);
-
-                options.attrPrefix = "test";
-                stringifiedOptions = options.attrPrefix;
-                assert.strictEqual(
-                    validateOptions(options).attrPrefix,
-                    stringifiedOptions);
-            });
-
-            it("should throw an error if the value of the property is"
-               + " invalid", () => {
-                let options: any = {
-                    attrPrefix: null
-                };
-                assert.throws(() => validateOptions(options));
-            });
-
-            it("should return a validated version of the specified property"
-               + " if undefined", () => {
-                let options = {};
-                assert.strictEqual(validateOptions(options).attrPrefix,
-                                   "__attr");
-            });
-        });
-
-        describe("cdata", () => {
-            it("should leave the specified property unchanged if valid", () => {
-                let options = {
-                    cdata: false
-                };
-                let originalOptions = options.cdata;
-                assert.strictEqual(
-                    validateOptions(options).cdata,
+                    validateOptions(options).cdataInvalidChars,
                     originalOptions);
 
-                options.cdata = true;
-                originalOptions = options.cdata;
+                options.cdataInvalidChars = true;
+                originalOptions = options.cdataInvalidChars;
                 assert.strictEqual(
-                    validateOptions(options).cdata,
+                    validateOptions(options).cdataInvalidChars,
                     originalOptions);
             });
 
             it("should throw an error if the value of the property is"
                + " invalid", () => {
                 let options: any = {
-                    cdata: null
+                    cdataInvalidChars: null
                 };
                 assert.throws(() => validateOptions(options));
             });
@@ -170,7 +116,7 @@ describe("options", () => {
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 let options = {};
-                assert.strictEqual(validateOptions(options).cdata,
+                assert.strictEqual(validateOptions(options).cdataInvalidChars,
                                    false);
             });
         });
@@ -195,12 +141,12 @@ describe("options", () => {
             it("should throw an error if the value of the property is"
                + " invalid", () => {
                 let options: any = {
-                    cdata: null
+                    cdataKeys: null
                 };
                 assert.throws(() => validateOptions(options));
 
                 options = {
-                    cdata: [false]
+                    cdataKeys: [false]
                 };
                 assert.throws(() => validateOptions(options));
             });
@@ -214,38 +160,38 @@ describe("options", () => {
             });
         });
 
-        describe("decl", () => {
+        describe("declaration", () => {
             it("should leave the specified property unchanged if valid", () => {
                 let options = {
-                    decl: {
+                    declaration: {
                         include: true
                     }
                 };
-                let stringifiedOptions = JSON.stringify(options.decl);
+                let stringifiedOptions = JSON.stringify(options.declaration);
                 assert.strictEqual(
-                    JSON.stringify(validateOptions(options).decl),
+                    JSON.stringify(validateOptions(options).declaration),
                     stringifiedOptions);
 
-                options.decl = {
+                options.declaration = {
                     include: false
                 };
-                stringifiedOptions = JSON.stringify(options.decl);
+                stringifiedOptions = JSON.stringify(options.declaration);
                 assert.strictEqual(
-                    JSON.stringify(validateOptions(options).decl),
+                    JSON.stringify(validateOptions(options).declaration),
                     stringifiedOptions);
             });
 
             it("should throw an error if the specified options object"
                + " contains invalid options", () => {
                 let options: any = {
-                    decl: {
+                    declaration: {
                         include: null
                     }
                 };
                 assert.throws(() => validateOptions(options));
 
                 options = {
-                    decl: null
+                    declaration: null
                 };
                 assert.throws(() => validateOptions(options));
             });
@@ -255,7 +201,7 @@ describe("options", () => {
                 let options = {};
                 let validatedOptions = validateOptions(options);
                 assert.strictEqual(
-                    JSON.stringify(validatedOptions.decl),
+                    JSON.stringify(validatedOptions.declaration),
                     JSON.stringify({include: true}));
             });
         });
@@ -389,27 +335,27 @@ describe("options", () => {
             });
         });
 
-        describe("valPrefix", () => {
+        describe("valueString", () => {
             it("should leave the specified property unchanged if valid", () => {
                 let options = {
-                    valPrefix: "__val"
+                    valueString: "#"
                 };
-                let originalOptions = options.valPrefix;
+                let originalOptions = options.valueString;
                 assert.strictEqual(
-                    validateOptions(options).valPrefix,
+                    validateOptions(options).valueString,
                     originalOptions);
 
-                options.valPrefix = "test";
-                originalOptions = options.valPrefix;
+                options.valueString = "test";
+                originalOptions = options.valueString;
                 assert.strictEqual(
-                    validateOptions(options).valPrefix,
+                    validateOptions(options).valueString,
                     originalOptions);
             });
 
             it("should throw an error if the value of the property is"
                + " invalid", () => {
                 let options: any = {
-                    valPrefix: null
+                    valueString: null
                 };
                 assert.throws(() => validateOptions(options));
             });
@@ -417,8 +363,62 @@ describe("options", () => {
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 let options = {};
-                assert.strictEqual(validateOptions(options).valPrefix,
-                                   "__val");
+                assert.strictEqual(validateOptions(options).valueString,
+                                   "#");
+            });
+        });
+
+        describe("wrapHandlers", () => {
+            it("should leave the specified property unchanged if valid", () => {
+                let wrapHandlers: IWrapHandlers = {
+                    "test1": () => {
+                        return "test2";
+                    },
+                    "test3": () => {
+                        return "test4";
+                    }
+                };
+                let options = {
+                    wrapHandlers
+                };
+                let stringifiedOptions = JSON.stringify(
+                    options.wrapHandlers);
+                assert.strictEqual(
+                    JSON.stringify(
+                        validateOptions(options).wrapHandlers),
+                    stringifiedOptions);
+
+                options.wrapHandlers = {};
+                stringifiedOptions = JSON.stringify(
+                    options.wrapHandlers);
+                assert.strictEqual(
+                    JSON.stringify(
+                        validateOptions(options).wrapHandlers),
+                    stringifiedOptions);
+            });
+
+            it("should throw an error if the value of the property is"
+               + " invalid", () => {
+                let options: any = {
+                    wrapHandlers: null
+                };
+                assert.throws(() => validateOptions(options));
+
+                options = {
+                    wrapHandlers: {
+                        "test": null
+                    }
+                };
+                assert.throws(() => validateOptions(options));
+            });
+
+            it("should return a validated version of the specified property"
+               + " if undefined", () => {
+                let options = {};
+                assert.strictEqual(
+                    JSON.stringify(validateOptions(
+                        options).wrapHandlers),
+                    JSON.stringify({}));
             });
         });
     });

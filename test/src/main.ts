@@ -15,13 +15,13 @@
  */
 
 import {parse} from "../../lib/main";
-import {IArraySetWrapHandlers, ITypeHandlers} from "../../lib/options";
+import {IOptions, ITypeHandlers, IWrapHandlers} from "../../lib/options";
 import {isType} from "../../lib/utils";
 import {assert} from "chai";
 import "es6-shim";
 
-const simpleOptions = {
-    decl: {
+const simpleOptions: IOptions = {
+    declaration: {
         include: false
     },
     format: {
@@ -317,10 +317,10 @@ describe("parser", () => {
         });
 
         describe("options", () => {
-            describe("alias", () => {
-                let aliasOptions = {
-                    alias: "_customAliasString",
-                    decl: {
+            describe("aliasString", () => {
+                let aliasStringOptions: IOptions = {
+                    aliasString: "_customAliasString",
+                    declaration: {
                         include: false
                     },
                     format: {
@@ -328,15 +328,16 @@ describe("parser", () => {
                     }
                 };
 
-                it("should correctly handle use of the alias option", () => {
+                it("should correctly handle use of the aliasString"
+                   + " option", () => {
                     assert.strictEqual(parse("root", {
-                        "__alias": "testRoot",
+                        "=": "testRoot",
                         "test1": "test2",
                         "test3": "test4"
                     }, simpleOptions), "<testRoot><test1>test2</test1>"
                                        + "<test3>test4</test3></testRoot>");
                     assert.strictEqual(parse("root", new Map([
-                        <[string, string]> ["__alias", "testRoot"],
+                        <[string, string]> ["=", "testRoot"],
                         <[string, string]> ["test1", "test2"],
                         <[string, string]> ["test3", "test4"]
                     ]), simpleOptions), "<testRoot><test1>test2</test1>"
@@ -347,11 +348,11 @@ describe("parser", () => {
                             {
                                 "test1": "test2",
                                 "test3": {
-                                    "__alias": "test4",
+                                    "=": "test4",
                                     "test5": "test6"
                                 },
                                 "test7": new Map([
-                                    <[string, string]> ["__alias", "test8"],
+                                    <[string, string]> ["=", "test8"],
                                     <[string, string]> ["test9", "test10"]
                                 ])
                             }, simpleOptions),
@@ -364,11 +365,11 @@ describe("parser", () => {
                             new Map([
                                 <[string, string]> ["test1", "test2"],
                                 <[string, any]> ["test3", {
-                                    "__alias": "test4",
+                                    "=": "test4",
                                     "test5": "test6"
                                 }],
                                 <[string, any]> ["test7", new Map([
-                                    <[string, string]> ["__alias", "test8"],
+                                    <[string, string]> ["=", "test8"],
                                     <[string, string]> ["test9", "test10"]
                                 ])]
                             ]), simpleOptions),
@@ -380,23 +381,23 @@ describe("parser", () => {
                             "root",
                             [
                                 {
-                                    "__alias": "test1",
+                                    "=": "test1",
                                     "test2": "test3"
                                 },
                                 new Map([
-                                    <[string, string]> ["__alias", "test4"],
+                                    <[string, string]> ["=", "test4"],
                                     <[string, string]> ["test5", "test6"]
                                 ]),
                                 {
                                     "test7": "test8",
                                     "test9": [
                                         {
-                                            "__alias": "test10",
+                                            "=": "test10",
                                             "test11": "test12"
                                         },
                                         new Map([
                                             <[string, string]>
-                                                ["__alias", "test13"],
+                                                ["=", "test13"],
                                             <[string, string]>
                                                 ["test14", "test15"]
                                         ])
@@ -415,23 +416,23 @@ describe("parser", () => {
                             "root",
                             new Set([
                                 {
-                                    "__alias": "test1",
+                                    "=": "test1",
                                     "test2": "test3"
                                 },
                                 new Map([
-                                    <[string, string]> ["__alias", "test4"],
+                                    <[string, string]> ["=", "test4"],
                                     <[string, string]> ["test5", "test6"]
                                 ]),
                                 {
                                     "test7": "test8",
                                     "test9": new Set([
                                         {
-                                            "__alias": "test10",
+                                            "=": "test10",
                                             "test11": "test12"
                                         },
                                         new Map([
                                             <[string, string]>
-                                                ["__alias", "test13"],
+                                                ["=", "test13"],
                                             <[string, string]>
                                                 ["test14", "test15"]
                                         ])
@@ -456,24 +457,17 @@ describe("parser", () => {
                                     "test6": "test7"
                                 }
                             },
-                            aliasOptions
+                            aliasStringOptions
                         ),
                         "<test1><test2>test3</test2><test5><test6>test7"
                         + "</test6></test5></test1>");
                 });
             });
 
-            describe("arraySetWrapHandlers", () => {
-                let arraySetWrapHandlers: IArraySetWrapHandlers = {
-                    "test1": () => "test2",
-                    "test3": (key: string, value: any) =>
-                    "test4" + key + (isType(value, "Set")
-                        ? value.values().next().value : value[0]),
-                    "test17": () => null
-                };
-                let arraySetWrapHandlersOptions = {
-                    arraySetWrapHandlers,
-                    decl: {
+            describe("attributeString", () => {
+                let attributeStringOptions: IOptions = {
+                    attributeString: "attributeString",
+                    declaration: {
                         include: false
                     },
                     format: {
@@ -481,123 +475,13 @@ describe("parser", () => {
                     }
                 };
 
-                let arraySetWrapHandlersWildcard: IArraySetWrapHandlers = {
-                    "test1": () => "test2",
-                    "test3": (key: string, value: any) =>
-                    "test4" + key + (isType(value, "Set")
-                        ? value.values().next().value : value[0]),
-                    "*": () => "test5"
-                };
-                let arraySetWrapHandlersWildcardOptions = {
-                    arraySetWrapHandlers: arraySetWrapHandlersWildcard,
-                    decl: {
-                        include: false
-                    },
-                    format: {
-                        pretty: false
-                    }
-                };
-
-                it("should correctly handle use of the arraySetWrapHandlers"
+                it("should correctly handle use of the attributeString"
                    + " option", () => {
                     assert.strictEqual(
                         parse(
                             "root",
                             {
-                                "test1": [
-                                    "test6",
-                                    "test7"
-                                ],
-                                "test3": new Set([
-                                    "test8",
-                                    "test9"
-                                ]),
-                                "test10": new Map([
-                                    <[string, any]> ["test1", [
-                                        "test11",
-                                        "test12"
-                                    ]],
-                                    <[string, any]> ["test3", new Set([
-                                        "test13",
-                                        "test14"
-                                    ])]
-                                ]),
-                                "test17": [
-                                    "test18",
-                                    "test19"
-                                ]
-                            },
-                            arraySetWrapHandlersOptions),
-                        "<root><test1><test2>test6</test2><test2>test7</test2>"
-                        + "</test1><test3>"
-                        + "<test4test3test8>test8</test4test3test8>"
-                        + "<test4test3test8>test9</test4test3test8></test3>"
-                        + "<test10><test1><test2>test11</test2>"
-                        + "<test2>test12</test2></test1><test3>"
-                        + "<test4test3test13>test13</test4test3test13>"
-                        + "<test4test3test13>test14</test4test3test13></test3>"
-                        + "</test10><test17>test18</test17>"
-                        + "<test17>test19</test17></root>");
-
-                    assert.strictEqual(
-                        parse(
-                            "root",
-                            {
-                                "test1": [
-                                    "test6",
-                                    "test7"
-                                ],
-                                "test3": new Set([
-                                    "test8",
-                                    "test9"
-                                ]),
-                                "test10": new Map([
-                                    <[string, any]> ["test1", [
-                                        "test11",
-                                        "test12"
-                                    ]],
-                                    <[string, any]> ["test3", new Set([
-                                        "test13",
-                                        "test14"
-                                    ])]
-                                ]),
-                                "test17": [
-                                    "test18",
-                                    "test19"
-                                ]
-                            },
-                            arraySetWrapHandlersWildcardOptions),
-                        "<root><test1><test2>test6</test2><test2>test7</test2>"
-                        + "</test1><test3>"
-                        + "<test4test3test8>test8</test4test3test8>"
-                        + "<test4test3test8>test9</test4test3test8></test3>"
-                        + "<test10><test1><test2>test11</test2>"
-                        + "<test2>test12</test2></test1><test3>"
-                        + "<test4test3test13>test13</test4test3test13>"
-                        + "<test4test3test13>test14</test4test3test13></test3>"
-                        + "</test10><test17><test5>test18</test5><test5>"
-                        + "test19</test5></test17></root>");
-                });
-            });
-
-            describe("attrPrefix", () => {
-                let attrPrefixOptions = {
-                    attrPrefix: "attrPrefix",
-                    decl: {
-                        include: false
-                    },
-                    format: {
-                        pretty: false
-                    }
-                };
-
-                it("should correctly handle use of the attrPrefix"
-                   + " option", () => {
-                    assert.strictEqual(
-                        parse(
-                            "root",
-                            {
-                                "__attr": {
+                                "@": {
                                     "test1": "test2",
                                     "test3": "test4"
                                 }
@@ -612,7 +496,7 @@ describe("parser", () => {
                             "root",
                             {
                                 "test5": {
-                                    "__attr": {
+                                    "@": {
                                         "test1": "test2",
                                         "test3": "test4"
                                     },
@@ -625,33 +509,30 @@ describe("parser", () => {
                         + "test7</test6></test5></root>"
                     );
 
-                    assert.strictEqual(
+                    assert.throws(() => {
                         parse(
                             "root",
                             {
-                                "attrPrefix": {
+                                "attributeString": {
                                     "test1": "test2",
                                     "test3": "test4"
                                 },
                                 "test5": {
-                                    "__attr": {
+                                    "@": {
                                         "test1": "test2",
                                         "test3": "test4"
                                     }
                                 }
                             },
-                            attrPrefixOptions
-                        ),
-                        "<root test1='test2' test3='test4'><test5><__attr>"
-                        + "<test1>test2</test1><test3>test4</test3></__attr>"
-                        + "</test5></root>"
-                    );
+                            attributeStringOptions
+                        );
+                    });
 
                     assert.throws(() => {
                         parse(
                             "root",
                             {
-                                "__attr": "test"
+                                "@": "test"
                             },
                             simpleOptions
                         );
@@ -661,7 +542,7 @@ describe("parser", () => {
                         parse(
                             "root",
                             {
-                                "__attr": {
+                                "@": {
                                     "test": 3
                                 }
                             },
@@ -671,10 +552,10 @@ describe("parser", () => {
                 });
             });
 
-            describe("cdata", () => {
-                let cdataOptions = {
-                    cdata: true,
-                    decl: {
+            describe("cdataInvalidChars", () => {
+                let cdataInvalidCharsOptions: IOptions = {
+                    cdataInvalidChars: true,
+                    declaration: {
                         include: false
                     },
                     format: {
@@ -682,7 +563,8 @@ describe("parser", () => {
                     }
                 };
 
-                it("should correctly handle use of the cdata option", () => {
+                it("should correctly handle use of the cdataInvalidChars"
+                   + " option", () => {
                     assert.strictEqual(
                         parse(
                             "root",
@@ -705,7 +587,7 @@ describe("parser", () => {
                                 "test2": "c<d",
                                 "test3": "a&b<c]]>d&e<f]]>cdata_not_required"
                             },
-                            cdataOptions
+                            cdataInvalidCharsOptions
                         ),
                         "<root><test1><![CDATA[a&b]]></test1><test2>"
                         + "<![CDATA[c<d]]></test2><test3><![CDATA[a&b<c]]>]]>"
@@ -716,23 +598,23 @@ describe("parser", () => {
             });
 
             describe("cdataKeys", () => {
-                let cdataKeysOptions = {
+                let cdataKeysOptions: IOptions = {
                     cdataKeys: [
                         "test1"
                     ],
-                    decl: {
+                    declaration: {
                         include: false
                     },
                     format: {
                         pretty: false
                     }
                 };
-                let cdataKeysWildcardOptions = {
+                let cdataKeysWildcardOptions: IOptions = {
                     cdataKeys: [
                         "test1",
                         "*"
                     ],
-                    decl: {
+                    declaration: {
                         include: false
                     },
                     format: {
@@ -790,9 +672,9 @@ describe("parser", () => {
                 });
             });
 
-            describe("decl", () => {
-                let declOptions = {
-                    decl: {
+            describe("declaration", () => {
+                let declOptions: IOptions = {
+                    declaration: {
                         encoding: "UTF-8",
                         include: true,
                         standalone: "yes",
@@ -819,8 +701,8 @@ describe("parser", () => {
             });
 
             describe("dtd", () => {
-                let dtdOptions = {
-                    decl: {
+                let dtdOptions: IOptions = {
+                    declaration: {
                         include: false
                     },
                     dtd: {
@@ -850,8 +732,8 @@ describe("parser", () => {
             });
 
             describe("format", () => {
-                let formatOptions = {
-                    decl: {
+                let formatOptions: IOptions = {
+                    declaration: {
                         include: false
                     },
                     format: {
@@ -880,8 +762,8 @@ describe("parser", () => {
                 let typeHandlers: ITypeHandlers = {
                     "[object Number]": (val: any) => val + 17
                 };
-                let typeHandlersOptions = {
-                    decl: {
+                let typeHandlersOptions: IOptions = {
+                    declaration: {
                         include: false
                     },
                     format: {
@@ -900,8 +782,8 @@ describe("parser", () => {
                         }
                     }
                 };
-                let typeHandlersWildcardOptions = {
-                    decl: {
+                let typeHandlersWildcardOptions: IOptions = {
+                    declaration: {
                         include: false
                     },
                     format: {
@@ -938,18 +820,18 @@ describe("parser", () => {
                 });
             });
 
-            describe("valPrefix", () => {
-                let valPrefixOptions = {
-                    decl: {
+            describe("valueString", () => {
+                let valueStringOptions: IOptions = {
+                    declaration: {
                         include: false
                     },
                     format: {
                         pretty: false
                     },
-                    valPrefix: "valPrefix"
+                    valueString: "valueString"
                 };
 
-                it("should correctly handle use of the valPrefix"
+                it("should correctly handle use of the valueString"
                    + " option", () => {
                     assert.strictEqual(
                         parse(
@@ -957,12 +839,12 @@ describe("parser", () => {
                             {
                                 "test1": {
                                     "test2": "test3",
-                                    "__val": "test6",
+                                    "#": "test6",
                                     "test4": "test5"
                                 },
                                 "test7": new Map([
                                     <[string, string]> ["test8", "test9"],
-                                    <[string, string]> ["__val", "test10"],
+                                    <[string, string]> ["#", "test10"],
                                     <[string, string]> ["test11", "test12"]
                                 ])
                             },
@@ -979,11 +861,11 @@ describe("parser", () => {
                             {
                                 "test1": {
                                     "test2": "test3",
-                                    "valPrefix": "test6",
+                                    "valueString": "test6",
                                     "test4": "test5"
                                 }
                             },
-                            valPrefixOptions
+                            valueStringOptions
                         ),
                         "<root><test1><test2>test3</test2>test6<test4>test5"
                         + "</test4></test1></root>"
@@ -995,7 +877,7 @@ describe("parser", () => {
                             {
                                 "test13": {
                                     "test14": "test15",
-                                    "__val": {
+                                    "#": {
                                         "test18": "test19"
                                     },
                                     "test16": "test17"
@@ -1004,6 +886,123 @@ describe("parser", () => {
                             simpleOptions
                         );
                     });
+                });
+            });
+
+            describe("wrapHandlers", () => {
+                let wrapHandlers: IWrapHandlers = {
+                    "test1": () => "test2",
+                    "test3": (key: string, value: any) =>
+                    "test4" + key + (isType(value, "Set")
+                        ? value.values().next().value : value[0]),
+                    "test17": () => null
+                };
+                let wrapHandlersOptions: IOptions = {
+                    declaration: {
+                        include: false
+                    },
+                    format: {
+                        pretty: false
+                    },
+                    wrapHandlers
+                };
+
+                let wrapHandlersWildcard: IWrapHandlers = {
+                    "test1": () => "test2",
+                    "test3": (key: string, value: any) =>
+                    "test4" + key + (isType(value, "Set")
+                        ? value.values().next().value : value[0]),
+                    "*": () => "test5"
+                };
+                let wrapHandlersWildcardOptions: IOptions = {
+                    declaration: {
+                        include: false
+                    },
+                    format: {
+                        pretty: false
+                    },
+                    wrapHandlers: wrapHandlersWildcard
+                };
+
+                it("should correctly handle use of the wrapHandlers"
+                   + " option", () => {
+                    assert.strictEqual(
+                        parse(
+                            "root",
+                            {
+                                "test1": [
+                                    "test6",
+                                    "test7"
+                                ],
+                                "test3": new Set([
+                                    "test8",
+                                    "test9"
+                                ]),
+                                "test10": new Map([
+                                    <[string, any]> ["test1", [
+                                        "test11",
+                                        "test12"
+                                    ]],
+                                    <[string, any]> ["test3", new Set([
+                                        "test13",
+                                        "test14"
+                                    ])]
+                                ]),
+                                "test17": [
+                                    "test18",
+                                    "test19"
+                                ]
+                            },
+                            wrapHandlersOptions),
+                        "<root><test1><test2>test6</test2><test2>test7</test2>"
+                        + "</test1><test3>"
+                        + "<test4test3test8>test8</test4test3test8>"
+                        + "<test4test3test8>test9</test4test3test8></test3>"
+                        + "<test10><test1><test2>test11</test2>"
+                        + "<test2>test12</test2></test1><test3>"
+                        + "<test4test3test13>test13</test4test3test13>"
+                        + "<test4test3test13>test14</test4test3test13></test3>"
+                        + "</test10><test17>test18</test17>"
+                        + "<test17>test19</test17></root>");
+
+                    assert.strictEqual(
+                        parse(
+                            "root",
+                            {
+                                "test1": [
+                                    "test6",
+                                    "test7"
+                                ],
+                                "test3": new Set([
+                                    "test8",
+                                    "test9"
+                                ]),
+                                "test10": new Map([
+                                    <[string, any]> ["test1", [
+                                        "test11",
+                                        "test12"
+                                    ]],
+                                    <[string, any]> ["test3", new Set([
+                                        "test13",
+                                        "test14"
+                                    ])]
+                                ]),
+                                "test17": [
+                                    "test18",
+                                    "test19"
+                                ]
+                            },
+                            wrapHandlersWildcardOptions),
+                        "<root><test1><test2>test6</test2><test2>test7</test2>"
+                        + "</test1><test3>"
+                        + "<test4test3test8>test8</test4test3test8>"
+                        + "<test4test3test8>test9</test4test3test8></test3>"
+                        + "<test10><test1><test2>test11</test2>"
+                        + "<test2>test12</test2></test1><test3>"
+                        + "<test4test3test13>test13</test4test3test13>"
+                        + "<test4test3test13>test14</test4test3test13></test3>"
+                        + "</test10><test17><test5>test18</test5><test5>"
+                        + "test19</test5></test17></root>");
                 });
             });
         });

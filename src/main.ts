@@ -33,8 +33,8 @@ function parseString(str: string, parentElement: XmlAttribute | XmlElement,
                      options: IOptions): void
 {
     let requiresCdata = (s: string) => {
-        return (options.cdata && (s.indexOf("<") !== -1
-                                  || s.indexOf("&") !== -1))
+        return (options.cdataInvalidChars && (s.indexOf("<") !== -1
+                                              || s.indexOf("&") !== -1))
                || options.cdataKeys.indexOf(parentElement.name) !== -1
                || options.cdataKeys.indexOf("*") !== -1;
     };
@@ -96,16 +96,17 @@ function parseObjectOrMapEntry(key: string, value: any,
                                options: IOptions): void
 {
     // Alias key
-    if (key === options.alias) {
+    if (key === options.aliasString) {
         if (!isType(value, "String")) {
-            throw new Error("alias value for " + value + " should be a string");
+            throw new Error("aliasString value for " + value
+                            + " should be a string");
         }
         parentElement.name = value;
         return;
     }
 
     // Attributes key
-    if (key.indexOf(options.attrPrefix) === 0) {
+    if (key.indexOf(options.attributeString) === 0) {
         if (isType(value, "Object")) {
             for (let subkey of Object.keys(value)) {
                 parseAttribute(subkey, value[subkey], parentElement, options);
@@ -118,7 +119,7 @@ function parseObjectOrMapEntry(key: string, value: any,
     }
 
     // Value key
-    if (key.indexOf(options.valPrefix) === 0) {
+    if (key.indexOf(options.valueString) === 0) {
         if (isType(value, "String") || isType(value, "Number")
             || isType(value, "Boolean") || isType(value, "Null")
             || isType(value, "Undefined"))
@@ -182,11 +183,11 @@ function parseArrayOrSet(key: string, arrayOrSet: any,
                          parentElement: XmlElement, options: IOptions): void
 {
     let arrayNameFunc: (key: string, value: any) => string;
-    if (options.arraySetWrapHandlers.hasOwnProperty("*")) {
-        arrayNameFunc = options.arraySetWrapHandlers["*"];
+    if (options.wrapHandlers.hasOwnProperty("*")) {
+        arrayNameFunc = options.wrapHandlers["*"];
     }
-    if (options.arraySetWrapHandlers.hasOwnProperty(key)) {
-        arrayNameFunc = options.arraySetWrapHandlers[key];
+    if (options.wrapHandlers.hasOwnProperty(key)) {
+        arrayNameFunc = options.wrapHandlers[key];
     }
 
     let arrayKey = key;
@@ -197,7 +198,7 @@ function parseArrayOrSet(key: string, arrayOrSet: any,
             arrayKey = arrayNameFuncKey;
             arrayElement = parentElement.element(key);
         } else if (!isType(arrayNameFuncKey, "Null")) {
-            throw new Error("arraySetWrapHandlers function for " + arrayKey
+            throw new Error("wrapHandlers function for " + arrayKey
                             + " should return a string or null");
         }
     }
@@ -269,8 +270,8 @@ function parseToDocument(root: string, value: any,
                          options: IOptions): XmlDocument
 {
     let document: XmlDocument = new XmlDocument(root);
-    if (options.decl.include) {
-        document.decl(options.decl);
+    if (options.declaration.include) {
+        document.decl(options.declaration);
     }
     if (options.dtd.include) {
         document.dtd(options.dtd.name, options.dtd.sysId, options.dtd.pubId);
@@ -282,18 +283,17 @@ function parseToDocument(root: string, value: any,
 /**
  * Returns a XML string representation of the specified object.
  *
- * @param {string} root        The name of the root XML element. When the object
- *                             is converted to XML, it will be a child of this
- *                             root element.
+ * @param {string} root        The name of the root XML element. When the
+ *                             object is converted to XML, it will be a
+ *                             child of this root element.
  * @param {*} object           The object to convert to XML.
- * @param {IOptions} [options] Options for parsing the object and formatting the
- *                             resulting XML.
+ * @param {IOptions} [options] Options for parsing the object and
+ *                             formatting the resulting XML.
  *
  * @returns {string} An XML string representation of the specified object.
  */
 export function parse(root: string, object: any,
-                      options: IOptions = {}): string
-{
+                      options: IOptions = {}): string {
     options = validateOptions(options);
     let document = parseToDocument(root, object, options);
     return document.toString(options.format);
