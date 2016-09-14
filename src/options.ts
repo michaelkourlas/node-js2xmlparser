@@ -53,7 +53,7 @@ export interface IOptions {
      * object.
      *
      * The attribute object must be an object containing keys that map to
-     * strings.
+     * primitives (string, number, boolean, null, or undefined).
      *
      * For example, if `attributeString` is `"@"`, then the following object:
      * ```javascript

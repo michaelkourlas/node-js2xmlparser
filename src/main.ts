@@ -71,11 +71,16 @@ function parseAttribute(name: string, value: string, parentElement: XmlElement,
                         options: IOptions): void
 {
     let attribute = parentElement.attribute(name, "");
-    if (!isType(value, "String")) {
-        throw new Error("attribute value for name '" + name + "' should be a" +
-                        " string");
+    if (isType(value, "String") || isType(value, "Number")
+        || isType(value, "Boolean") || isType(value, "Undefined")
+        || isType(value, "Null"))
+    {
+        parseString(stringify(value), attribute, options);
+    } else {
+        throw new Error("attribute value for name '" + name + "' should be a"
+                        + " primitive (string, number, boolean, null, or"
+                        + " undefined)");
     }
-    parseString(value, attribute, options);
 }
 
 /**
@@ -127,8 +132,8 @@ function parseObjectOrMapEntry(key: string, value: any,
             parseValue(key, value, parentElement, options);
             return;
         } else {
-            throw new Error("value value " + value + " must be a primitive"
-                            + " (string, number, null, or undefined)");
+            throw new Error("value " + value + " should be a primitive"
+                            + " (string, number, boolean, null, or undefined)");
         }
     }
 

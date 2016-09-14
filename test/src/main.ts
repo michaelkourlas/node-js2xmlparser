@@ -483,12 +483,17 @@ describe("parser", () => {
                             {
                                 "@": {
                                     "test1": "test2",
-                                    "test3": "test4"
+                                    "test3": "test4",
+                                    "test5": 3,
+                                    "test6": null,
+                                    "test7": undefined,
+                                    "test8": true
                                 }
                             },
                             simpleOptions
                         ),
-                        "<root test1='test2' test3='test4'/>"
+                        "<root test1='test2' test3='test4' test5='3' "
+                        + "test6='null' test7='undefined' test8='true'/>"
                     );
 
                     assert.strictEqual(
@@ -543,7 +548,7 @@ describe("parser", () => {
                             "root",
                             {
                                 "@": {
-                                    "test": 3
+                                    "test": {}
                                 }
                             },
                             simpleOptions
@@ -846,13 +851,27 @@ describe("parser", () => {
                                     <[string, string]> ["test8", "test9"],
                                     <[string, string]> ["#", "test10"],
                                     <[string, string]> ["test11", "test12"]
-                                ])
+                                ]),
+                                "test13": {
+                                    "#": 3
+                                },
+                                "test14": {
+                                    "#": true
+                                },
+                                "test15": {
+                                    "#": null
+                                },
+                                "test16": {
+                                    "#": undefined
+                                }
                             },
                             simpleOptions
                         ),
                         "<root><test1><test2>test3</test2>test6<test4>test5"
                         + "</test4></test1><test7><test8>test9</test8>test10"
-                        + "<test11>test12</test11></test7></root>"
+                        + "<test11>test12</test11></test7><test13>3</test13>"
+                        + "<test14>true</test14><test15>null</test15><test16>"
+                        + "undefined</test16></root>"
                     );
 
                     assert.strictEqual(
