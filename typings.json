@@ -1,9 +1,0 @@
-{
-  "devDependencies": {
-    "chai": "registry:npm/chai#3.5.0+20160723033700"
-  },
-  "globalDevDependencies": {
-    "es6-shim": "registry:dt/es6-shim#0.31.2+20160602141504",
-    "mocha": "registry:env/mocha#2.2.5+20160723033700"
-  }
-}
