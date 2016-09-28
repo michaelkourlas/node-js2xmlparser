@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "lib": [
+      "es5",
+      "es2015.collection"
+    ],
     "module": "commonjs",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
