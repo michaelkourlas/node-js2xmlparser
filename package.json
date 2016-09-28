@@ -39,10 +39,8 @@
   },
   "devDependencies": {
     "@types/chai": "^3.4.33",
-    "@types/es6-shim": "^0.31.32",
     "@types/mocha": "^2.2.32",
     "chai": "^3.5.0",
-    "es6-shim": "^0.35.1",
     "gulp": "^3.9.1",
     "gulp-mocha": "^3.0.1",
     "gulp-sourcemaps": "^1.6.0",

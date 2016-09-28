@@ -16,7 +16,6 @@
 
 "use strict";
 
-require("es6-shim");
 var js2xmlparser = require("../lib/main");
 
 /**

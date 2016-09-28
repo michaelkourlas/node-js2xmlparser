@@ -18,7 +18,6 @@ import {parse} from "../../lib/main";
 import {IOptions, ITypeHandlers, IWrapHandlers} from "../../lib/options";
 import {isSet, isString} from "../../lib/utils";
 import {assert} from "chai";
-import "es6-shim";
 
 const simpleOptions: IOptions = {
     declaration: {

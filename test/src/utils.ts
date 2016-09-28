@@ -30,7 +30,6 @@ import {
     stringify
 } from "../../lib/utils";
 import {assert} from "chai";
-import "es6-shim";
 
 describe("utils", () => {
     describe("#isString", () => {
