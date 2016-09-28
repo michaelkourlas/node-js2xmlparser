@@ -1,4 +1,4 @@
-## 2.0.3 ##
+## 2.1.0 ##
 
 * Add null and undefined in type declarations
 
