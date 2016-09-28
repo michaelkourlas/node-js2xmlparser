@@ -1,6 +1,6 @@
-## 3.0.0 ##
+## 2.0.3 ##
 
-* Add null and undefined in type declarations (requires TypeScript 2.0)
+* Add null and undefined in type declarations
 
 ## 2.0.2 ##
 
