@@ -28,10 +28,10 @@ gulp.task("default", ["prod", "test-prod", "docs"]);
 
 var tsProject = ts.createProject("tsconfig.json");
 gulp.task("prod", function() {
-    var tsResult = tsResult.src("src/*")
-                           .pipe(tslint())
-                           .pipe(tslint.report())
-                           .pipe(tsProject(ts.reporter.longReporter()));
+    var tsResult = gulp.src("src/*")
+                       .pipe(tslint())
+                       .pipe(tslint.report())
+                       .pipe(tsProject(ts.reporter.longReporter()));
     return merge2([tsResult.js
                            .pipe(gulp.dest("lib")),
                    tsResult.dts
@@ -69,7 +69,9 @@ var docOptions = {
     mode: "file",
     module: "commonjs",
     out: "docs",
-    target: "es5"
+    target: "es5",
+    // TODO: Remove this option once TypeDoc supports TypeScript 2.0
+    ignoreCompilerErrors: true
 };
 gulp.task("docs", function() {
     return gulp.src("src")

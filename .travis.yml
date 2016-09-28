@@ -6,7 +6,5 @@ node_js:
   - 4
 install:
   - npm install -g gulp
-  - npm install -g typings
   - npm install
-  - typings install
 script: gulp
