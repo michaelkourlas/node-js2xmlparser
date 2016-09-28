@@ -4,6 +4,7 @@ node_js:
   - 6
   - 5
   - 4
+  - 4.0.0
 install:
   - npm install -g gulp
   - npm install
