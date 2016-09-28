@@ -14,7 +14,14 @@
  * limitations under the License.
  */
 
-import {isType} from "./utils";
+import {
+    isBoolean,
+    isFunction,
+    isObject,
+    isString,
+    isStringArray,
+    isUndefined
+} from "./utils";
 
 /**
  * The options associated with parsing an object and formatting the resulting
@@ -257,6 +264,86 @@ export interface IOptions {
 }
 
 /**
+ * Implementation of the IOptions interface used to provide default values
+ * to fields.
+ *
+ * @private
+ */
+export class Options implements IOptions {
+    public aliasString: string = "=";
+    public attributeString: string = "@";
+    public cdataInvalidChars: boolean = false;
+    public cdataKeys: string[] = [];
+    public declaration: DeclarationOptions;
+    public dtd: DtdOptions;
+    public format: FormatOptions;
+    public typeHandlers: TypeHandlers;
+    public valueString: string = "#";
+    public wrapHandlers: WrapHandlers;
+
+    constructor(options: IOptions = {}) {
+        if (!isObject(options)) {
+            throw new TypeError("options should be an Object or undefined");
+        }
+
+        if (!isString(options.aliasString)) {
+            if (!isUndefined(options.aliasString)) {
+                throw new TypeError("options.aliasString should be a string or"
+                                    + " undefined");
+            }
+        } else {
+            this.aliasString = options.aliasString;
+        }
+
+        if (!isString(options.attributeString)) {
+            if (!isUndefined(options.attributeString)) {
+                throw new TypeError("options.attributeString should be a string"
+                                    + " or undefined");
+            }
+        } else {
+            this.attributeString = options.attributeString;
+        }
+
+        if (!isBoolean(options.cdataInvalidChars)) {
+            if (!isUndefined(options.cdataInvalidChars)) {
+                throw new TypeError("options.cdataInvalidChars should be a"
+                                    + " boolean or undefined");
+            }
+        } else {
+            this.cdataInvalidChars = options.cdataInvalidChars;
+        }
+
+        if (!isStringArray(options.cdataKeys)) {
+            if (!isUndefined(options.cdataKeys)) {
+                throw new TypeError("options.cdataKeys should be an Array or" +
+                                    " undefined");
+            }
+        } else {
+            this.cdataKeys = options.cdataKeys;
+        }
+
+        this.declaration = new DeclarationOptions(options.declaration);
+
+        this.dtd = new DtdOptions(options.dtd);
+
+        this.format = new FormatOptions(options.format);
+
+        this.typeHandlers = new TypeHandlers(options.typeHandlers);
+
+        if (!isString(options.valueString)) {
+            if (!isUndefined(options.valueString)) {
+                throw new TypeError("options.valueString should be a string"
+                                    + " or undefined");
+            }
+        } else {
+            this.valueString = options.valueString;
+        }
+
+        this.wrapHandlers = new WrapHandlers(options.wrapHandlers);
+    }
+}
+
+/**
  * The options associated with the XML declaration. An example of an XML
  * declaration is as follows:
  *
@@ -271,7 +358,7 @@ export interface IDeclarationOptions {
      */
     include?: boolean;
     /**
-     * The XML encoding to be included in the declaration. If defined, this +
+     * The XML encoding to be included in the declaration. If defined, this
      * value must be a valid encoding. If left undefined, no encoding is
      * included.
      */
@@ -288,6 +375,40 @@ export interface IDeclarationOptions {
      * version is `"1.0"`.
      */
     version?: string;
+}
+
+/**
+ * Implementation of the IDeclarationOptions interface used to provide default
+ * values to fields.
+ *
+ * @private
+ */
+export class DeclarationOptions implements IDeclarationOptions {
+    public include: boolean = true;
+    public encoding?: string;
+    public standalone?: string;
+    public version?: string;
+
+    constructor(declarationOptions: IDeclarationOptions = {}) {
+        if (!isObject(declarationOptions)) {
+            throw new TypeError("options.declaration should be an Object or"
+                                + " undefined");
+        }
+
+        if (!isBoolean(declarationOptions.include)) {
+            if (!isUndefined(declarationOptions.include)) {
+                throw new TypeError("options.declaration.include should be a"
+                                    + " boolean or undefined");
+            }
+        } else {
+            this.include = declarationOptions.include;
+        }
+
+        // Validation performed by xmlcreate
+        this.encoding = declarationOptions.encoding;
+        this.standalone = declarationOptions.standalone;
+        this.version = declarationOptions.version;
+    }
 }
 
 /**
@@ -311,7 +432,7 @@ export interface IDtdOptions {
      */
     name?: string;
     /**
-     * The system identifier of the DTD, excluding  quotation marks. If left
+     * The system identifier of the DTD, excluding quotation marks. If left
      * undefined, no system identifier is included.
      */
     sysId?: string;
@@ -321,6 +442,39 @@ export interface IDtdOptions {
      * public identifier is included.
      */
     pubId?: string;
+}
+
+/**
+ * Implementation of the IDtdOptions interface used to provide default values
+ * to fields.
+ *
+ * @private
+ */
+export class DtdOptions implements IDtdOptions {
+    public include: boolean = false;
+    public name?: string;
+    public sysId?: string;
+    public pubId?: string;
+
+    constructor(dtdOptions: IDtdOptions = {}) {
+        if (!isObject(dtdOptions)) {
+            throw new TypeError("options.dtd should be an Object or undefined");
+        }
+
+        if (!isBoolean(dtdOptions.include)) {
+            if (!isUndefined(dtdOptions.include)) {
+                throw new TypeError("options.dtd.include should be a boolean"
+                                    + " or undefined");
+            }
+        } else {
+            this.include = dtdOptions.include;
+        }
+
+        // Validation performed by xmlcreate
+        this.name = dtdOptions.name;
+        this.sysId = dtdOptions.sysId;
+        this.pubId = dtdOptions.pubId;
+    }
 }
 
 /**
@@ -351,6 +505,32 @@ export interface IFormatOptions {
 }
 
 /**
+ * Implementation of the IFormatOptions interface used to provide default values
+ * to fields.
+ *
+ * @private
+ */
+export class FormatOptions implements IFormatOptions {
+    public doubleQuotes?: boolean;
+    public indent?: string;
+    public newline?: string;
+    public pretty?: boolean;
+
+    constructor(formatOptions: IFormatOptions = {}) {
+        if (!isObject(formatOptions)) {
+            throw new TypeError("options.format should be an Object or"
+                                + " undefined");
+        }
+
+        // Validation performed by xmlcreate
+        this.doubleQuotes = formatOptions.doubleQuotes;
+        this.indent = formatOptions.indent;
+        this.newline = formatOptions.newline;
+        this.pretty = formatOptions.pretty;
+    }
+}
+
+/**
  * Map for the `typeHandlers` property in the {@link IOptions} interface.
  */
 export interface ITypeHandlers {
@@ -359,6 +539,34 @@ export interface ITypeHandlers {
      * this value and returning a replacement value.
      */
     [type: string]: (value: any) => any;
+}
+
+/**
+ * Implementation of the ITypeHandlers interface used to provide default values
+ * to fields.
+ *
+ * @private
+ */
+export class TypeHandlers implements ITypeHandlers {
+    [type: string]: (value: any) => any;
+
+    constructor(typeHandlers: ITypeHandlers = {}) {
+        if (!isObject(typeHandlers)) {
+            throw new TypeError("options.typeHandlers should be an Object or"
+                                + " undefined");
+        }
+
+        for (let key in typeHandlers) {
+            if (typeHandlers.hasOwnProperty(key)) {
+                if (!isFunction(typeHandlers[key])) {
+                    throw new TypeError("options.typeHandlers['" + key + "']" +
+                                        " should be a Function");
+                } else {
+                    this[key] = typeHandlers[key];
+                }
+            }
+        }
+    }
 }
 
 /**
@@ -374,226 +582,33 @@ export interface IWrapHandlers {
      * XML element for each item in the array or set, or `null` to indicate that
      * wrapping should not occur.
      */
-    [key: string]: (key: string, value: any) => string;
+    [key: string]: (key: string, value: any) => string | null;
 }
 
 /**
+ * Implementation of the IWrapHandlers interface used to provide default values
+ * to fields.
+ *
  * @private
  */
-const defaults: IOptions = {
-    aliasString: "=",
-    attributeString: "@",
-    cdataInvalidChars: false,
-    cdataKeys: [],
-    declaration: {
-        include: true
-    },
-    dtd: {
-        include: false
-    },
-    format: {},
-    typeHandlers: {},
-    valueString: "#",
-    wrapHandlers: {}
-};
-Object.freeze(defaults);
+export class WrapHandlers implements IWrapHandlers {
+    [key: string]: (key: string, value: any) => string | null;
 
-/**
- * Validates the cdataKeys property of an options object.
- *
- * @param {string[]} cdataKeys The cdataKeys object.
- *
- * @returns {string[]} The updated cdataKeys object.
- *
- * @private
- */
-function validateCdataKeys(cdataKeys: string[]): string[] {
-    for (let key of cdataKeys) {
-        if (!isType(key, "String")) {
-            throw new TypeError(key + " should be a string");
+    constructor(wrapHandlers: IWrapHandlers = {}) {
+        if (!isObject(wrapHandlers)) {
+            throw new TypeError("options.wrapHandlers should be an Object or"
+                                + " undefined");
         }
-    }
-    return cdataKeys;
-}
 
-/**
- * Validates the declaration property of an options object.
- *
- * @param {IDeclarationOptions} declaration The declaration object.
- *
- * @returns {IDeclarationOptions} The updated declaration object.
- *
- * @private
- */
-function validateDecl(declaration: IDeclarationOptions): IDeclarationOptions {
-    if (!isType(declaration.include, "Boolean", "Undefined")) {
-        throw new TypeError("declaration.include should be a string or" +
-                            " undefined");
-    }
-    if (!isType(declaration.include, "Boolean")) {
-        declaration.include = defaults.declaration.include;
-    }
-
-    return declaration;
-}
-
-/**
- * Validates the dtd property of an options object.
- *
- * @param {IDtdOptions} dtd The dtd object.
- *
- * @returns {IDtdOptions} The updated dtd object.
- *
- * @private
- */
-function validateDtd(dtd: IDtdOptions): IDtdOptions {
-    if (!isType(dtd.include, "Boolean", "Undefined")) {
-        throw new TypeError("dtdOptions.include should be a string or" +
-                            " undefined");
-    }
-    if (!isType(dtd.include, "Boolean")) {
-        dtd.include = defaults.dtd.include;
-    }
-
-    return dtd;
-}
-
-/**
- * Validates the typeHandlers property of an options object.
- *
- * @param {ITypeHandlers} typeHandlers The typeHandlers object.
- *
- * @returns {ITypeHandlers} The updated typeHandlers object.
- *
- * @private
- */
-function validateTypeHandlers(typeHandlers: ITypeHandlers): ITypeHandlers {
-    for (let key in typeHandlers) {
-        if (typeHandlers.hasOwnProperty(key)) {
-            if (!isType(typeHandlers[key], "Function")) {
-                throw new TypeError("options.typeHandlers['" + key + "']" +
-                                    " should be a Function");
+        for (let key in wrapHandlers) {
+            if (wrapHandlers.hasOwnProperty(key)) {
+                if (!isFunction(wrapHandlers[key])) {
+                    throw new TypeError("options.wrapHandlers['" + key + "']" +
+                                        " should be a Function");
+                } else {
+                    this[key] = wrapHandlers[key];
+                }
             }
         }
     }
-    return typeHandlers;
-}
-
-/**
- * Validates the wrapHandlers property of an options object.
- *
- * @param {IWrapHandlers} wrapHandlers The wrapHandlers object.
- *
- * @return {IWrapHandlers} The updated wrapHandlers object.
- *
- * @private
- */
-function validateWrapHandlers(wrapHandlers: IWrapHandlers): IWrapHandlers {
-    for (let key in wrapHandlers) {
-        if (wrapHandlers.hasOwnProperty(key)) {
-            if (!isType(wrapHandlers[key], "Function")) {
-                throw new TypeError("options.wrapHandlers"
-                                    + "['" + key + "'] should be a Function");
-            }
-        }
-    }
-    return wrapHandlers;
-}
-
-/**
- * Validates an options object and replaces undefined values with their
- * appropriate defaults.
- *
- * @param {IOptions} options The options object to validate.
- *
- * @returns {IOptions} The updated options object.
- *
- * @private
- */
-export function validateOptions(options: IOptions): IOptions {
-    if (!isType(options.aliasString, "String", "Undefined")) {
-        throw new TypeError("options.aliasString should be a string or"
-                            + " undefined");
-    }
-    if (!isType(options.aliasString, "String")) {
-        options.aliasString = defaults.aliasString;
-    }
-
-    if (!isType(options.attributeString, "String", "Undefined")) {
-        throw new TypeError("options.attributeString should be a string or" +
-                            " undefined");
-    }
-    if (!isType(options.attributeString, "String")) {
-        options.attributeString = defaults.attributeString;
-    }
-
-    if (!isType(options.cdataInvalidChars, "Boolean", "Undefined")) {
-        throw new TypeError("options.cdataInvalidChars should be a boolean or"
-                            + " undefined");
-    }
-    if (!isType(options.cdataInvalidChars, "Boolean")) {
-        options.cdataInvalidChars = defaults.cdataInvalidChars;
-    }
-
-    if (!isType(options.cdataKeys, "Array", "Undefined")) {
-        throw new TypeError("options.cdataKeys should be an Array or" +
-                            " undefined");
-    }
-    if (!isType(options.cdataKeys, "Array")) {
-        options.cdataKeys = defaults.cdataKeys;
-    }
-    options.cdataKeys = validateCdataKeys(options.cdataKeys);
-
-    if (!isType(options.declaration, "Object", "Undefined")) {
-        throw new TypeError("options.declaration should be an Object or"
-                            + " undefined");
-    }
-    if (!isType(options.declaration, "Object")) {
-        options.declaration = defaults.declaration;
-    }
-    options.declaration = validateDecl(options.declaration);
-
-    if (!isType(options.dtd, "Object", "Undefined")) {
-        throw new TypeError("options.dtd should be an Object or undefined");
-    }
-    if (!isType(options.dtd, "Object")) {
-        options.dtd = defaults.dtd;
-    }
-    options.dtd = validateDtd(options.dtd);
-
-    if (!isType(options.format, "Object", "Undefined")) {
-        throw new TypeError("options.format should be an Object or undefined");
-    }
-    if (!isType(options.format, "Object")) {
-        options.format = defaults.format;
-    }
-
-    if (!isType(options.typeHandlers, "Object", "Undefined")) {
-        throw new TypeError("options.typeHandlers should be an Object or" +
-                            " undefined");
-    }
-    if (!isType(options.typeHandlers, "Object")) {
-        options.typeHandlers = defaults.typeHandlers;
-    }
-    options.typeHandlers = validateTypeHandlers(options.typeHandlers);
-
-    if (!isType(options.valueString, "String", "Undefined")) {
-        throw new TypeError("options.valueString should be a string or" +
-                            " undefined");
-    }
-    if (!isType(options.valueString, "String")) {
-        options.valueString = defaults.valueString;
-    }
-
-    if (!isType(options.wrapHandlers, "Object", "Undefined")) {
-        throw new TypeError("options.wrapHandlers should be an"
-                            + " Object or undefined");
-    }
-    if (!isType(options.wrapHandlers, "Object")) {
-        options.wrapHandlers = defaults.wrapHandlers;
-    }
-    options.wrapHandlers = validateWrapHandlers(
-        options.wrapHandlers);
-
-    return options;
 }

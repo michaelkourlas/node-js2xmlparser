@@ -14,23 +14,32 @@
  * limitations under the License.
  */
 
-import {IOptions, validateOptions} from "./options";
-import {isType, stringify} from "./utils";
+import {IOptions, Options} from "./options";
+import {
+    isArray,
+    isMap,
+    isNull,
+    isObject,
+    isPrimitive,
+    isSet,
+    isString,
+    isUndefined,
+    stringify
+} from "./utils";
 import {XmlAttribute, XmlDocument, XmlElement} from "xmlcreate";
 
 /**
  * Parses a string into XML.
  *
- * @param {string} str                            The string to parse into XML.
- * @param {XmlAttribute|XmlElement} parentElement The XML element or attribute
- *                                                that will contain the string.
- * @param {IOptions} options                      Options for parsing the
- *                                                string into XML.
+ * @param str The string to parse into XML.
+ * @param parentElement The XML element or attribute that will contain the
+ *                      string.
+ * @param options Options for parsing the string into XML.
  *
  * @private
  */
 function parseString(str: string, parentElement: XmlAttribute | XmlElement,
-                     options: IOptions): void
+                     options: Options): void
 {
     let requiresCdata = (s: string) => {
         return (options.cdataInvalidChars && (s.indexOf("<") !== -1
@@ -59,22 +68,18 @@ function parseString(str: string, parentElement: XmlAttribute | XmlElement,
 /**
  * Parses an attribute into XML.
  *
- * @param {string} name              The name of the attribute.
- * @param {string} value             The value of the attribute.
- * @param {XmlElement} parentElement The XML element that will contain the
- *                                   string.
- * @param {IOptions} options         Options for parsing the attribute into XML.
+ * @param name The name of the attribute.
+ * @param value The value of the attribute.
+ * @param parentElement The XML element that will contain the string.
+ * @param options Options for parsing the attribute into XML.
  *
  * @private
  */
 function parseAttribute(name: string, value: string, parentElement: XmlElement,
-                        options: IOptions): void
+                        options: Options): void
 {
     let attribute = parentElement.attribute(name, "");
-    if (isType(value, "String") || isType(value, "Number")
-        || isType(value, "Boolean") || isType(value, "Undefined")
-        || isType(value, "Null"))
-    {
+    if (isPrimitive(value)) {
         parseString(stringify(value), attribute, options);
     } else {
         throw new Error("attribute value for name '" + name + "' should be a"
@@ -86,23 +91,21 @@ function parseAttribute(name: string, value: string, parentElement: XmlElement,
 /**
  * Parses an object or Map entry into XML.
  *
- * @param {string} key               The key associated with the object or Map
- *                                   entry.
- * @param {*} value                  The object or map entry.
- * @param {XmlElement} parentElement The XML element that will contain the
- *                                   object or map entry.
- * @param {IOptions} options         Options for parsing the object or map
- *                                   entry into XML.
+ * @param key The key associated with the object or Map entry.
+ * @param value The object or map entry.
+ * @param parentElement The XML element that will contain the object or map
+ *                      entry.
+ * @param options Options for parsing the object or map entry into XML.
  *
  * @private
  */
 function parseObjectOrMapEntry(key: string, value: any,
                                parentElement: XmlElement,
-                               options: IOptions): void
+                               options: Options): void
 {
     // Alias key
     if (key === options.aliasString) {
-        if (!isType(value, "String")) {
+        if (!isString(value)) {
             throw new Error("aliasString value for " + value
                             + " should be a string");
         }
@@ -112,7 +115,7 @@ function parseObjectOrMapEntry(key: string, value: any,
 
     // Attributes key
     if (key.indexOf(options.attributeString) === 0) {
-        if (isType(value, "Object")) {
+        if (isObject(value)) {
             for (let subkey of Object.keys(value)) {
                 parseAttribute(subkey, value[subkey], parentElement, options);
             }
@@ -125,10 +128,7 @@ function parseObjectOrMapEntry(key: string, value: any,
 
     // Value key
     if (key.indexOf(options.valueString) === 0) {
-        if (isType(value, "String") || isType(value, "Number")
-            || isType(value, "Boolean") || isType(value, "Null")
-            || isType(value, "Undefined"))
-        {
+        if (isPrimitive(value)) {
             parseValue(key, value, parentElement, options);
             return;
         } else {
@@ -139,7 +139,7 @@ function parseObjectOrMapEntry(key: string, value: any,
 
     // Standard handling (create new element for entry)
     let element = parentElement;
-    if (!isType(value, "Array") && !isType(value, "Set")) {
+    if (!isArray(value) && !isSet(value)) {
         element = parentElement.element(key);
     }
     parseValue(key, value, element, options);
@@ -148,17 +148,16 @@ function parseObjectOrMapEntry(key: string, value: any,
 /**
  * Parses an Object or Map into XML.
  *
- * @param {*} objectOrMap            The object or map to parse into XML.
- * @param {XmlElement} parentElement The XML element that will contain the
- *                                   object.
- * @param {IOptions} options         Options for parsing the object into XML.
+ * @param objectOrMap The object or map to parse into XML.
+ * @param parentElement The XML element that will contain the object.
+ * @param options Options for parsing the object into XML.
  *
  * @private
  */
 function parseObjectOrMap(objectOrMap: any, parentElement: XmlElement,
-                          options: IOptions): void
+                          options: Options): void
 {
-    if (isType(objectOrMap, "Map")) {
+    if (isMap(objectOrMap)) {
         objectOrMap.forEach((value: any, key: any) => {
             parseObjectOrMapEntry(stringify(key), value, parentElement,
                                   options);
@@ -174,20 +173,17 @@ function parseObjectOrMap(objectOrMap: any, parentElement: XmlElement,
 /**
  * Parses an array or Set into XML.
  *
- * @param {string} key               The key associated with the array or set to
- *                                   parse into XML.
- * @param {*} arrayOrSet             The array or set to parse into XML.
- * @param {XmlElement} parentElement The XML element that will contain the
- *                                   function.
- * @param {IOptions} options         Options for parsing the array or set into
- *                                   XML.
+ * @param key The key associated with the array or set to parse into XML.
+ * @param arrayOrSet The array or set to parse into XML.
+ * @param parentElement The XML element that will contain the function.
+ * @param options Options for parsing the array or set into XML.
  *
  * @private
  */
 function parseArrayOrSet(key: string, arrayOrSet: any,
-                         parentElement: XmlElement, options: IOptions): void
+                         parentElement: XmlElement, options: Options): void
 {
-    let arrayNameFunc: (key: string, value: any) => string;
+    let arrayNameFunc: ((key: string, value: any) => string | null) | undefined;
     if (options.wrapHandlers.hasOwnProperty("*")) {
         arrayNameFunc = options.wrapHandlers["*"];
     }
@@ -197,12 +193,12 @@ function parseArrayOrSet(key: string, arrayOrSet: any,
 
     let arrayKey = key;
     let arrayElement = parentElement;
-    if (!isType(arrayNameFunc, "Undefined")) {
+    if (!isUndefined(arrayNameFunc)) {
         let arrayNameFuncKey = arrayNameFunc(arrayKey, arrayOrSet);
-        if (isType(arrayNameFuncKey, "String")) {
+        if (isString(arrayNameFuncKey)) {
             arrayKey = arrayNameFuncKey;
             arrayElement = parentElement.element(key);
-        } else if (!isType(arrayNameFuncKey, "Null")) {
+        } else if (!isNull(arrayNameFuncKey)) {
             throw new Error("wrapHandlers function for " + arrayKey
                             + " should return a string or null");
         }
@@ -210,7 +206,7 @@ function parseArrayOrSet(key: string, arrayOrSet: any,
 
     arrayOrSet.forEach((item: any) => {
         let element = arrayElement;
-        if (!isType(item, "Array") && !isType(item, "Set")) {
+        if (!isArray(item) && !isSet(item)) {
             element = arrayElement.element(arrayKey);
         }
         parseValue(arrayKey, item, element, options);
@@ -220,37 +216,35 @@ function parseArrayOrSet(key: string, arrayOrSet: any,
 /**
  * Parses an arbitrary JavaScript value into XML.
  *
- * @param {string} key               The key associated with the value to parse
- *                                   into XML.
- * @param {*} value                  The value to parse into XML.
- * @param {XmlElement} parentElement The XML element that will contain the
- *                                   value.
- * @param {IOptions} options         Options for parsing the value into XML.
+ * @param key The key associated with the value to parse into XML.
+ * @param value The value to parse into XML.
+ * @param parentElement The XML element that will contain the value.
+ * @param options Options for parsing the value into XML.
  *
  * @private
  */
 function parseValue(key: string, value: any, parentElement: XmlElement,
-                    options: IOptions): void
+                    options: Options): void
 {
     // If a handler for a particular type is user-defined, use that handler
     // instead of the defaults
     let type = Object.prototype.toString.call(value);
-    let handler: (value: any) => any;
+    let handler: ((value: any) => any) | undefined;
     if (options.typeHandlers.hasOwnProperty("*")) {
         handler = options.typeHandlers["*"];
     }
     if (options.typeHandlers.hasOwnProperty(type)) {
         handler = options.typeHandlers[type];
     }
-    if (!isType(handler, "Undefined")) {
+    if (!isUndefined(handler)) {
         value = handler(value);
     }
 
-    if (isType(value, "Object") || isType(value, "Map")) {
+    if (isObject(value) || isMap(value)) {
         parseObjectOrMap(value, parentElement, options);
         return;
     }
-    if (isType(value, "Array") || isType(value, "Set")) {
+    if (isArray(value) || isSet(value)) {
         parseArrayOrSet(key, value, parentElement, options);
         return;
     }
@@ -261,25 +255,24 @@ function parseValue(key: string, value: any, parentElement: XmlElement,
 /**
  * Returns a XML document corresponding to the specified value.
  *
- * @param {string} root      The name of the root XML element. When the value is
- *                           converted to XML, it will be a child of this root
- *                           element.
- * @param {*} value          The value to convert to XML.
- * @param {IOptions} options Options for parsing the value into XML.
+ * @param root The name of the root XML element. When the value is converted to
+ *             XML, it will be a child of this root element.
+ * @param value The value to convert to XML.
+ * @param options Options for parsing the value into XML.
  *
  * @returns {XmlDocument} An XML document corresponding to the specified value.
  *
  * @private
  */
 function parseToDocument(root: string, value: any,
-                         options: IOptions): XmlDocument
+                         options: Options): XmlDocument
 {
     let document: XmlDocument = new XmlDocument(root);
     if (options.declaration.include) {
         document.decl(options.declaration);
     }
     if (options.dtd.include) {
-        document.dtd(options.dtd.name, options.dtd.sysId, options.dtd.pubId);
+        document.dtd(options.dtd.name!, options.dtd.sysId, options.dtd.pubId);
     }
     parseValue(root, value, <XmlElement> document.root(), options);
     return document;
@@ -288,18 +281,16 @@ function parseToDocument(root: string, value: any,
 /**
  * Returns a XML string representation of the specified object.
  *
- * @param {string} root        The name of the root XML element. When the
- *                             object is converted to XML, it will be a
- *                             child of this root element.
- * @param {*} object           The object to convert to XML.
- * @param {IOptions} [options] Options for parsing the object and
- *                             formatting the resulting XML.
+ * @param root The name of the root XML element. When the object is converted
+ *             to XML, it will be a child of this root element.
+ * @param object The object to convert to XML.
+ * @param options Options for parsing the object and formatting the resulting
+ *                XML.
  *
  * @returns {string} An XML string representation of the specified object.
  */
-export function parse(root: string, object: any,
-                      options: IOptions = {}): string {
-    options = validateOptions(options);
-    let document = parseToDocument(root, object, options);
-    return document.toString(options.format);
+export function parse(root: string, object: any, options?: IOptions): string {
+    let opts: Options = new Options(options);
+    let document = parseToDocument(root, object, opts);
+    return document.toString(opts.format);
 }

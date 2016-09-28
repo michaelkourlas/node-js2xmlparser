@@ -14,30 +14,24 @@
  * limitations under the License.
  */
 
-import {
-    ITypeHandlers,
-    IWrapHandlers,
-    validateOptions
-} from "../../lib/options";
+import {ITypeHandlers, IWrapHandlers, Options} from "../../lib/options";
 import {assert} from "chai";
 
 describe("options", () => {
-    describe("#validateOptions", () => {
+    describe("#Options", () => {
         describe("aliasString", () => {
             it("should leave the specified property unchanged if valid", () => {
                 let options = {
                     aliasString: "="
                 };
                 let originalOptions = options.aliasString;
-                assert.strictEqual(
-                    validateOptions(options).aliasString,
-                    originalOptions);
+                assert.strictEqual(new Options(options).aliasString,
+                                   originalOptions);
 
                 options.aliasString = "test";
                 originalOptions = options.aliasString;
-                assert.strictEqual(
-                    validateOptions(options).aliasString,
-                    originalOptions);
+                assert.strictEqual(new Options(options).aliasString,
+                                   originalOptions);
             });
 
             it("should throw an error if the value of the property is"
@@ -45,13 +39,13 @@ describe("options", () => {
                 let options: any = {
                     aliasString: null
                 };
-                assert.throws(() => validateOptions(options));
+                assert.throws(() => new Options(options));
             });
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 let options = {};
-                assert.strictEqual(validateOptions(options).aliasString, "=");
+                assert.strictEqual(new Options(options).aliasString, "=");
             });
         });
 
@@ -62,13 +56,13 @@ describe("options", () => {
                 };
                 let stringifiedOptions = options.attributeString;
                 assert.strictEqual(
-                    validateOptions(options).attributeString,
+                    new Options(options).attributeString,
                     stringifiedOptions);
 
                 options.attributeString = "test";
                 stringifiedOptions = options.attributeString;
                 assert.strictEqual(
-                    validateOptions(options).attributeString,
+                    new Options(options).attributeString,
                     stringifiedOptions);
             });
 
@@ -77,13 +71,13 @@ describe("options", () => {
                 let options: any = {
                     attributeString: null
                 };
-                assert.throws(() => validateOptions(options));
+                assert.throws(() => new Options(options));
             });
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 let options = {};
-                assert.strictEqual(validateOptions(options).attributeString,
+                assert.strictEqual(new Options(options).attributeString,
                                    "@");
             });
         });
@@ -95,13 +89,13 @@ describe("options", () => {
                 };
                 let originalOptions = options.cdataInvalidChars;
                 assert.strictEqual(
-                    validateOptions(options).cdataInvalidChars,
+                    new Options(options).cdataInvalidChars,
                     originalOptions);
 
                 options.cdataInvalidChars = true;
                 originalOptions = options.cdataInvalidChars;
                 assert.strictEqual(
-                    validateOptions(options).cdataInvalidChars,
+                    new Options(options).cdataInvalidChars,
                     originalOptions);
             });
 
@@ -110,13 +104,13 @@ describe("options", () => {
                 let options: any = {
                     cdataInvalidChars: null
                 };
-                assert.throws(() => validateOptions(options));
+                assert.throws(() => new Options(options));
             });
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 let options = {};
-                assert.strictEqual(validateOptions(options).cdataInvalidChars,
+                assert.strictEqual(new Options(options).cdataInvalidChars,
                                    false);
             });
         });
@@ -128,13 +122,13 @@ describe("options", () => {
                 };
                 let stringifiedOptions = JSON.stringify(options.cdataKeys);
                 assert.strictEqual(
-                    JSON.stringify(validateOptions(options).cdataKeys),
+                    JSON.stringify(new Options(options).cdataKeys),
                     stringifiedOptions);
 
                 options.cdataKeys = [];
                 stringifiedOptions = JSON.stringify(options.cdataKeys);
                 assert.strictEqual(
-                    JSON.stringify(validateOptions(options).cdataKeys),
+                    JSON.stringify(new Options(options).cdataKeys),
                     stringifiedOptions);
             });
 
@@ -143,19 +137,19 @@ describe("options", () => {
                 let options: any = {
                     cdataKeys: null
                 };
-                assert.throws(() => validateOptions(options));
+                assert.throws(() => new Options(options));
 
                 options = {
                     cdataKeys: [false]
                 };
-                assert.throws(() => validateOptions(options));
+                assert.throws(() => new Options(options));
             });
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 let options = {};
                 assert.strictEqual(
-                    JSON.stringify(validateOptions(options).cdataKeys),
+                    JSON.stringify(new Options(options).cdataKeys),
                     JSON.stringify([]));
             });
         });
@@ -169,7 +163,7 @@ describe("options", () => {
                 };
                 let stringifiedOptions = JSON.stringify(options.declaration);
                 assert.strictEqual(
-                    JSON.stringify(validateOptions(options).declaration),
+                    JSON.stringify(new Options(options).declaration),
                     stringifiedOptions);
 
                 options.declaration = {
@@ -177,7 +171,7 @@ describe("options", () => {
                 };
                 stringifiedOptions = JSON.stringify(options.declaration);
                 assert.strictEqual(
-                    JSON.stringify(validateOptions(options).declaration),
+                    JSON.stringify(new Options(options).declaration),
                     stringifiedOptions);
             });
 
@@ -188,18 +182,18 @@ describe("options", () => {
                         include: null
                     }
                 };
-                assert.throws(() => validateOptions(options));
+                assert.throws(() => new Options(options));
 
                 options = {
                     declaration: null
                 };
-                assert.throws(() => validateOptions(options));
+                assert.throws(() => new Options(options));
             });
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 let options = {};
-                let validatedOptions = validateOptions(options);
+                let validatedOptions = new Options(options);
                 assert.strictEqual(
                     JSON.stringify(validatedOptions.declaration),
                     JSON.stringify({include: true}));
@@ -215,7 +209,7 @@ describe("options", () => {
                 };
                 let stringifiedOptions = JSON.stringify(options.dtd);
                 assert.strictEqual(
-                    JSON.stringify(validateOptions(options).dtd),
+                    JSON.stringify(new Options(options).dtd),
                     stringifiedOptions);
 
                 options.dtd = {
@@ -223,7 +217,7 @@ describe("options", () => {
                 };
                 stringifiedOptions = JSON.stringify(options.dtd);
                 assert.strictEqual(
-                    JSON.stringify(validateOptions(options).dtd),
+                    JSON.stringify(new Options(options).dtd),
                     stringifiedOptions);
             });
 
@@ -234,18 +228,18 @@ describe("options", () => {
                         include: null
                     }
                 };
-                assert.throws(() => validateOptions(options));
+                assert.throws(() => new Options(options));
 
                 options = {
                     dtd: null
                 };
-                assert.throws(() => validateOptions(options));
+                assert.throws(() => new Options(options));
             });
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 let options = {};
-                let validatedOptions = validateOptions(options);
+                let validatedOptions = new Options(options);
                 assert.strictEqual(
                     JSON.stringify(validatedOptions.dtd),
                     JSON.stringify({include: false}));
@@ -259,7 +253,7 @@ describe("options", () => {
                 };
                 let stringifiedOptions = JSON.stringify(options.format);
                 assert.strictEqual(
-                    JSON.stringify(validateOptions(options).format),
+                    JSON.stringify(new Options(options).format),
                     stringifiedOptions);
             });
 
@@ -268,13 +262,13 @@ describe("options", () => {
                 let options: any = {
                     format: null
                 };
-                assert.throws(() => validateOptions(options));
+                assert.throws(() => new Options(options));
             });
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 let options = {};
-                let validatedOptions = validateOptions(options);
+                let validatedOptions = new Options(options);
                 assert.strictEqual(
                     JSON.stringify(validatedOptions.format),
                     JSON.stringify({}));
@@ -298,7 +292,7 @@ describe("options", () => {
                     options.typeHandlers);
                 assert.strictEqual(
                     JSON.stringify(
-                        validateOptions(options).typeHandlers),
+                        new Options(options).typeHandlers),
                     stringifiedOptions);
 
                 options.typeHandlers = {};
@@ -306,7 +300,7 @@ describe("options", () => {
                     options.typeHandlers);
                 assert.strictEqual(
                     JSON.stringify(
-                        validateOptions(options).typeHandlers),
+                        new Options(options).typeHandlers),
                     stringifiedOptions);
             });
 
@@ -315,22 +309,21 @@ describe("options", () => {
                 let options: any = {
                     typeHandlers: null
                 };
-                assert.throws(() => validateOptions(options));
+                assert.throws(() => new Options(options));
 
                 options = {
                     typeHandlers: {
                         "test": null
                     }
                 };
-                assert.throws(() => validateOptions(options));
+                assert.throws(() => new Options(options));
             });
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 let options = {};
                 assert.strictEqual(
-                    JSON.stringify(validateOptions(
-                        options).typeHandlers),
+                    JSON.stringify(new Options(options).typeHandlers),
                     JSON.stringify({}));
             });
         });
@@ -342,13 +335,13 @@ describe("options", () => {
                 };
                 let originalOptions = options.valueString;
                 assert.strictEqual(
-                    validateOptions(options).valueString,
+                    new Options(options).valueString,
                     originalOptions);
 
                 options.valueString = "test";
                 originalOptions = options.valueString;
                 assert.strictEqual(
-                    validateOptions(options).valueString,
+                    new Options(options).valueString,
                     originalOptions);
             });
 
@@ -357,13 +350,13 @@ describe("options", () => {
                 let options: any = {
                     valueString: null
                 };
-                assert.throws(() => validateOptions(options));
+                assert.throws(() => new Options(options));
             });
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 let options = {};
-                assert.strictEqual(validateOptions(options).valueString,
+                assert.strictEqual(new Options(options).valueString,
                                    "#");
             });
         });
@@ -385,7 +378,7 @@ describe("options", () => {
                     options.wrapHandlers);
                 assert.strictEqual(
                     JSON.stringify(
-                        validateOptions(options).wrapHandlers),
+                        new Options(options).wrapHandlers),
                     stringifiedOptions);
 
                 options.wrapHandlers = {};
@@ -393,7 +386,7 @@ describe("options", () => {
                     options.wrapHandlers);
                 assert.strictEqual(
                     JSON.stringify(
-                        validateOptions(options).wrapHandlers),
+                        new Options(options).wrapHandlers),
                     stringifiedOptions);
             });
 
@@ -402,22 +395,21 @@ describe("options", () => {
                 let options: any = {
                     wrapHandlers: null
                 };
-                assert.throws(() => validateOptions(options));
+                assert.throws(() => new Options(options));
 
                 options = {
                     wrapHandlers: {
                         "test": null
                     }
                 };
-                assert.throws(() => validateOptions(options));
+                assert.throws(() => new Options(options));
             });
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 let options = {};
                 assert.strictEqual(
-                    JSON.stringify(validateOptions(
-                        options).wrapHandlers),
+                    JSON.stringify(new Options(options).wrapHandlers),
                     JSON.stringify({}));
             });
         });

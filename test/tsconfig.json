@@ -8,7 +8,12 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strictNullChecks": true,
-    "target": "es5"
+    "target": "es5",
+    "types": [
+      "chai",
+      "es6-shim",
+      "mocha"
+    ]
   },
   "include": [
     "src/*"

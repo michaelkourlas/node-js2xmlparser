@@ -15,38 +15,117 @@
  */
 
 /**
- * Returns true if the specified value are of any of the specified types, as
- * determined by the Object.prototype.toString.call function.
- *
- * @param {*} val The specified value.
- * @param {...string[]} types The specified types.
- *
- * @returns {boolean} Whether or not the specified value are of any of the
- *                    specified types.
- *
  * @private
  */
-export function isType(val: any, ...types: string[]): boolean {
-    for (let type of types) {
-        if (Object.prototype.toString.call(val) === "[object " + type + "]") {
-            return true;
-        }
-    }
-    return false;
+export function isString(val: any): val is string {
+    return Object.prototype.toString.call(val) === "[object String]";
 }
 
 /**
- * Converts a value into a string.
+ * @private
+ */
+export function isNumber(val: any): val is number {
+    return Object.prototype.toString.call(val) === "[object Number]";
+}
+
+/**
+ * @private
+ */
+export function isBoolean(val: any): val is boolean {
+    return Object.prototype.toString.call(val) === "[object Boolean]";
+}
+
+/**
+ * @private
+ */
+export function isUndefined(val: any): val is undefined {
+    return Object.prototype.toString.call(val) === "[object Undefined]";
+}
+
+/**
+ * @private
+ */
+export function isNull(val: any): val is null {
+    return Object.prototype.toString.call(val) === "[object Null]";
+}
+
+/**
+ * @private
+ */
+export function isPrimitive(val: any): val is (
+    string | number | boolean | undefined | null)
+{
+    return isString(val)
+           || isNumber(val)
+           || isBoolean(val)
+           || isUndefined(val)
+           || isNull(val);
+}
+
+/**
+ * @private
+ */
+export function isObject(val: any): val is Object {
+    return Object.prototype.toString.call(val) === "[object Object]";
+}
+
+/**
+ * @private
+ */
+export function isArray(val: any): val is any[] {
+    return Object.prototype.toString.call(val) === "[object Array]";
+}
+
+/**
+ * @private
+ */
+export function isStringArray(val: any): val is string[] {
+    if (!isArray(val)) {
+        return false;
+    }
+    for (let entry of val) {
+        if (!isString(entry)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * @private
+ */
+export function isFunction(val: any): val is Function {
+    return Object.prototype.toString.call(val) === "[object Function]";
+}
+
+/**
+ * @private
+ */
+export function isSet(val: any): boolean {
+    return Object.prototype.toString.call(val) === "[object Set]";
+}
+
+/**
+ * @private
+ */
+export function isMap(val: any): boolean {
+    return Object.prototype.toString.call(val) === "[object Map]";
+}
+
+/**
+ * Returns a string representation of the specified value, as given by the
+ * value's toString() method (if it has one) or the global String() function
+ * (if it does not).
  *
- * @param {*} value The value to convert to a string.
+ * @param value The value to convert to a string.
  *
- * @returns {String} The string representation of the specified value.
+ * @returns {string} A string representation of the specified value.
  *
  * @private
  */
 export function stringify(value: any): string {
-    if (!isType(value, "Undefined") && !isType(value, "Null")) {
-        if (!isType(value.toString, "Function")) {
+    if (!isUndefined(value) && !isNull(value)) {
+        if (!isFunction(value.toString)) {
             value = value.toString();
         }
     }

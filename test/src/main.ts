@@ -16,7 +16,7 @@
 
 import {parse} from "../../lib/main";
 import {IOptions, ITypeHandlers, IWrapHandlers} from "../../lib/options";
-import {isType} from "../../lib/utils";
+import {isSet, isString} from "../../lib/utils";
 import {assert} from "chai";
 import "es6-shim";
 
@@ -477,6 +477,7 @@ describe("parser", () => {
 
                 it("should correctly handle use of the attributeString"
                    + " option", () => {
+                    // noinspection HtmlUnknownAttribute
                     assert.strictEqual(
                         parse(
                             "root",
@@ -780,7 +781,7 @@ describe("parser", () => {
                 let typeHandlersWildcard: ITypeHandlers = {
                     "[object Number]": (val: any) => val + 17,
                     "*": (val: any) => {
-                        if (isType(val, "String")) {
+                        if (isString(val)) {
                             return val + "abc";
                         } else {
                             return val;
@@ -912,7 +913,7 @@ describe("parser", () => {
                 let wrapHandlers: IWrapHandlers = {
                     "test1": () => "test2",
                     "test3": (key: string, value: any) =>
-                    "test4" + key + (isType(value, "Set")
+                    "test4" + key + (isSet(value)
                         ? value.values().next().value : value[0]),
                     "test17": () => null
                 };
@@ -929,7 +930,7 @@ describe("parser", () => {
                 let wrapHandlersWildcard: IWrapHandlers = {
                     "test1": () => "test2",
                     "test3": (key: string, value: any) =>
-                    "test4" + key + (isType(value, "Set")
+                    "test4" + key + (isSet(value)
                         ? value.values().next().value : value[0]),
                     "*": () => "test5"
                 };
