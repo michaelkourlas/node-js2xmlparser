@@ -28,21 +28,21 @@ gulp.task("default", ["prod", "test-prod", "docs"]);
 
 var tsProject = ts.createProject("tsconfig.json");
 gulp.task("prod", function() {
-    var tsResult = gulp.src("src/*")
-                       .pipe(tslint())
-                       .pipe(tslint.report())
-                       .pipe(tsProject(ts.reporter.longReporter()));
+    var tsResult = tsProject.src()
+                            .pipe(tslint())
+                            .pipe(tslint.report())
+                            .pipe(tsProject(ts.reporter.longReporter()));
     return merge2([tsResult.js
                            .pipe(gulp.dest("lib")),
                    tsResult.dts
                            .pipe(gulp.dest("lib"))]);
 });
 gulp.task("dev", function() {
-    var tsResult = gulp.src("src/*")
-                       .pipe(tslint())
-                       .pipe(tslint.report())
-                       .pipe(sourcemaps.init())
-                       .pipe(tsProject(ts.reporter.longReporter()));
+    var tsResult = tsProject.src()
+                            .pipe(tslint())
+                            .pipe(tslint.report())
+                            .pipe(sourcemaps.init())
+                            .pipe(tsProject(ts.reporter.longReporter()));
     return merge2([tsResult.js
                            .pipe(sourcemaps.write())
                            .pipe(gulp.dest("lib")),
@@ -52,7 +52,7 @@ gulp.task("dev", function() {
 
 var testTsProject = ts.createProject("test/tsconfig.json");
 var test = function() {
-    return testTsProject.src("test/src/*")
+    return testTsProject.src()
                         .pipe(tslint())
                         .pipe(tslint.report())
                         .pipe(sourcemaps.init())
