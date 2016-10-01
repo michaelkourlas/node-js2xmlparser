@@ -24,14 +24,12 @@ describe("options", () => {
                 const options = {
                     aliasString: "="
                 };
-                let originalOptions = options.aliasString;
                 assert.strictEqual(new Options(options).aliasString,
-                                   originalOptions);
+                                   options.aliasString);
 
                 options.aliasString = "test";
-                originalOptions = options.aliasString;
                 assert.strictEqual(new Options(options).aliasString,
-                                   originalOptions);
+                                   options.aliasString);
             });
 
             it("should throw an error if the value of the property is"
@@ -54,16 +52,14 @@ describe("options", () => {
                 const options = {
                     attributeString: "@"
                 };
-                let stringifiedOptions = options.attributeString;
                 assert.strictEqual(
                     new Options(options).attributeString,
-                    stringifiedOptions);
+                    options.attributeString);
 
                 options.attributeString = "test";
-                stringifiedOptions = options.attributeString;
                 assert.strictEqual(
                     new Options(options).attributeString,
-                    stringifiedOptions);
+                    options.attributeString);
             });
 
             it("should throw an error if the value of the property is"
@@ -87,16 +83,14 @@ describe("options", () => {
                 const options = {
                     cdataInvalidChars: false
                 };
-                let originalOptions = options.cdataInvalidChars;
                 assert.strictEqual(
                     new Options(options).cdataInvalidChars,
-                    originalOptions);
+                    options.cdataInvalidChars);
 
                 options.cdataInvalidChars = true;
-                originalOptions = options.cdataInvalidChars;
                 assert.strictEqual(
                     new Options(options).cdataInvalidChars,
-                    originalOptions);
+                    options.cdataInvalidChars);
             });
 
             it("should throw an error if the value of the property is"
@@ -120,16 +114,12 @@ describe("options", () => {
                 const options = {
                     cdataKeys: ["test", "test2"]
                 };
-                let stringifiedOptions = JSON.stringify(options.cdataKeys);
-                assert.strictEqual(
-                    JSON.stringify(new Options(options).cdataKeys),
-                    stringifiedOptions);
+                assert.deepEqual(new Options(options).cdataKeys,
+                                 options.cdataKeys);
 
                 options.cdataKeys = [];
-                stringifiedOptions = JSON.stringify(options.cdataKeys);
-                assert.strictEqual(
-                    JSON.stringify(new Options(options).cdataKeys),
-                    stringifiedOptions);
+                assert.deepEqual(new Options(options).cdataKeys,
+                                 options.cdataKeys);
             });
 
             it("should throw an error if the value of the property is"
@@ -148,9 +138,7 @@ describe("options", () => {
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 const options = {};
-                assert.strictEqual(
-                    JSON.stringify(new Options(options).cdataKeys),
-                    JSON.stringify([]));
+                assert.deepEqual(new Options(options).cdataKeys, []);
             });
         });
 
@@ -158,21 +146,23 @@ describe("options", () => {
             it("should leave the specified property unchanged if valid", () => {
                 const options = {
                     declaration: {
-                        include: true
+                        encoding: undefined,
+                        include: true,
+                        standalone: undefined,
+                        version: undefined
                     }
                 };
-                let stringifiedOptions = JSON.stringify(options.declaration);
-                assert.strictEqual(
-                    JSON.stringify(new Options(options).declaration),
-                    stringifiedOptions);
+                assert.deepEqual(new Options(options).declaration,
+                                 options.declaration);
 
                 options.declaration = {
-                    include: false
+                    encoding: undefined,
+                    include: false,
+                    standalone: undefined,
+                    version: undefined
                 };
-                stringifiedOptions = JSON.stringify(options.declaration);
-                assert.strictEqual(
-                    JSON.stringify(new Options(options).declaration),
-                    stringifiedOptions);
+                assert.deepEqual(new Options(options).declaration,
+                                 options.declaration);
             });
 
             it("should throw an error if the specified options object"
@@ -193,10 +183,13 @@ describe("options", () => {
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 const options = {};
-                const validatedOptions = new Options(options);
-                assert.strictEqual(
-                    JSON.stringify(validatedOptions.declaration),
-                    JSON.stringify({include: true}));
+                assert.deepEqual(new Options(options).declaration,
+                                 {
+                                     encoding: undefined,
+                                     include: true,
+                                     standalone: undefined,
+                                     version: undefined
+                                 });
             });
         });
 
@@ -204,21 +197,23 @@ describe("options", () => {
             it("should leave the specified property unchanged if valid", () => {
                 const options = {
                     dtd: {
-                        include: false
+                        include: false,
+                        name: undefined,
+                        pubId: undefined,
+                        sysId: undefined
                     }
                 };
-                let stringifiedOptions = JSON.stringify(options.dtd);
-                assert.strictEqual(
-                    JSON.stringify(new Options(options).dtd),
-                    stringifiedOptions);
+                assert.deepEqual(new Options(options).dtd,
+                                 options.dtd);
 
                 options.dtd = {
-                    include: true
+                    include: true,
+                    name: undefined,
+                    pubId: undefined,
+                    sysId: undefined
                 };
-                stringifiedOptions = JSON.stringify(options.dtd);
-                assert.strictEqual(
-                    JSON.stringify(new Options(options).dtd),
-                    stringifiedOptions);
+                assert.deepEqual(new Options(options).dtd,
+                                 options.dtd);
             });
 
             it("should throw an error if the specified options object"
@@ -239,22 +234,28 @@ describe("options", () => {
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 const options = {};
-                const validatedOptions = new Options(options);
-                assert.strictEqual(
-                    JSON.stringify(validatedOptions.dtd),
-                    JSON.stringify({include: false}));
+                assert.deepEqual(new Options(options).dtd,
+                                 {
+                                     include: false,
+                                     name: undefined,
+                                     pubId: undefined,
+                                     sysId: undefined
+                                 });
             });
         });
 
         describe("format", () => {
             it("should leave the specified property unchanged if valid", () => {
                 const options = {
-                    format: {}
+                    format: {
+                        doubleQuotes: undefined,
+                        indent: undefined,
+                        newline: undefined,
+                        pretty: undefined
+                    }
                 };
-                const stringifiedOptions = JSON.stringify(options.format);
-                assert.strictEqual(
-                    JSON.stringify(new Options(options).format),
-                    stringifiedOptions);
+                assert.deepEqual(new Options(options).format,
+                                 options.format);
             });
 
             it("should throw an error if the specified options object"
@@ -268,10 +269,13 @@ describe("options", () => {
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 const options = {};
-                const validatedOptions = new Options(options);
-                assert.strictEqual(
-                    JSON.stringify(validatedOptions.format),
-                    JSON.stringify({}));
+                assert.deepEqual(new Options(options).format,
+                                 {
+                                     doubleQuotes: undefined,
+                                     indent: undefined,
+                                     newline: undefined,
+                                     pretty: undefined
+                                 });
             });
         });
 
@@ -288,20 +292,12 @@ describe("options", () => {
                 const options = {
                     typeHandlers
                 };
-                let stringifiedOptions = JSON.stringify(
-                    options.typeHandlers);
-                assert.strictEqual(
-                    JSON.stringify(
-                        new Options(options).typeHandlers),
-                    stringifiedOptions);
+                assert.deepEqual(new Options(options).typeHandlers,
+                                 options.typeHandlers);
 
                 options.typeHandlers = {};
-                stringifiedOptions = JSON.stringify(
-                    options.typeHandlers);
-                assert.strictEqual(
-                    JSON.stringify(
-                        new Options(options).typeHandlers),
-                    stringifiedOptions);
+                assert.deepEqual(new Options(options).typeHandlers,
+                                 options.typeHandlers);
             });
 
             it("should throw an error if the value of the property is"
@@ -322,9 +318,7 @@ describe("options", () => {
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 const options = {};
-                assert.strictEqual(
-                    JSON.stringify(new Options(options).typeHandlers),
-                    JSON.stringify({}));
+                assert.deepEqual(new Options(options).typeHandlers, {});
             });
         });
 
@@ -333,16 +327,14 @@ describe("options", () => {
                 const options = {
                     valueString: "#"
                 };
-                let originalOptions = options.valueString;
                 assert.strictEqual(
                     new Options(options).valueString,
-                    originalOptions);
+                    options.valueString);
 
                 options.valueString = "test";
-                originalOptions = options.valueString;
                 assert.strictEqual(
                     new Options(options).valueString,
-                    originalOptions);
+                    options.valueString);
             });
 
             it("should throw an error if the value of the property is"
@@ -374,20 +366,12 @@ describe("options", () => {
                 const options = {
                     wrapHandlers
                 };
-                let stringifiedOptions = JSON.stringify(
-                    options.wrapHandlers);
-                assert.strictEqual(
-                    JSON.stringify(
-                        new Options(options).wrapHandlers),
-                    stringifiedOptions);
+                assert.deepEqual(new Options(options).wrapHandlers,
+                                 options.wrapHandlers);
 
                 options.wrapHandlers = {};
-                stringifiedOptions = JSON.stringify(
-                    options.wrapHandlers);
-                assert.strictEqual(
-                    JSON.stringify(
-                        new Options(options).wrapHandlers),
-                    stringifiedOptions);
+                assert.deepEqual(new Options(options).wrapHandlers,
+                                 options.wrapHandlers);
             });
 
             it("should throw an error if the value of the property is"
@@ -408,9 +392,7 @@ describe("options", () => {
             it("should return a validated version of the specified property"
                + " if undefined", () => {
                 const options = {};
-                assert.strictEqual(
-                    JSON.stringify(new Options(options).wrapHandlers),
-                    JSON.stringify({}));
+                assert.deepEqual(new Options(options).wrapHandlers, {});
             });
         });
     });
