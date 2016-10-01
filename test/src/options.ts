@@ -21,7 +21,7 @@ describe("options", () => {
     describe("#Options", () => {
         describe("aliasString", () => {
             it("should leave the specified property unchanged if valid", () => {
-                let options = {
+                const options = {
                     aliasString: "="
                 };
                 let originalOptions = options.aliasString;
@@ -36,7 +36,7 @@ describe("options", () => {
 
             it("should throw an error if the value of the property is"
                + " invalid", () => {
-                let options: any = {
+                const options: any = {
                     aliasString: null
                 };
                 assert.throws(() => new Options(options));
@@ -44,14 +44,14 @@ describe("options", () => {
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
-                let options = {};
+                const options = {};
                 assert.strictEqual(new Options(options).aliasString, "=");
             });
         });
 
         describe("attributeString", () => {
             it("should leave the specified property unchanged if valid", () => {
-                let options = {
+                const options = {
                     attributeString: "@"
                 };
                 let stringifiedOptions = options.attributeString;
@@ -68,7 +68,7 @@ describe("options", () => {
 
             it("should throw an error if the value of the property is"
                + " invalid", () => {
-                let options: any = {
+                const options: any = {
                     attributeString: null
                 };
                 assert.throws(() => new Options(options));
@@ -76,7 +76,7 @@ describe("options", () => {
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
-                let options = {};
+                const options = {};
                 assert.strictEqual(new Options(options).attributeString,
                                    "@");
             });
@@ -84,7 +84,7 @@ describe("options", () => {
 
         describe("cdataInvalidChars", () => {
             it("should leave the specified property unchanged if valid", () => {
-                let options = {
+                const options = {
                     cdataInvalidChars: false
                 };
                 let originalOptions = options.cdataInvalidChars;
@@ -101,7 +101,7 @@ describe("options", () => {
 
             it("should throw an error if the value of the property is"
                + " invalid", () => {
-                let options: any = {
+                const options: any = {
                     cdataInvalidChars: null
                 };
                 assert.throws(() => new Options(options));
@@ -109,7 +109,7 @@ describe("options", () => {
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
-                let options = {};
+                const options = {};
                 assert.strictEqual(new Options(options).cdataInvalidChars,
                                    false);
             });
@@ -117,7 +117,7 @@ describe("options", () => {
 
         describe("cdataKeys", () => {
             it("should leave the specified property unchanged if valid", () => {
-                let options = {
+                const options = {
                     cdataKeys: ["test", "test2"]
                 };
                 let stringifiedOptions = JSON.stringify(options.cdataKeys);
@@ -147,7 +147,7 @@ describe("options", () => {
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
-                let options = {};
+                const options = {};
                 assert.strictEqual(
                     JSON.stringify(new Options(options).cdataKeys),
                     JSON.stringify([]));
@@ -156,7 +156,7 @@ describe("options", () => {
 
         describe("declaration", () => {
             it("should leave the specified property unchanged if valid", () => {
-                let options = {
+                const options = {
                     declaration: {
                         include: true
                     }
@@ -192,8 +192,8 @@ describe("options", () => {
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
-                let options = {};
-                let validatedOptions = new Options(options);
+                const options = {};
+                const validatedOptions = new Options(options);
                 assert.strictEqual(
                     JSON.stringify(validatedOptions.declaration),
                     JSON.stringify({include: true}));
@@ -202,7 +202,7 @@ describe("options", () => {
 
         describe("dtd", () => {
             it("should leave the specified property unchanged if valid", () => {
-                let options = {
+                const options = {
                     dtd: {
                         include: false
                     }
@@ -238,8 +238,8 @@ describe("options", () => {
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
-                let options = {};
-                let validatedOptions = new Options(options);
+                const options = {};
+                const validatedOptions = new Options(options);
                 assert.strictEqual(
                     JSON.stringify(validatedOptions.dtd),
                     JSON.stringify({include: false}));
@@ -248,10 +248,10 @@ describe("options", () => {
 
         describe("format", () => {
             it("should leave the specified property unchanged if valid", () => {
-                let options = {
+                const options = {
                     format: {}
                 };
-                let stringifiedOptions = JSON.stringify(options.format);
+                const stringifiedOptions = JSON.stringify(options.format);
                 assert.strictEqual(
                     JSON.stringify(new Options(options).format),
                     stringifiedOptions);
@@ -259,7 +259,7 @@ describe("options", () => {
 
             it("should throw an error if the specified options object"
                + " contains invalid options", () => {
-                let options: any = {
+                const options: any = {
                     format: null
                 };
                 assert.throws(() => new Options(options));
@@ -267,8 +267,8 @@ describe("options", () => {
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
-                let options = {};
-                let validatedOptions = new Options(options);
+                const options = {};
+                const validatedOptions = new Options(options);
                 assert.strictEqual(
                     JSON.stringify(validatedOptions.format),
                     JSON.stringify({}));
@@ -277,7 +277,7 @@ describe("options", () => {
 
         describe("typeHandlers", () => {
             it("should leave the specified property unchanged if valid", () => {
-                let typeHandlers: ITypeHandlers = {
+                const typeHandlers: ITypeHandlers = {
                     "test1": () => {
                         return "test2";
                     },
@@ -285,7 +285,7 @@ describe("options", () => {
                         return "test4";
                     }
                 };
-                let options = {
+                const options = {
                     typeHandlers
                 };
                 let stringifiedOptions = JSON.stringify(
@@ -321,7 +321,7 @@ describe("options", () => {
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
-                let options = {};
+                const options = {};
                 assert.strictEqual(
                     JSON.stringify(new Options(options).typeHandlers),
                     JSON.stringify({}));
@@ -330,7 +330,7 @@ describe("options", () => {
 
         describe("valueString", () => {
             it("should leave the specified property unchanged if valid", () => {
-                let options = {
+                const options = {
                     valueString: "#"
                 };
                 let originalOptions = options.valueString;
@@ -347,7 +347,7 @@ describe("options", () => {
 
             it("should throw an error if the value of the property is"
                + " invalid", () => {
-                let options: any = {
+                const options: any = {
                     valueString: null
                 };
                 assert.throws(() => new Options(options));
@@ -355,7 +355,7 @@ describe("options", () => {
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
-                let options = {};
+                const options = {};
                 assert.strictEqual(new Options(options).valueString,
                                    "#");
             });
@@ -363,7 +363,7 @@ describe("options", () => {
 
         describe("wrapHandlers", () => {
             it("should leave the specified property unchanged if valid", () => {
-                let wrapHandlers: IWrapHandlers = {
+                const wrapHandlers: IWrapHandlers = {
                     "test1": () => {
                         return "test2";
                     },
@@ -371,7 +371,7 @@ describe("options", () => {
                         return "test4";
                     }
                 };
-                let options = {
+                const options = {
                     wrapHandlers
                 };
                 let stringifiedOptions = JSON.stringify(
@@ -407,7 +407,7 @@ describe("options", () => {
 
             it("should return a validated version of the specified property"
                + " if undefined", () => {
-                let options = {};
+                const options = {};
                 assert.strictEqual(
                     JSON.stringify(new Options(options).wrapHandlers),
                     JSON.stringify({}));

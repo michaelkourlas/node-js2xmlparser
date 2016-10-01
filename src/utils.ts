@@ -83,7 +83,7 @@ export function isStringArray(val: any): val is string[] {
     if (!isArray(val)) {
         return false;
     }
-    for (let entry of val) {
+    for (const entry of val) {
         if (!isString(entry)) {
             return false;
         }
@@ -119,7 +119,7 @@ export function isMap(val: any): boolean {
  *
  * @param value The value to convert to a string.
  *
- * @returns {string} A string representation of the specified value.
+ * @returns A string representation of the specified value.
  *
  * @private
  */

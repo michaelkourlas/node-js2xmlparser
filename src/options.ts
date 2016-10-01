@@ -556,7 +556,7 @@ export class TypeHandlers implements ITypeHandlers {
                                 + " undefined");
         }
 
-        for (let key in typeHandlers) {
+        for (const key in typeHandlers) {
             if (typeHandlers.hasOwnProperty(key)) {
                 if (!isFunction(typeHandlers[key])) {
                     throw new TypeError("options.typeHandlers['" + key + "']" +
@@ -600,7 +600,7 @@ export class WrapHandlers implements IWrapHandlers {
                                 + " undefined");
         }
 
-        for (let key in wrapHandlers) {
+        for (const key in wrapHandlers) {
             if (wrapHandlers.hasOwnProperty(key)) {
                 if (!isFunction(wrapHandlers[key])) {
                     throw new TypeError("options.wrapHandlers['" + key + "']" +

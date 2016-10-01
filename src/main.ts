@@ -41,7 +41,7 @@ import {XmlAttribute, XmlDocument, XmlElement} from "xmlcreate";
 function parseString(str: string, parentElement: XmlAttribute | XmlElement,
                      options: Options): void
 {
-    let requiresCdata = (s: string) => {
+    const requiresCdata = (s: string) => {
         return (options.cdataInvalidChars && (s.indexOf("<") !== -1
                                               || s.indexOf("&") !== -1))
                || options.cdataKeys.indexOf(parentElement.name) !== -1
@@ -49,7 +49,7 @@ function parseString(str: string, parentElement: XmlAttribute | XmlElement,
     };
 
     if (parentElement instanceof XmlElement && requiresCdata(str)) {
-        let cdataStrs = str.split("]]>");
+        const cdataStrs = str.split("]]>");
         for (let i = 0; i < cdataStrs.length; i++) {
             if (requiresCdata(cdataStrs[i])) {
                 parentElement.cdata(cdataStrs[i]);
@@ -78,7 +78,7 @@ function parseString(str: string, parentElement: XmlAttribute | XmlElement,
 function parseAttribute(name: string, value: string, parentElement: XmlElement,
                         options: Options): void
 {
-    let attribute = parentElement.attribute(name, "");
+    const attribute = parentElement.attribute(name, "");
     if (isPrimitive(value)) {
         parseString(stringify(value), attribute, options);
     } else {
@@ -116,7 +116,7 @@ function parseObjectOrMapEntry(key: string, value: any,
     // Attributes key
     if (key.indexOf(options.attributeString) === 0) {
         if (isObject(value)) {
-            for (let subkey of Object.keys(value)) {
+            for (const subkey of Object.keys(value)) {
                 parseAttribute(subkey, value[subkey], parentElement, options);
             }
         } else {
@@ -163,7 +163,7 @@ function parseObjectOrMap(objectOrMap: any, parentElement: XmlElement,
                                   options);
         });
     } else {
-        for (let key of Object.keys(objectOrMap)) {
+        for (const key of Object.keys(objectOrMap)) {
             parseObjectOrMapEntry(key, objectOrMap[key], parentElement,
                                   options);
         }
@@ -194,7 +194,7 @@ function parseArrayOrSet(key: string, arrayOrSet: any,
     let arrayKey = key;
     let arrayElement = parentElement;
     if (!isUndefined(arrayNameFunc)) {
-        let arrayNameFuncKey = arrayNameFunc(arrayKey, arrayOrSet);
+        const arrayNameFuncKey = arrayNameFunc(arrayKey, arrayOrSet);
         if (isString(arrayNameFuncKey)) {
             arrayKey = arrayNameFuncKey;
             arrayElement = parentElement.element(key);
@@ -228,7 +228,7 @@ function parseValue(key: string, value: any, parentElement: XmlElement,
 {
     // If a handler for a particular type is user-defined, use that handler
     // instead of the defaults
-    let type = Object.prototype.toString.call(value);
+    const type = Object.prototype.toString.call(value);
     let handler: ((value: any) => any) | undefined;
     if (options.typeHandlers.hasOwnProperty("*")) {
         handler = options.typeHandlers["*"];
@@ -260,14 +260,14 @@ function parseValue(key: string, value: any, parentElement: XmlElement,
  * @param value The value to convert to XML.
  * @param options Options for parsing the value into XML.
  *
- * @returns {XmlDocument} An XML document corresponding to the specified value.
+ * @returns An XML document corresponding to the specified value.
  *
  * @private
  */
 function parseToDocument(root: string, value: any,
                          options: Options): XmlDocument
 {
-    let document: XmlDocument = new XmlDocument(root);
+    const document: XmlDocument = new XmlDocument(root);
     if (options.declaration.include) {
         document.decl(options.declaration);
     }
@@ -287,10 +287,10 @@ function parseToDocument(root: string, value: any,
  * @param options Options for parsing the object and formatting the resulting
  *                XML.
  *
- * @returns {string} An XML string representation of the specified object.
+ * @returns An XML string representation of the specified object.
  */
 export function parse(root: string, object: any, options?: IOptions): string {
-    let opts: Options = new Options(options);
-    let document = parseToDocument(root, object, opts);
+    const opts: Options = new Options(options);
+    const document = parseToDocument(root, object, opts);
     return document.toString(opts.format);
 }

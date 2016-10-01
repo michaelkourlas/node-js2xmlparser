@@ -317,7 +317,7 @@ describe("parser", () => {
 
         describe("options", () => {
             describe("aliasString", () => {
-                let aliasStringOptions: IOptions = {
+                const aliasStringOptions: IOptions = {
                     aliasString: "_customAliasString",
                     declaration: {
                         include: false
@@ -464,7 +464,7 @@ describe("parser", () => {
             });
 
             describe("attributeString", () => {
-                let attributeStringOptions: IOptions = {
+                const attributeStringOptions: IOptions = {
                     attributeString: "attributeString",
                     declaration: {
                         include: false
@@ -558,7 +558,7 @@ describe("parser", () => {
             });
 
             describe("cdataInvalidChars", () => {
-                let cdataInvalidCharsOptions: IOptions = {
+                const cdataInvalidCharsOptions: IOptions = {
                     cdataInvalidChars: true,
                     declaration: {
                         include: false
@@ -603,7 +603,7 @@ describe("parser", () => {
             });
 
             describe("cdataKeys", () => {
-                let cdataKeysOptions: IOptions = {
+                const cdataKeysOptions: IOptions = {
                     cdataKeys: [
                         "test1"
                     ],
@@ -614,7 +614,7 @@ describe("parser", () => {
                         pretty: false
                     }
                 };
-                let cdataKeysWildcardOptions: IOptions = {
+                const cdataKeysWildcardOptions: IOptions = {
                     cdataKeys: [
                         "test1",
                         "*"
@@ -678,7 +678,7 @@ describe("parser", () => {
             });
 
             describe("declaration", () => {
-                let declOptions: IOptions = {
+                const declOptions: IOptions = {
                     declaration: {
                         encoding: "UTF-8",
                         include: true,
@@ -706,7 +706,7 @@ describe("parser", () => {
             });
 
             describe("dtd", () => {
-                let dtdOptions: IOptions = {
+                const dtdOptions: IOptions = {
                     declaration: {
                         include: false
                     },
@@ -737,7 +737,7 @@ describe("parser", () => {
             });
 
             describe("format", () => {
-                let formatOptions: IOptions = {
+                const formatOptions: IOptions = {
                     declaration: {
                         include: false
                     },
@@ -764,10 +764,10 @@ describe("parser", () => {
             });
 
             describe("typeHandlers", () => {
-                let typeHandlers: ITypeHandlers = {
+                const typeHandlers: ITypeHandlers = {
                     "[object Number]": (val: any) => val + 17
                 };
-                let typeHandlersOptions: IOptions = {
+                const typeHandlersOptions: IOptions = {
                     declaration: {
                         include: false
                     },
@@ -777,7 +777,7 @@ describe("parser", () => {
                     typeHandlers
                 };
 
-                let typeHandlersWildcard: ITypeHandlers = {
+                const typeHandlersWildcard: ITypeHandlers = {
                     "[object Number]": (val: any) => val + 17,
                     "*": (val: any) => {
                         if (isString(val)) {
@@ -787,7 +787,7 @@ describe("parser", () => {
                         }
                     }
                 };
-                let typeHandlersWildcardOptions: IOptions = {
+                const typeHandlersWildcardOptions: IOptions = {
                     declaration: {
                         include: false
                     },
@@ -826,7 +826,7 @@ describe("parser", () => {
             });
 
             describe("valueString", () => {
-                let valueStringOptions: IOptions = {
+                const valueStringOptions: IOptions = {
                     declaration: {
                         include: false
                     },
@@ -909,14 +909,14 @@ describe("parser", () => {
             });
 
             describe("wrapHandlers", () => {
-                let wrapHandlers: IWrapHandlers = {
+                const wrapHandlers: IWrapHandlers = {
                     "test1": () => "test2",
                     "test3": (key: string, value: any) =>
                     "test4" + key + (isSet(value)
                         ? value.values().next().value : value[0]),
                     "test17": () => null
                 };
-                let wrapHandlersOptions: IOptions = {
+                const wrapHandlersOptions: IOptions = {
                     declaration: {
                         include: false
                     },
@@ -926,14 +926,14 @@ describe("parser", () => {
                     wrapHandlers
                 };
 
-                let wrapHandlersWildcard: IWrapHandlers = {
+                const wrapHandlersWildcard: IWrapHandlers = {
                     "test1": () => "test2",
                     "test3": (key: string, value: any) =>
                     "test4" + key + (isSet(value)
                         ? value.values().next().value : value[0]),
                     "*": () => "test5"
                 };
-                let wrapHandlersWildcardOptions: IOptions = {
+                const wrapHandlersWildcardOptions: IOptions = {
                     declaration: {
                         include: false
                     },
