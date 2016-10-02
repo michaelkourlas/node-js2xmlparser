@@ -45,15 +45,13 @@ You can also build js2xmlparser from source using gulp:
 ```
 git clone https://github.com/michaelkourlas/node-js2xmlparser.git
 npm install
-typings install
 gulp
 ```
 
-You'll need to install gulp and typings first if you don't have them:
+You'll need to install gulp first if you don't have it:
 
 ```
 npm install -g gulp
-npm install -g typings
 ```
 
 You can then copy the folder into your node_modules directory.
