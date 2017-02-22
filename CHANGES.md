@@ -1,6 +1,8 @@
-## 2.1.0 ##
+## 3.0.0 ##
 
+* Bug fixes
 * Add null and undefined in type declarations
+* Remove explicit engines requirement
 
 ## 2.0.2 ##
 

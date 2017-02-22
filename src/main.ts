@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 Michael Kourlas
+ * Copyright (C) 2016-2017 Michael Kourlas
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import {XmlAttribute, XmlDocument, XmlElement} from "xmlcreate";
 import {IOptions, Options} from "./options";
 import {
     isArray,
@@ -26,7 +26,6 @@ import {
     isUndefined,
     stringify
 } from "./utils";
-import {XmlAttribute, XmlDocument, XmlElement} from "xmlcreate";
 
 /**
  * Parses a string into XML.
@@ -48,17 +47,21 @@ function parseString(str: string, parentElement: XmlAttribute | XmlElement,
                || options.cdataKeys.indexOf("*") !== -1;
     };
 
-    if (parentElement instanceof XmlElement && requiresCdata(str)) {
-        const cdataStrs = str.split("]]>");
-        for (let i = 0; i < cdataStrs.length; i++) {
-            if (requiresCdata(cdataStrs[i])) {
-                parentElement.cdata(cdataStrs[i]);
-            } else {
-                parentElement.text(cdataStrs[i]);
+    if (parentElement instanceof XmlElement) {
+        if (requiresCdata(str)) {
+            const cdataStrs = str.split("]]>");
+            for (let i = 0; i < cdataStrs.length; i++) {
+                if (requiresCdata(cdataStrs[i])) {
+                    parentElement.cdata(cdataStrs[i]);
+                } else {
+                    parentElement.charData(cdataStrs[i]);
+                }
+                if (i < cdataStrs.length - 1) {
+                    parentElement.charData("]]>");
+                }
             }
-            if (i < cdataStrs.length - 1) {
-                parentElement.text("]]>");
-            }
+        } else {
+            parentElement.charData(str);
         }
     } else {
         parentElement.text(str);
@@ -274,7 +277,7 @@ function parseToDocument(root: string, value: any,
     if (options.dtd.include) {
         document.dtd(options.dtd.name!, options.dtd.sysId, options.dtd.pubId);
     }
-    parseValue(root, value, <XmlElement> document.root(), options);
+    parseValue(root, value, document.root() as XmlElement, options);
     return document;
 }
 

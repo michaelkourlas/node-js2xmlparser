@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 Michael Kourlas
+ * Copyright (C) 2016-2017 Michael Kourlas
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import {ITypeHandlers, IWrapHandlers, Options} from "../../lib/options";
 import {assert} from "chai";
+import {ITypeHandlers, IWrapHandlers, Options} from "../../lib/options";
 
 describe("options", () => {
     describe("#Options", () => {

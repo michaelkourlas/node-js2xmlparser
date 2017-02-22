@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 Michael Kourlas
+ * Copyright (C) 2016-2017 Michael Kourlas
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,33 +16,56 @@
 
 "use strict";
 
-var doc = require("gulp-typedoc");
+var del = require("del");
+var typedoc = require("gulp-typedoc");
 var gulp = require("gulp");
 var merge2 = require("merge2");
 var mocha = require("gulp-mocha");
 var sourcemaps = require('gulp-sourcemaps');
-var ts = require("gulp-typescript");
+var typescript = require("gulp-typescript");
 var tslint = require("gulp-tslint");
 
 gulp.task("default", ["prod", "test-prod", "docs"]);
 
-var tsProject = ts.createProject("tsconfig.json");
-gulp.task("prod", function() {
+gulp.task("clean", function() {
+    return del("lib");
+});
+
+gulp.task("clean-docs", function() {
+    return del("docs");
+});
+
+var tsProject = typescript.createProject("tsconfig.json");
+gulp.task("prod", ["clean"], function() {
     var tsResult = tsProject.src()
                             .pipe(tslint())
                             .pipe(tslint.report())
-                            .pipe(tsProject(ts.reporter.longReporter()));
+                            .pipe(tsProject())
+                            .on("error", function() {
+                                this.on("finish", function() {
+                                    // Commented out pending resolution
+                                    // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/14324
+                                    // process.exit(1);
+                                });
+                            });
     return merge2([tsResult.js
                            .pipe(gulp.dest("lib")),
                    tsResult.dts
                            .pipe(gulp.dest("lib"))]);
 });
-gulp.task("dev", function() {
+gulp.task("dev", ["clean"], function() {
     var tsResult = tsProject.src()
                             .pipe(tslint())
                             .pipe(tslint.report())
                             .pipe(sourcemaps.init())
-                            .pipe(tsProject(ts.reporter.longReporter()));
+                            .pipe(tsProject())
+                            .on("error", function() {
+                                this.on("finish", function() {
+                                    // Commented out pending resolution
+                                    // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/14324
+                                    // process.exit(1);
+                                });
+                            });
     return merge2([tsResult.js
                            .pipe(sourcemaps.write())
                            .pipe(gulp.dest("lib")),
@@ -50,13 +73,20 @@ gulp.task("dev", function() {
                            .pipe(gulp.dest("lib"))]);
 });
 
-var testTsProject = ts.createProject("test/tsconfig.json");
+var testTsProject = typescript.createProject("test/tsconfig.json");
 var test = function() {
     return testTsProject.src()
                         .pipe(tslint())
                         .pipe(tslint.report())
                         .pipe(sourcemaps.init())
-                        .pipe(testTsProject(ts.reporter.longReporter()))
+                        .pipe(testTsProject())
+                        .on("error", function() {
+                            this.on("finish", function() {
+                                // Commented out pending resolution
+                                // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/14324
+                                // process.exit(1);
+                            });
+                        })
                         .pipe(sourcemaps.write())
                         .pipe(gulp.dest("test/lib"))
                         .pipe(mocha());
@@ -69,11 +99,9 @@ var docOptions = {
     mode: "file",
     module: "commonjs",
     out: "docs",
-    target: "es5",
-    // TODO: Remove this option once TypeDoc supports TypeScript 2.0
-    ignoreCompilerErrors: true
+    target: "es5"
 };
-gulp.task("docs", function() {
+gulp.task("docs", ["prod", "clean-docs"], function() {
     return gulp.src("src")
-               .pipe(doc(docOptions));
+               .pipe(typedoc(docOptions));
 });

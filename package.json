@@ -1,6 +1,6 @@
 {
   "name": "js2xmlparser",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "Parses JavaScript objects into XML",
   "keywords": [
     "convert",
@@ -35,25 +35,23 @@
     "url": "git://github.com/michaelkourlas/node-js2xmlparser.git"
   },
   "dependencies": {
-    "xmlcreate": "^0.1.1"
+    "xmlcreate": "^1.0.1"
   },
   "devDependencies": {
-    "@types/chai": "^3.4.34",
-    "@types/mocha": "^2.2.32",
+    "@types/chai": "^3.4.35",
+    "@types/mocha": "^2.2.39",
     "chai": "^3.5.0",
+    "del": "^2.2.2",
     "gulp": "^3.9.1",
-    "gulp-mocha": "^3.0.1",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-tslint": "^6.1.2",
-    "gulp-typedoc": "^2.0.0",
-    "gulp-typescript": "^3.0.1",
-    "merge2": "^1.0.2",
-    "mocha": "^3.1.0",
-    "tslint": "^3.15.1",
-    "typedoc": "^0.4.5",
-    "typescript": "^2.0.3"
-  },
-  "engines": {
-    "node": ">=4.0.0"
+    "gulp-mocha": "^4.0.1",
+    "gulp-sourcemaps": "^2.4.1",
+    "gulp-tslint": "^7.1.0",
+    "gulp-typedoc": "^2.0.2",
+    "gulp-typescript": "^3.1.5",
+    "merge2": "^1.0.3",
+    "mocha": "^3.2.0",
+    "tslint": "^4.4.2",
+    "typedoc": "^0.5.7",
+    "typescript": "^2.1.6"
   }
 }

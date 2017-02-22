@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 Michael Kourlas
+ * Copyright (C) 2016-2017 Michael Kourlas
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+import {assert} from "chai";
 import {
     isArray,
     isBoolean,
@@ -29,7 +29,6 @@ import {
     isUndefined,
     stringify
 } from "../../lib/utils";
-import {assert} from "chai";
 
 describe("utils", () => {
     describe("#isString", () => {
@@ -130,7 +129,6 @@ describe("utils", () => {
         it("should return true for objects", () => {
             assert.isTrue(isObject({a: "b"}));
             assert.isTrue(isObject({}));
-            assert.isTrue(isObject(new (<any> (() => 0))()));
         });
 
         it("should return false for values that are not objects", () => {
@@ -207,8 +205,7 @@ describe("utils", () => {
     describe("#isMap", () => {
         it("should return true for sets", () => {
             assert.isTrue(isMap(new Map()));
-            assert.isTrue(isMap(new Map([<[string, string]> ["a", "b"],
-                                         <[string, string]> ["c", "d"]])));
+            assert.isTrue(isMap(new Map([["a", "b"], ["c", "d"]])));
         });
 
         it("should return false for values that are not sets", () => {
