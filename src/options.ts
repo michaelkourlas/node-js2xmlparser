@@ -613,11 +613,6 @@ export class WrapHandlers implements IWrapHandlers {
     }
 }
 
-export interface IAttribute {
-    key: string;
-    value: string;
-}
-
 export interface IRootAttributes {
-    [key: string]: IAttribute;
+    [key: string]: string;
 }
