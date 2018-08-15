@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import {XmlAttribute, XmlDocument, XmlElement} from "xmlcreate";
-import {IOptions, Options} from "./options";
+import {IOptions, IRootAttributes, Options } from "./options";
 import {
     isArray,
     isMap,
@@ -262,13 +262,15 @@ function parseValue(key: string, value: any, parentElement: XmlElement,
  *             XML, it will be a child of this root element.
  * @param value The value to convert to XML.
  * @param options Options for parsing the value into XML.
+ * @param attributes Extra attributes to use in the root element.
  *
  * @returns An XML document corresponding to the specified value.
  *
  * @private
  */
 function parseToDocument(root: string, value: any,
-                         options: Options): XmlDocument
+                         options: Options,
+                         attributes?: IRootAttributes): XmlDocument
 {
     const document: XmlDocument = new XmlDocument(root);
     if (options.declaration.include) {
@@ -276,6 +278,11 @@ function parseToDocument(root: string, value: any,
     }
     if (options.dtd.include) {
         document.dtd(options.dtd.name!, options.dtd.sysId, options.dtd.pubId);
+    }
+    if (attributes) {
+        Object.keys(attributes).forEach((attribute) => {
+            document.root().attribute(attribute, attributes[attribute]).up();
+        });
     }
     parseValue(root, value, document.root() as XmlElement, options);
     return document;
@@ -289,11 +296,15 @@ function parseToDocument(root: string, value: any,
  * @param object The object to convert to XML.
  * @param options Options for parsing the object and formatting the resulting
  *                XML.
+ * @param attributes Extra attributes to use in the root element.
  *
  * @returns An XML string representation of the specified object.
  */
-export function parse(root: string, object: any, options?: IOptions): string {
+export function parse(root: string,
+                      object: any,
+                      options?: IOptions,
+                      attributes?: IRootAttributes): string {
     const opts: Options = new Options(options);
-    const document = parseToDocument(root, object, opts);
+    const document = parseToDocument(root, object, opts, attributes);
     return document.toString(opts.format);
 }

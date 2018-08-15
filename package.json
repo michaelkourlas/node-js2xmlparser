@@ -1,6 +1,6 @@
 {
   "name": "js2xmlparser",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Parses JavaScript objects into XML",
   "keywords": [
     "convert",
