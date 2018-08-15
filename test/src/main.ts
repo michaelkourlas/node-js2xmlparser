@@ -1016,5 +1016,30 @@ describe("parser", () => {
                 });
             });
         });
+
+        describe("root attributes", () => {
+            it("should have an attribute when supplied", () => {
+                assert.strictEqual(
+                    parse("SomeElement",
+                        {"hello": {"#": "world"}},
+                        undefined,
+                        {"xmlns": "http://soap.com"}),
+                    "<?xml version='1.0'?>\n" +
+                    "<SomeElement xmlns='http://soap.com'>\n" +
+                    "    <hello>world</hello>\n" +
+                    "</SomeElement>");
+            });
+            it("should be able to handle multiple attributes", () => {
+                assert.strictEqual(
+                    parse("SomeElement",
+                        {"hello": {"#": "world"}},
+                        undefined,
+                        {"xmlns": "http://soap.com", "abcd": "efgh"}),
+                    "<?xml version='1.0'?>\n" +
+                    "<SomeElement xmlns='http://soap.com' abcd='efgh'>\n" +
+                    "    <hello>world</hello>\n" +
+                    "</SomeElement>");
+            });
+        });
     });
 });
