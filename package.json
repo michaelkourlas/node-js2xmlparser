@@ -39,6 +39,7 @@
   "devDependencies": {
     "@types/chai": "^3.4.35",
     "@types/mocha": "^2.2.39",
+    "@types/handlebars": "4.0.33",
     "chai": "^3.5.0",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
