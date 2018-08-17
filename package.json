@@ -54,6 +54,6 @@
     "typescript": "^2.1.6"
   },
   "scripts": {
-    "preinstall": "node_modules/.bin/gulp --gulpfile $(npm root)/js2xmlparser"
+    "prepack": "npm install && $(npm bin)/gulp prod"
   }
 }
