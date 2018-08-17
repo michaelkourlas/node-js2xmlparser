@@ -49,11 +49,11 @@
     "gulp-typescript": "^3.1.5",
     "merge2": "^1.0.3",
     "mocha": "^3.2.0",
-    "tslint": "4.4.2",
+    "tslint": "^4.4.2",
     "typedoc": "^0.5.7",
     "typescript": "^2.1.6"
   },
   "scripts": {
-    "preinstall": "node_modules/.bin/gulp prod"
+    "preinstall": "node_modules/.bin/gulp --gulpfile $(npm root)/js2xmlparser"
   }
 }
