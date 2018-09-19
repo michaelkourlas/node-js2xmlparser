@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/michaelkourlas/node-js2xmlparser.svg?branch=master)](https://travis-ci.org/michaelkourlas/node-js2xmlparser)
 [![npm version](https://badge.fury.io/js/js2xmlparser.svg)](https://badge.fury.io/js/js2xmlparser)
 
+# Taken From User michaelkourlas. All credit to him.
+
 ## Overview ##
 
 js2xmlparser is a Node.js module that parses JavaScript objects into XML.

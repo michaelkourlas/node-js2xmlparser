@@ -1,3 +1,7 @@
+## 3.0.1 ## 
+
+* Add ability to add attributes to the root XML node.
+
 ## 3.0.0 ##
 
 * Bug fixes

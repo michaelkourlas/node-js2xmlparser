@@ -1,6 +1,6 @@
 {
-  "name": "js2xmlparser",
-  "version": "3.0.0",
+  "name": "js2xmlparser3",
+  "version": "3.0.1",
   "description": "Parses JavaScript objects into XML",
   "keywords": [
     "convert",
@@ -16,8 +16,8 @@
   ],
   "license": "Apache-2.0",
   "author": {
-    "name": "Michael Kourlas",
-    "email": "michael@kourlas.net"
+    "name": "Mark Sanders",
+    "email": "sdscdeveloper@gmail.com"
   },
   "files": [
     "lib",
@@ -31,7 +31,7 @@
   "typings": "./lib/main",
   "repository": {
     "type": "git",
-    "url": "git://github.com/michaelkourlas/node-js2xmlparser.git"
+    "url": "git://github.com/ziplokk1/node-js2xmlparser.git"
   },
   "dependencies": {
     "xmlcreate": "^1.0.1"
@@ -39,6 +39,7 @@
   "devDependencies": {
     "@types/chai": "^3.4.35",
     "@types/mocha": "^2.2.39",
+    "@types/handlebars": "4.0.33",
     "chai": "^3.5.0",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
@@ -52,5 +53,8 @@
     "tslint": "^4.4.2",
     "typedoc": "^0.5.7",
     "typescript": "^2.1.6"
+  },
+  "scripts": {
+    "prepack": "npm install && $(npm bin)/gulp prod"
   }
 }

@@ -65,7 +65,7 @@ export function isPrimitive(val: any): val is (
 /**
  * @private
  */
-export function isObject(val: any): val is Object {
+export function isObject(val: any): val is object {
     return Object.prototype.toString.call(val) === "[object Object]";
 }
 
@@ -94,7 +94,7 @@ export function isStringArray(val: any): val is string[] {
 /**
  * @private
  */
-export function isFunction(val: any): val is Function {
+export function isFunction(val: any): val is () => void {
     return Object.prototype.toString.call(val) === "[object Function]";
 }
 

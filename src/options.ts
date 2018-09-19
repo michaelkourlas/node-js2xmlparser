@@ -612,3 +612,11 @@ export class WrapHandlers implements IWrapHandlers {
         }
     }
 }
+
+/**
+ * Typed interface to use to provide attributes to the root
+ * element of an XML document.
+ */
+export interface IRootAttributes {
+    [key: string]: string;
+}
