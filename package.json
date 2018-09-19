@@ -1,5 +1,5 @@
 {
-  "name": "js2xmlparser",
+  "name": "js2xmlparser3",
   "version": "3.0.1",
   "description": "Parses JavaScript objects into XML",
   "keywords": [
@@ -16,8 +16,8 @@
   ],
   "license": "Apache-2.0",
   "author": {
-    "name": "Michael Kourlas",
-    "email": "michael@kourlas.net"
+    "name": "Mark Sanders",
+    "email": "sdscdeveloper@gmail.com"
   },
   "files": [
     "lib",
@@ -31,7 +31,7 @@
   "typings": "./lib/main",
   "repository": {
     "type": "git",
-    "url": "git://github.com/michaelkourlas/node-js2xmlparser.git"
+    "url": "git://github.com/ziplokk1/node-js2xmlparser.git"
   },
   "dependencies": {
     "xmlcreate": "^1.0.1"
