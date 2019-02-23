@@ -149,7 +149,7 @@ export interface IOptions {
      */
     replaceInvalidChars?: boolean;
     /**
-     * If an value has a type (as defined by calling `Object.prototype.toString`
+     * If a value has a type (as defined by calling `Object.prototype.toString`
      * on the value) equal to a key in `typeHandlers`, then said value will be
      * replaced by the return value of the function mapped to by the key in
      * `typeHandlers`. This function is called with the value as a parameter.
