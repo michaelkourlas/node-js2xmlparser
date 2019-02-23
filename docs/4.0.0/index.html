@@ -1,0 +1,349 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>js2xmlparser</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">js2xmlparser</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> js2xmlparser</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="js2xmlparser">js2xmlparser</h1>
+				<p><a href="https://travis-ci.org/michaelkourlas/node-js2xmlparser"><img src="https://travis-ci.org/michaelkourlas/node-js2xmlparser.svg?branch=master" alt="Build Status"></a>
+				<a href="https://badge.fury.io/js/js2xmlparser"><img src="https://badge.fury.io/js/js2xmlparser.svg" alt="npm version"></a></p>
+				<h2 id="overview">Overview</h2>
+				<p>js2xmlparser is a Node.js module that parses JavaScript objects into XML.</p>
+				<h2 id="features">Features</h2>
+				<p>Since XML is a data-interchange format, js2xmlparser is designed primarily for
+					JSON-type objects, arrays and primitive data types, like many of the other
+				JavaScript to XML parsers currently available for Node.js.</p>
+				<p>However, js2xmlparser is capable of parsing any object, including native
+					JavaScript objects such as <code>Date</code> and <code>RegExp</code>, by taking advantage of each
+					object&#39;s <code>toString</code> function or, if this function does not exist, the <code>String</code>
+				constructor.</p>
+				<p>js2xmlparser also has support for the <code>Map</code> and <code>Set</code> objects introduced in
+					ECMAScript 2015, treating them as JSON-type objects and arrays respectively.
+					Support for <code>Map</code>s is necessary to generate XML with elements in a specific
+					order, since JSON-type objects do not guarantee insertion order. <code>Map</code> keys are
+				always converted to strings using the method described above.</p>
+				<p>js2xmlparser also supports a number of constructs unique to XML:</p>
+				<ul>
+					<li>attributes (through an attribute property in objects)</li>
+					<li>mixed content (through value properties in objects)</li>
+					<li>multiple elements with the same name (through arrays)</li>
+				</ul>
+				<p>js2xmlparser can also pretty-print the XML it outputs.</p>
+				<h2 id="installation">Installation</h2>
+				<p>The easiest way to install js2xmlparser is using npm:</p>
+				<pre><code>npm <span class="hljs-keyword">install</span> js2xmlparser</code></pre><p>You can also build js2xmlparser from source using gulp:</p>
+				<pre><code>git <span class="hljs-keyword">clone</span> <span class="hljs-title">https</span>://github.com/michaelkourlas/<span class="hljs-keyword">node</span><span class="hljs-title">-js2xmlparser</span>.git
+npm install
+gulp</code></pre><p>You&#39;ll need to install gulp first if you don&#39;t have it:</p>
+				<pre><code>npm <span class="hljs-keyword">install</span> -g gulp</code></pre><p>You can then copy the folder into your node_modules directory.</p>
+				<p>The <code>default</code> target will build the production variant of js2xmlparser, run all
+				tests, and build the documentation.</p>
+				<p>You can build the production variant without running tests using the target
+					<code>prod</code>. You can also build the development version using the target <code>dev</code>. At
+					the moment, the only difference between the two is that the development version
+				includes source maps.</p>
+				<h2 id="usage">Usage</h2>
+				<p>The documentation for the current version is available <a href="http://www.kourlas.com/node-js2xmlparser/docs/4.0.0/">here</a>.</p>
+				<p>You can also build the documentation using gulp:</p>
+				<pre><code><span class="hljs-attribute">gulp docs</span></code></pre><h2 id="examples">Examples</h2>
+				<p>The following example illustrates the basic usage of js2xmlparser:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">var</span> js2xmlparser = <span class="hljs-built_in">require</span>(<span class="hljs-string">"js2xmlparser"</span>);
+
+<span class="hljs-keyword">var</span> obj = {
+    <span class="hljs-string">"firstName"</span>: <span class="hljs-string">"John"</span>,
+    <span class="hljs-string">"lastName"</span>: <span class="hljs-string">"Smith"</span>,
+    <span class="hljs-string">"dateOfBirth"</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">1964</span>, <span class="hljs-number">7</span>, <span class="hljs-number">26</span>),
+    <span class="hljs-string">"address"</span>: {
+        <span class="hljs-string">"@"</span>: {
+            <span class="hljs-string">"type"</span>: <span class="hljs-string">"home"</span>
+        },
+        <span class="hljs-string">"streetAddress"</span>: <span class="hljs-string">"3212 22nd St"</span>,
+        <span class="hljs-string">"city"</span>: <span class="hljs-string">"Chicago"</span>,
+        <span class="hljs-string">"state"</span>: <span class="hljs-string">"Illinois"</span>,
+        <span class="hljs-string">"zip"</span>: <span class="hljs-number">10000</span>
+    },
+    <span class="hljs-string">"phone"</span>: [
+        {
+            <span class="hljs-string">"@"</span>: {
+                <span class="hljs-string">"type"</span>: <span class="hljs-string">"home"</span>
+            },
+            <span class="hljs-string">"#"</span>: <span class="hljs-string">"123-555-4567"</span>
+        },
+        {
+            <span class="hljs-string">"@"</span>: {
+                <span class="hljs-string">"type"</span>: <span class="hljs-string">"cell"</span>
+            },
+            <span class="hljs-string">"#"</span>: <span class="hljs-string">"890-555-1234"</span>
+        },
+        {
+            <span class="hljs-string">"@"</span>: {
+                <span class="hljs-string">"type"</span>: <span class="hljs-string">"work"</span>
+            },
+            <span class="hljs-string">"#"</span>: <span class="hljs-string">"567-555-8901"</span>
+        }
+    ],
+    <span class="hljs-string">"email"</span>: <span class="hljs-string">"john@smith.com"</span>
+};
+
+<span class="hljs-built_in">console</span>.log(js2xmlparser.parse(<span class="hljs-string">"person"</span>, obj));</code></pre>
+				<p>This example produces the following XML:</p>
+				<pre><code class="language-xml"><span class="hljs-meta">&lt;?xml version='1.0'?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">person</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">firstName</span>&gt;</span>John<span class="hljs-tag">&lt;/<span class="hljs-name">firstName</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">lastName</span>&gt;</span>Smith<span class="hljs-tag">&lt;/<span class="hljs-name">lastName</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dateOfBirth</span>&gt;</span>Wed Aug 26 1964 00:00:00 GMT-0400 (Eastern Summer Time)<span class="hljs-tag">&lt;/<span class="hljs-name">dateOfBirth</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">address</span> <span class="hljs-attr">type</span>=<span class="hljs-string">'home'</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">streetAddress</span>&gt;</span>3212 22nd St<span class="hljs-tag">&lt;/<span class="hljs-name">streetAddress</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">city</span>&gt;</span>Chicago<span class="hljs-tag">&lt;/<span class="hljs-name">city</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">state</span>&gt;</span>Illinois<span class="hljs-tag">&lt;/<span class="hljs-name">state</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">zip</span>&gt;</span>10000<span class="hljs-tag">&lt;/<span class="hljs-name">zip</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">address</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">phone</span> <span class="hljs-attr">type</span>=<span class="hljs-string">'home'</span>&gt;</span>123-555-4567<span class="hljs-tag">&lt;/<span class="hljs-name">phone</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">phone</span> <span class="hljs-attr">type</span>=<span class="hljs-string">'cell'</span>&gt;</span>890-555-1234<span class="hljs-tag">&lt;/<span class="hljs-name">phone</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">phone</span> <span class="hljs-attr">type</span>=<span class="hljs-string">'work'</span>&gt;</span>567-555-8901<span class="hljs-tag">&lt;/<span class="hljs-name">phone</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">email</span>&gt;</span>john@smith.com<span class="hljs-tag">&lt;/<span class="hljs-name">email</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">person</span>&gt;</span></code></pre>
+				<p>Additional examples can be found in the examples directory.</p>
+				<h2 id="tests">Tests</h2>
+				<p>js2xmlparser includes a set of tests to verify core functionality. You can run
+				the tests using gulp:</p>
+				<pre><code>gulp <span class="hljs-built_in">test</span></code></pre><p>The <code>test</code> target builds the production variant of js2xmlparser before running
+					the tests. The <code>test-prod</code> target does the same thing, while the <code>test-dev</code>
+				target builds the development variant first instead.</p>
+				<h2 id="license">License</h2>
+				<p>js2xmlparser is licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>.
+				Please see the LICENSE.md file for more information.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/absent.html" class="tsd-kind-icon">Absent</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-private">
+						<a href="classes/declarationoptions.html" class="tsd-kind-icon">Declaration<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-private">
+						<a href="classes/dtdoptions.html" class="tsd-kind-icon">Dtd<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-private">
+						<a href="classes/formatoptions.html" class="tsd-kind-icon">Format<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-private">
+						<a href="classes/options.html" class="tsd-kind-icon">Options</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-private">
+						<a href="classes/typehandlers.html" class="tsd-kind-icon">Type<wbr>Handlers</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-private">
+						<a href="classes/wraphandlers.html" class="tsd-kind-icon">Wrap<wbr>Handlers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ideclarationoptions.html" class="tsd-kind-icon">IDeclaration<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/idtdoptions.html" class="tsd-kind-icon">IDtd<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iformatoptions.html" class="tsd-kind-icon">IFormat<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ioptions.html" class="tsd-kind-icon">IOptions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/itypehandlers.html" class="tsd-kind-icon">IType<wbr>Handlers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iwraphandlers.html" class="tsd-kind-icon">IWrap<wbr>Handlers</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+						<a href="globals.html#gethandler" class="tsd-kind-icon">get<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private">
+						<a href="globals.html#isarray" class="tsd-kind-icon">is<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private">
+						<a href="globals.html#isfunction" class="tsd-kind-icon">is<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private">
+						<a href="globals.html#ismap" class="tsd-kind-icon">is<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private">
+						<a href="globals.html#isnull" class="tsd-kind-icon">is<wbr>Null</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private">
+						<a href="globals.html#isobject" class="tsd-kind-icon">is<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private">
+						<a href="globals.html#isset" class="tsd-kind-icon">is<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private">
+						<a href="globals.html#isundefined" class="tsd-kind-icon">is<wbr>Undefined</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#parse" class="tsd-kind-icon">parse</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+						<a href="globals.html#parsearrayorset" class="tsd-kind-icon">parse<wbr>Array<wbr>OrSet</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+						<a href="globals.html#parseattribute" class="tsd-kind-icon">parse<wbr>Attribute</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+						<a href="globals.html#parseobjectormap" class="tsd-kind-icon">parse<wbr>Object<wbr>OrMap</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+						<a href="globals.html#parseobjectormapentry" class="tsd-kind-icon">parse<wbr>Object<wbr>OrMap<wbr>Entry</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+						<a href="globals.html#parsestring" class="tsd-kind-icon">parse<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#parsetoexistingelement" class="tsd-kind-icon">parse<wbr>ToExisting<wbr>Element</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private tsd-is-not-exported">
+						<a href="globals.html#parsevalue" class="tsd-kind-icon">parse<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-private">
+						<a href="globals.html#stringify" class="tsd-kind-icon">stringify</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
