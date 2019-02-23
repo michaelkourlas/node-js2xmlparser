@@ -18,7 +18,7 @@ JavaScript objects such as `Date` and `RegExp`, by taking advantage of each
 object's `toString` function or, if this function does not exist, the `String`
 constructor.
 
-js2xmlparser also has support for the new `Map` and `Set` objects introduced in
+js2xmlparser also has support for the `Map` and `Set` objects introduced in
 ECMAScript 2015, treating them as JSON-type objects and arrays respectively.
 Support for `Map`s is necessary to generate XML with elements in a specific
 order, since JSON-type objects do not guarantee insertion order. `Map` keys are 
@@ -66,7 +66,7 @@ includes source maps.
 
 ## Usage ##
 
-The documentation for the current version is available [here](http://www.kourlas.com/node-js2xmlparser/docs/3.0.0/).
+The documentation for the current version is available [here](http://www.kourlas.com/node-js2xmlparser/docs/4.0.0/).
 
 You can also build the documentation using gulp:
 
@@ -141,7 +141,7 @@ This example produces the following XML:
 </person>
 ```
 
-Additional examples can be found in examples/example.js.
+Additional examples can be found in the examples directory.
 
 ## Tests ##
 

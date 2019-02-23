@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 Michael Kourlas
+ * Copyright (C) 2016-2019 Michael Kourlas
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,7 @@
  * limitations under the License.
  */
 
-import {
-    isBoolean,
-    isFunction,
-    isObject,
-    isString,
-    isStringArray,
-    isUndefined
-} from "./utils";
+import {isUndefined} from "./utils";
 
 /**
  * The options associated with parsing an object and formatting the resulting
@@ -39,7 +32,7 @@ export interface IOptions {
      * {
      *     "abc": {
      *         "=": "def"
-     *         "__val": "ghi"
+     *         "#": "ghi"
      *     }
      * }
      * ```
@@ -50,7 +43,7 @@ export interface IOptions {
      * </root>
      * ```
      *
-     * If left undefined, the default value is `"="`.
+     * The default alias string is `"="`.
      */
     aliasString?: string;
     /**
@@ -59,8 +52,9 @@ export interface IOptions {
      * said key will be interpreted as attributes for the XML element for that
      * object.
      *
-     * The attribute object must be an object containing keys that map to
-     * primitives (string, number, boolean, null, or undefined).
+     * The keys of the value of `attributeString` are interpreted as attribute
+     * names, while the values mapping to those keys are interpreted as
+     * attribute values.
      *
      * For example, if `attributeString` is `"@"`, then the following object:
      * ```javascript
@@ -86,15 +80,15 @@ export interface IOptions {
      * </root>
      * ```
      *
-     * If left undefined, the default value is `"@"`.
+     * The default attribute string is `"@"`.
      */
     attributeString?: string;
     /**
-     * If `cdataInvalidChars` is `true`, then any text containing the
-     * characters `<` or `&` shall be enclosed in CDATA sections. Otherwise,
-     * those characters shall be replaced with XML escape characters.
+     * Whether to enclose any text containing the characters `<` or `&`
+     * in CDATA sections. If this is false, these characters shall be replaced
+     * with XML escape characters instead.
      *
-     * If left undefined, the default value is `false`.
+     * By default, this is disabled.
      */
     cdataInvalidChars?: boolean;
     /**
@@ -128,7 +122,7 @@ export interface IOptions {
      * If `cdataKeys` has a key named `"*"`, then that entry will match all
      * keys.
      *
-     * If left undefined, the default value is an empty array.
+     * By default, this is an empty array.
      */
     cdataKeys?: string[];
     /**
@@ -144,23 +138,41 @@ export interface IOptions {
      */
     format?: IFormatOptions;
     /**
+     * Whether to replace any characters that are not valid in XML in particular
+     * contexts with the Unicode replacement character, U+FFFD.
+     *
+     * At present this is limited to attribute names and values; element names
+     * and character data; CDATA sections; and comments. This may be extended
+     * in future.
+     *
+     * By default, this is disabled.
+     */
+    replaceInvalidChars?: boolean;
+    /**
      * If an value has a type (as defined by calling `Object.prototype.toString`
      * on the value) equal to a key in `typeHandlers`, then said value will be
      * replaced by the return value of the function mapped to by the key in
      * `typeHandlers`. This function is called with the value as a parameter.
+     *
+     * If one of these functions returns the sole instance of {@link Absent},
+     * then the value will be suppressed from the XML output altogether.
      *
      * For example, if `typeHandlers` is:
      * ```javascript
      * {
      *     "[object Date]": function(value) {
      *         return value.getYear();
+     *     },
+     *     "[object Null]": function(value) {
+     *         return Absent.instance;
      *     }
      * }
      * ```
      * then the following object:
      * ```javascript
      * {
-     *     "abc": new Date(2012, 10, 31)
+     *     "abc": new Date(2012, 10, 31),
+     *     "def": null
      * }
      * ```
      * will result in the following XML for a root element named `"root"`:
@@ -176,15 +188,35 @@ export interface IOptions {
      * Note that normal parsing still occurs for the value returned by the
      * function; it is not directly converted to a string.
      *
-     * If left undefined, the default value is an empty object.
+     * The default value is an empty object.
      */
     typeHandlers?: ITypeHandlers;
+    /**
+     * Whether to use a self-closing tag for empty elements.
+     *
+     * For example, the following element will be used:
+     * ```xml
+     * <element/>
+     * ```
+     * instead of:
+     * ```xml
+     * <element></element>
+     * ```
+     *
+     * By default, this is enabled.
+     */
+    useSelfClosingTagIfEmpty?: boolean;
+    /**
+     * Whether to throw an exception if basic XML validation fails while
+     * building the document.
+     *
+     * By default, this is enabled.
+     */
+    validation?: boolean;
     /**
      * If an object or map contains a key that, when converted to a string,
      * begins with the value of `valueString`, then the value mapped by said key
      * will be represented as bare text within the XML element for that object.
-     * The value must be a primitive (string, number, boolean, null, or
-     * undefined).
      *
      * For example, if `valueString` is `"#"`, then the following object:
      * ```javascript
@@ -203,7 +235,7 @@ export interface IOptions {
      * </root>
      * ```
      *
-     * If left undefined, the default value is `"#"`.
+     * The default value is `"#"`.
      */
     valueString?: string;
     /**
@@ -214,9 +246,10 @@ export interface IOptions {
      *
      * The key in `wrapHandlers` must map to a function that is called with the
      * key name, as well as the array or set, as parameters. This function must
-     * return a string, which will become the name for each XML element for
-     * each item in the array or set. Alternatively, this function may return
-     * `null` to indicate that no wrapping should occur.
+     * return a string or value that can be converted to a string, which will
+     * become the name for each XML element for each item in the array or set.
+     * Alternatively, this function may return `null` to indicate that no
+     * wrapping should occur.
      *
      * For example, if `wrapHandlers` is:
      * ```javascript
@@ -258,7 +291,7 @@ export interface IOptions {
      * If `wrapHandlers` has a key named `"*"`, then that entry will
      * match all arrays and sets, unless there is a more specific entry.
      *
-     * If left undefined, the default value is an empty object.
+     * The default value is an empty object.
      */
     wrapHandlers?: IWrapHandlers;
 }
@@ -277,65 +310,51 @@ export class Options implements IOptions {
     public declaration: DeclarationOptions;
     public dtd: DtdOptions;
     public format: FormatOptions;
+    public replaceInvalidChars: boolean = false;
     public typeHandlers: TypeHandlers;
+    public useSelfClosingTagIfEmpty: boolean = true;
+    public validation: boolean = true;
     public valueString: string = "#";
     public wrapHandlers: WrapHandlers;
 
     constructor(options: IOptions = {}) {
-        if (!isObject(options)) {
-            throw new TypeError("options should be an Object or undefined");
+        if (!isUndefined(options.validation)) {
+            this.validation = options.validation;
         }
 
-        if (!isString(options.aliasString)) {
-            if (!isUndefined(options.aliasString)) {
-                throw new TypeError("options.aliasString should be a string or"
-                                    + " undefined");
-            }
-        } else {
+        if (!isUndefined(options.aliasString)) {
             this.aliasString = options.aliasString;
         }
 
-        if (!isString(options.attributeString)) {
-            if (!isUndefined(options.attributeString)) {
-                throw new TypeError("options.attributeString should be a string"
-                                    + " or undefined");
-            }
-        } else {
+        if (!isUndefined(options.attributeString)) {
             this.attributeString = options.attributeString;
         }
 
-        if (!isBoolean(options.cdataInvalidChars)) {
-            if (!isUndefined(options.cdataInvalidChars)) {
-                throw new TypeError("options.cdataInvalidChars should be a"
-                                    + " boolean or undefined");
-            }
-        } else {
+        if (!isUndefined(options.cdataInvalidChars)) {
             this.cdataInvalidChars = options.cdataInvalidChars;
         }
 
-        if (!isStringArray(options.cdataKeys)) {
-            if (!isUndefined(options.cdataKeys)) {
-                throw new TypeError("options.cdataKeys should be an Array or" +
-                                    " undefined");
-            }
-        } else {
+        if (!isUndefined(options.cdataKeys)) {
             this.cdataKeys = options.cdataKeys;
         }
 
         this.declaration = new DeclarationOptions(options.declaration);
 
-        this.dtd = new DtdOptions(options.dtd);
+        this.dtd = new DtdOptions(this.validation, options.dtd);
 
         this.format = new FormatOptions(options.format);
 
+        if (!isUndefined(options.replaceInvalidChars)) {
+            this.replaceInvalidChars = options.replaceInvalidChars;
+        }
+
         this.typeHandlers = new TypeHandlers(options.typeHandlers);
 
-        if (!isString(options.valueString)) {
-            if (!isUndefined(options.valueString)) {
-                throw new TypeError("options.valueString should be a string"
-                                    + " or undefined");
-            }
-        } else {
+        if (!isUndefined(options.useSelfClosingTagIfEmpty)) {
+            this.useSelfClosingTagIfEmpty = options.useSelfClosingTagIfEmpty;
+        }
+
+        if (!isUndefined(options.valueString)) {
             this.valueString = options.valueString;
         }
 
@@ -353,26 +372,25 @@ export class Options implements IOptions {
  */
 export interface IDeclarationOptions {
     /**
-     * If `include` is true, an XML declaration is included in the generated
-     * XML. If left undefined, the default value is `true`.
+     * Whether to include a declaration in the generated XML. By default,
+     * one is included.
      */
     include?: boolean;
     /**
-     * The XML encoding to be included in the declaration. If defined, this
-     * value must be a valid encoding. If left undefined, no encoding is
-     * included.
+     * The encoding attribute to be included in the declaration. If defined,
+     * this value must be a valid encoding. By default, no encoding attribute
+     * is included.
      */
     encoding?: string;
     /**
-     * The XML standalone attribute to be included. If defined, this value must
-     * be `"yes"` or `"no"`. If left undefined, no standalone attribute is
-     * included.
+     * The value of the standalone attribute to be included in the declaration.
+     * If defined, this value must be "yes" or "no". By default, no standalone
+     * attribute is included.
      */
     standalone?: string;
     /**
      * The XML version to be included in the declaration. If defined, this
-     * value must be a valid XML version number. If left undefined, the default
-     * version is `"1.0"`.
+     * value must be a valid XML version number. Defaults to "1.0".
      */
     version?: string;
 }
@@ -390,17 +408,7 @@ export class DeclarationOptions implements IDeclarationOptions {
     public version?: string;
 
     constructor(declarationOptions: IDeclarationOptions = {}) {
-        if (!isObject(declarationOptions)) {
-            throw new TypeError("options.declaration should be an Object or"
-                                + " undefined");
-        }
-
-        if (!isBoolean(declarationOptions.include)) {
-            if (!isUndefined(declarationOptions.include)) {
-                throw new TypeError("options.declaration.include should be a"
-                                    + " boolean or undefined");
-            }
-        } else {
+        if (!isUndefined(declarationOptions.include)) {
             this.include = declarationOptions.include;
         }
 
@@ -413,7 +421,7 @@ export class DeclarationOptions implements IDeclarationOptions {
 
 /**
  * The options associated with the XML document type definition (DTD). An
- * example of an XML document type definition is as follows:
+ * example of a DTD is as follows:
  *
  * ```xml
  * <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -422,24 +430,24 @@ export class DeclarationOptions implements IDeclarationOptions {
  */
 export interface IDtdOptions {
     /**
-     * If `include` is `true`, an XML DTD is included in the resulting XML. If
-     * left undefined, the default value is `true`.
+     * Whether to include a DTD in the generated XML. By default, no DTD is
+     * included.
      */
     include?: boolean;
     /**
      * The name of the DTD. This value cannot be left undefined if `include`
-     * is `true`.
+     * is true.
      */
     name?: string;
     /**
-     * The system identifier of the DTD, excluding quotation marks. If left
-     * undefined, no system identifier is included.
+     * The system identifier of the DTD, excluding quotation marks. By default,
+     * no system identifier is included.
      */
     sysId?: string;
     /**
-     * The public identifier of the DTD, excluding quotation marks. If `pubId`
-     * is defined, `sysId` must be defined as well. If left undefined, no
-     * public identifier is included.
+     * The public identifier of the DTD, excluding quotation marks. If a public
+     * identifier is provided, a system identifier must be provided as well.
+     * By default, no public identifier is included.
      */
     pubId?: string;
 }
@@ -456,21 +464,16 @@ export class DtdOptions implements IDtdOptions {
     public sysId?: string;
     public pubId?: string;
 
-    constructor(dtdOptions: IDtdOptions = {}) {
-        if (!isObject(dtdOptions)) {
-            throw new TypeError("options.dtd should be an Object or undefined");
-        }
-
-        if (!isBoolean(dtdOptions.include)) {
-            if (!isUndefined(dtdOptions.include)) {
-                throw new TypeError("options.dtd.include should be a boolean"
-                                    + " or undefined");
-            }
-        } else {
+    constructor(validation: boolean, dtdOptions: IDtdOptions = {}) {
+        if (!isUndefined(dtdOptions.include)) {
             this.include = dtdOptions.include;
         }
 
-        // Validation performed by xmlcreate
+        if (validation && isUndefined(dtdOptions.name) && this.include) {
+            throw new Error("options.dtd.name should be defined if"
+                            + " options.dtd.include is true");
+        }
+
         this.name = dtdOptions.name;
         this.sysId = dtdOptions.sysId;
         this.pubId = dtdOptions.pubId;
@@ -482,24 +485,23 @@ export class DtdOptions implements IDtdOptions {
  */
 export interface IFormatOptions {
     /**
-     * If `doubleQuotes` is `true`, double quotes are used in XML attributes.
-     * Otherwise, single quotes are used in XML attributes. If left undefined,
-     * the default value is `false`.
+     * Whether double quotes or single quotes should be used in XML attributes.
+     * By default, single quotes are used.
      */
     doubleQuotes?: boolean;
     /**
-     * The indent string used for pretty-printing. If left undefined, the
-     * default value is four spaces.
+     * The indent string used for pretty-printing. The default indent string is
+     * four spaces.
      */
     indent?: string;
     /**
-     * The newline string used for pretty-printing. If left undefined, the
-     * default value is `"\n"`.
+     * The newline string used for pretty-printing. The default newline string
+     * is "\n".
      */
     newline?: string;
     /**
-     * If `pretty` is `true`, pretty-printing is enabled. If left undefined,
-     * the default value is `true`.
+     * Whether pretty-printing is enabled. By default, pretty-printing is
+     * enabled.
      */
     pretty?: boolean;
 }
@@ -517,12 +519,6 @@ export class FormatOptions implements IFormatOptions {
     public pretty?: boolean;
 
     constructor(formatOptions: IFormatOptions = {}) {
-        if (!isObject(formatOptions)) {
-            throw new TypeError("options.format should be an Object or"
-                                + " undefined");
-        }
-
-        // Validation performed by xmlcreate
         this.doubleQuotes = formatOptions.doubleQuotes;
         this.indent = formatOptions.indent;
         this.newline = formatOptions.newline;
@@ -551,19 +547,9 @@ export class TypeHandlers implements ITypeHandlers {
     [type: string]: (value: any) => any;
 
     constructor(typeHandlers: ITypeHandlers = {}) {
-        if (!isObject(typeHandlers)) {
-            throw new TypeError("options.typeHandlers should be an Object or"
-                                + " undefined");
-        }
-
         for (const key in typeHandlers) {
             if (typeHandlers.hasOwnProperty(key)) {
-                if (!isFunction(typeHandlers[key])) {
-                    throw new TypeError("options.typeHandlers['" + key + "']" +
-                                        " should be a Function");
-                } else {
-                    this[key] = typeHandlers[key];
-                }
+                this[key] = typeHandlers[key];
             }
         }
     }
@@ -595,19 +581,9 @@ export class WrapHandlers implements IWrapHandlers {
     [key: string]: (key: string, value: any) => string | null;
 
     constructor(wrapHandlers: IWrapHandlers = {}) {
-        if (!isObject(wrapHandlers)) {
-            throw new TypeError("options.wrapHandlers should be an Object or"
-                                + " undefined");
-        }
-
         for (const key in wrapHandlers) {
             if (wrapHandlers.hasOwnProperty(key)) {
-                if (!isFunction(wrapHandlers[key])) {
-                    throw new TypeError("options.wrapHandlers['" + key + "']" +
-                                        " should be a Function");
-                } else {
-                    this[key] = wrapHandlers[key];
-                }
+                this[key] = wrapHandlers[key];
             }
         }
     }

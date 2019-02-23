@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2017 Michael Kourlas
+ * Copyright (C) 2016-2019 Michael Kourlas
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,77 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import {assert} from "chai";
 import {
     isArray,
-    isBoolean,
     isFunction,
     isMap,
     isNull,
-    isNumber,
     isObject,
-    isPrimitive,
     isSet,
-    isString,
-    isStringArray,
     isUndefined,
     stringify
 } from "../../lib/utils";
 
 describe("utils", () => {
-    describe("#isString", () => {
-        it("should return true for strings", () => {
-            assert.isTrue(isString("test"));
-            assert.isTrue(isString(""));
-            /* tslint:disable no-construct */
-            // noinspection JSPrimitiveTypeWrapperUsage
-            assert.isTrue(isString(new String("test")));
-            /* tslint:enable no-construct */
-        });
-
-        it("should return false for non-strings", () => {
-            assert.isFalse(isString(3));
-            assert.isFalse(isString(false));
-            assert.isFalse(isString(null));
-            assert.isFalse(isString(undefined));
-        });
-    });
-
-    describe("#isNumber", () => {
-        it("should return true for numbers", () => {
-            assert.isTrue(isNumber(3));
-            assert.isTrue(isNumber(3.2));
-            /* tslint:disable no-construct */
-            // noinspection JSPrimitiveTypeWrapperUsage
-            assert.isTrue(isNumber(new Number(3)));
-            /* tslint:enable no-construct */
-        });
-
-        it("should return false for non-numbers", () => {
-            assert.isFalse(isNumber("test"));
-            assert.isFalse(isNumber(false));
-            assert.isFalse(isNumber(null));
-            assert.isFalse(isNumber(undefined));
-        });
-    });
-
-    describe("#isBoolean", () => {
-        it("should return true for booleans", () => {
-            assert.isTrue(isBoolean(true));
-            /* tslint:disable no-construct */
-            // noinspection JSPrimitiveTypeWrapperUsage
-            assert.isTrue(isBoolean(new Boolean(false)));
-            /* tslint:enable no-construct */
-        });
-
-        it("should return false for non-booleans", () => {
-            assert.isFalse(isBoolean("test"));
-            assert.isFalse(isBoolean(3));
-            assert.isFalse(isBoolean(null));
-            assert.isFalse(isBoolean(undefined));
-        });
-    });
-
     describe("#isUndefined", () => {
         it("should return true for undefined", () => {
             assert.isTrue(isUndefined(undefined));
@@ -107,21 +50,6 @@ describe("utils", () => {
             assert.isFalse(isNull(3));
             assert.isFalse(isNull(undefined));
             assert.isFalse(isNull(true));
-        });
-    });
-
-    describe("#isPrimitive", () => {
-        it("should return true for primitives", () => {
-            assert.isTrue(isPrimitive("test"));
-            assert.isTrue(isPrimitive(3));
-            assert.isTrue(isPrimitive(undefined));
-            assert.isTrue(isPrimitive(true));
-            assert.isTrue(isPrimitive(null));
-        });
-
-        it("should return false for values that are not primitives", () => {
-            assert.isFalse(isPrimitive({}));
-            assert.isFalse(isPrimitive([]));
         });
     });
 
@@ -153,22 +81,6 @@ describe("utils", () => {
             assert.isFalse(isArray(undefined));
             assert.isFalse(isArray(true));
             assert.isFalse(isArray(null));
-        });
-    });
-
-    describe("#isStringArray", () => {
-        it("should return true for string arrays", () => {
-            assert.isTrue(isStringArray(["a", "b"]));
-            assert.isTrue(isStringArray([]));
-        });
-
-        it("should return false for values that are not string arrays", () => {
-            assert.isFalse(isStringArray("test"));
-            assert.isFalse(isStringArray(3));
-            assert.isFalse(isStringArray(undefined));
-            assert.isFalse(isStringArray(true));
-            assert.isFalse(isStringArray(null));
-            assert.isFalse(isStringArray(["a", 3]));
         });
     });
 

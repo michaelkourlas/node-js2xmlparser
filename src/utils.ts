@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 Michael Kourlas
+ * Copyright (C) 2016-2019 Michael Kourlas
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,27 +17,6 @@
 /**
  * @private
  */
-export function isString(val: any): val is string {
-    return Object.prototype.toString.call(val) === "[object String]";
-}
-
-/**
- * @private
- */
-export function isNumber(val: any): val is number {
-    return Object.prototype.toString.call(val) === "[object Number]";
-}
-
-/**
- * @private
- */
-export function isBoolean(val: any): val is boolean {
-    return Object.prototype.toString.call(val) === "[object Boolean]";
-}
-
-/**
- * @private
- */
 export function isUndefined(val: any): val is undefined {
     return Object.prototype.toString.call(val) === "[object Undefined]";
 }
@@ -49,25 +28,15 @@ export function isNull(val: any): val is null {
     return Object.prototype.toString.call(val) === "[object Null]";
 }
 
-/**
- * @private
- */
-export function isPrimitive(val: any): val is (
-    string | number | boolean | undefined | null)
-{
-    return isString(val)
-           || isNumber(val)
-           || isBoolean(val)
-           || isUndefined(val)
-           || isNull(val);
-}
-
+/* tslint:disable:ban-types */
 /**
  * @private
  */
 export function isObject(val: any): val is Object {
     return Object.prototype.toString.call(val) === "[object Object]";
 }
+
+/* tslint:enable:ban-types */
 
 /**
  * @private
@@ -76,27 +45,15 @@ export function isArray(val: any): val is any[] {
     return Object.prototype.toString.call(val) === "[object Array]";
 }
 
-/**
- * @private
- */
-export function isStringArray(val: any): val is string[] {
-    if (!isArray(val)) {
-        return false;
-    }
-    for (const entry of val) {
-        if (!isString(entry)) {
-            return false;
-        }
-    }
-    return true;
-}
-
+/* tslint:disable:ban-types */
 /**
  * @private
  */
 export function isFunction(val: any): val is Function {
     return Object.prototype.toString.call(val) === "[object Function]";
 }
+
+/* tslint:enable:ban-types */
 
 /**
  * @private

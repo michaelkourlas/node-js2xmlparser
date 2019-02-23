@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2017 Michael Kourlas
+ * Copyright (C) 2016-2019 Michael Kourlas
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,24 +20,57 @@ import {
     isMap,
     isNull,
     isObject,
-    isPrimitive,
     isSet,
-    isString,
     isUndefined,
     stringify
 } from "./utils";
 
 /**
- * Parses a string into XML.
+ * Indicates that an object of a particular type should be suppressed from the
+ * XML output.
  *
- * @param str The string to parse into XML.
- * @param parentElement The XML element or attribute that will contain the
- *                      string.
- * @param options Options for parsing the string into XML.
+ * See the `typeHandlers` property in {@link IOptions} for more details.
+ */
+export class Absent {
+    private static _instance = new Absent();
+
+    private constructor() {
+    }
+
+    /**
+     * Returns the sole instance of Absent.
+     */
+    public static get instance() {
+        return Absent._instance;
+    }
+}
+
+/**
+ * Gets the type handler associated with a value.
  *
  * @private
  */
-function parseString(str: string, parentElement: XmlAttribute | XmlElement,
+function getHandler(value: any,
+                    options: Options): ((value: any) => any) | undefined
+{
+    const type = Object.prototype.toString.call(value);
+    let handler: ((value: any) => any) | undefined;
+    if (options.typeHandlers.hasOwnProperty("*")) {
+        handler = options.typeHandlers["*"];
+    }
+    if (options.typeHandlers.hasOwnProperty(type)) {
+        handler = options.typeHandlers[type];
+    }
+    return handler;
+}
+
+/**
+ * Parses a string into XML and adds it to the parent element or attribute.
+ *
+ * @private
+ */
+function parseString(str: string,
+                     parentElement: XmlAttribute<any> | XmlElement<any>,
                      options: Options): void
 {
     const requiresCdata = (s: string) => {
@@ -52,112 +85,119 @@ function parseString(str: string, parentElement: XmlAttribute | XmlElement,
             const cdataStrs = str.split("]]>");
             for (let i = 0; i < cdataStrs.length; i++) {
                 if (requiresCdata(cdataStrs[i])) {
-                    parentElement.cdata(cdataStrs[i]);
+                    parentElement.cdata(
+                        {
+                            charData: cdataStrs[i],
+                            replaceInvalidCharsInCharData:
+                            options.replaceInvalidChars
+                        });
                 } else {
-                    parentElement.charData(cdataStrs[i]);
+                    parentElement.charData(
+                        {
+                            charData: cdataStrs[i],
+                            replaceInvalidCharsInCharData:
+                            options.replaceInvalidChars
+                        });
                 }
                 if (i < cdataStrs.length - 1) {
-                    parentElement.charData("]]>");
+                    parentElement.charData(
+                        {
+                            charData: "]]>",
+                            replaceInvalidCharsInCharData:
+                            options.replaceInvalidChars
+                        });
                 }
             }
         } else {
-            parentElement.charData(str);
+            parentElement.charData(
+                {
+                    charData: str,
+                    replaceInvalidCharsInCharData: options.replaceInvalidChars
+                });
         }
     } else {
-        parentElement.text(str);
+        parentElement.text(
+            {
+                charData: str,
+                replaceInvalidCharsInCharData: options.replaceInvalidChars
+            });
     }
 }
 
 /**
- * Parses an attribute into XML.
- *
- * @param name The name of the attribute.
- * @param value The value of the attribute.
- * @param parentElement The XML element that will contain the string.
- * @param options Options for parsing the attribute into XML.
+ * Parses an attribute into XML and adds it to the parent element.
  *
  * @private
  */
-function parseAttribute(name: string, value: string, parentElement: XmlElement,
+function parseAttribute(name: string, value: string,
+                        parentElement: XmlElement<any>,
                         options: Options): void
 {
-    const attribute = parentElement.attribute(name, "");
-    if (isPrimitive(value)) {
-        parseString(stringify(value), attribute, options);
-    } else {
-        throw new Error("attribute value for name '" + name + "' should be a"
-                        + " primitive (string, number, boolean, null, or"
-                        + " undefined)");
-    }
+    const attribute = parentElement.attribute(
+        {
+            name,
+            replaceInvalidCharsInName: options.replaceInvalidChars
+        });
+    parseString(stringify(value), attribute, options);
 }
 
 /**
- * Parses an object or Map entry into XML.
- *
- * @param key The key associated with the object or Map entry.
- * @param value The object or map entry.
- * @param parentElement The XML element that will contain the object or map
- *                      entry.
- * @param options Options for parsing the object or map entry into XML.
+ * Parses an object or Map entry into XML and adds it to the parent element.
  *
  * @private
  */
 function parseObjectOrMapEntry(key: string, value: any,
-                               parentElement: XmlElement,
+                               parentElement: XmlElement<any>,
                                options: Options): void
 {
     // Alias key
     if (key === options.aliasString) {
-        if (!isString(value)) {
-            throw new Error("aliasString value for " + value
-                            + " should be a string");
-        }
-        parentElement.name = value;
+        parentElement.name = stringify(value);
         return;
     }
 
     // Attributes key
     if (key.indexOf(options.attributeString) === 0) {
-        if (isObject(value)) {
-            for (const subkey of Object.keys(value)) {
-                parseAttribute(subkey, value[subkey], parentElement, options);
-            }
-        } else {
-            throw new Error("attributes object for " + key + " should be an"
-                            + " object");
+        for (const subkey of Object.keys(value)) {
+            parseAttribute(subkey, stringify(value[subkey]),
+                           parentElement, options);
         }
         return;
     }
 
     // Value key
     if (key.indexOf(options.valueString) === 0) {
-        if (isPrimitive(value)) {
-            parseValue(key, value, parentElement, options);
-            return;
-        } else {
-            throw new Error("value " + value + " should be a primitive"
-                            + " (string, number, boolean, null, or undefined)");
-        }
+        parseValue(key, stringify(value), parentElement, options);
+        return;
     }
 
     // Standard handling (create new element for entry)
     let element = parentElement;
     if (!isArray(value) && !isSet(value)) {
-        element = parentElement.element(key);
+        // If handler for value returns absent, then do not add element
+        const handler = getHandler(value, options);
+        if (!isUndefined(handler)) {
+            if (handler(value) === Absent.instance) {
+                return;
+            }
+        }
+
+        element = parentElement.element(
+            {
+                name: key,
+                replaceInvalidCharsInName: options.replaceInvalidChars,
+                useSelfClosingTagIfEmpty: options.useSelfClosingTagIfEmpty
+            });
     }
     parseValue(key, value, element, options);
 }
 
 /**
- * Parses an Object or Map into XML.
- *
- * @param objectOrMap The object or map to parse into XML.
- * @param parentElement The XML element that will contain the object.
- * @param options Options for parsing the object into XML.
+ * Parses an Object or Map into XML and adds it to the parent element.
  *
  * @private
  */
-function parseObjectOrMap(objectOrMap: any, parentElement: XmlElement,
+function parseObjectOrMap(objectOrMap: any, parentElement: XmlElement<any>,
                           options: Options): void
 {
     if (isMap(objectOrMap)) {
@@ -174,17 +214,13 @@ function parseObjectOrMap(objectOrMap: any, parentElement: XmlElement,
 }
 
 /**
- * Parses an array or Set into XML.
- *
- * @param key The key associated with the array or set to parse into XML.
- * @param arrayOrSet The array or set to parse into XML.
- * @param parentElement The XML element that will contain the function.
- * @param options Options for parsing the array or set into XML.
+ * Parses an array or Set into XML and adds it to the parent element.
  *
  * @private
  */
 function parseArrayOrSet(key: string, arrayOrSet: any,
-                         parentElement: XmlElement, options: Options): void
+                         parentElement: XmlElement<any>,
+                         options: Options): void
 {
     let arrayNameFunc: ((key: string, value: any) => string | null) | undefined;
     if (options.wrapHandlers.hasOwnProperty("*")) {
@@ -198,47 +234,53 @@ function parseArrayOrSet(key: string, arrayOrSet: any,
     let arrayElement = parentElement;
     if (!isUndefined(arrayNameFunc)) {
         const arrayNameFuncKey = arrayNameFunc(arrayKey, arrayOrSet);
-        if (isString(arrayNameFuncKey)) {
+        if (!isNull(arrayNameFuncKey)) {
             arrayKey = arrayNameFuncKey;
-            arrayElement = parentElement.element(key);
-        } else if (!isNull(arrayNameFuncKey)) {
-            throw new Error("wrapHandlers function for " + arrayKey
-                            + " should return a string or null");
+            arrayElement = parentElement.element(
+                {
+                    name: key,
+                    replaceInvalidCharsInName: options.replaceInvalidChars,
+                    useSelfClosingTagIfEmpty: options.useSelfClosingTagIfEmpty
+                }
+            );
         }
     }
 
     arrayOrSet.forEach((item: any) => {
         let element = arrayElement;
         if (!isArray(item) && !isSet(item)) {
-            element = arrayElement.element(arrayKey);
+            // If handler for value returns absent, then do not add element
+            const handler = getHandler(item, options);
+            if (!isUndefined(handler)) {
+                if (handler(item) === Absent.instance) {
+                    return;
+                }
+            }
+
+            element = arrayElement.element(
+                {
+                    name: arrayKey,
+                    replaceInvalidCharsInName: options.replaceInvalidChars,
+                    useSelfClosingTagIfEmpty: options.useSelfClosingTagIfEmpty
+                }
+            );
         }
         parseValue(arrayKey, item, element, options);
     });
 }
 
 /**
- * Parses an arbitrary JavaScript value into XML.
- *
- * @param key The key associated with the value to parse into XML.
- * @param value The value to parse into XML.
- * @param parentElement The XML element that will contain the value.
- * @param options Options for parsing the value into XML.
+ * Parses an arbitrary JavaScript value into XML and adds it to the parent
+ * element.
  *
  * @private
  */
-function parseValue(key: string, value: any, parentElement: XmlElement,
+function parseValue(key: string, value: any, parentElement: XmlElement<any>,
                     options: Options): void
 {
     // If a handler for a particular type is user-defined, use that handler
     // instead of the defaults
-    const type = Object.prototype.toString.call(value);
-    let handler: ((value: any) => any) | undefined;
-    if (options.typeHandlers.hasOwnProperty("*")) {
-        handler = options.typeHandlers["*"];
-    }
-    if (options.typeHandlers.hasOwnProperty(type)) {
-        handler = options.typeHandlers[type];
-    }
+    const handler = getHandler(value, options);
     if (!isUndefined(handler)) {
         value = handler(value);
     }
@@ -256,44 +298,54 @@ function parseValue(key: string, value: any, parentElement: XmlElement,
 }
 
 /**
- * Returns a XML document corresponding to the specified value.
+ * Converts the specified object to XML and adds the XML representation to the
+ * specified XmlDocument object using the specified options.
  *
- * @param root The name of the root XML element. When the value is converted to
- *             XML, it will be a child of this root element.
- * @param value The value to convert to XML.
- * @param options Options for parsing the value into XML.
- *
- * @returns An XML document corresponding to the specified value.
- *
- * @private
+ * This function does not add a root element. In addition, it does not add an
+ * XML declaration or DTD, and the associated options in {@link IOptions} are
+ * ignored. If desired, these must be added manually.
  */
-function parseToDocument(root: string, value: any,
-                         options: Options): XmlDocument
+export function parseToExistingElement(element: XmlElement<any>, object: any,
+                                       options?: IOptions)
 {
-    const document: XmlDocument = new XmlDocument(root);
-    if (options.declaration.include) {
-        document.decl(options.declaration);
-    }
-    if (options.dtd.include) {
-        document.dtd(options.dtd.name!, options.dtd.sysId, options.dtd.pubId);
-    }
-    parseValue(root, value, document.root() as XmlElement, options);
-    return document;
+    const opts: Options = new Options(options);
+    parseValue(element.name, object, element, opts);
 }
 
 /**
- * Returns a XML string representation of the specified object.
+ * Returns a XML string representation of the specified object using the
+ * specified options.
  *
- * @param root The name of the root XML element. When the object is converted
- *             to XML, it will be a child of this root element.
- * @param object The object to convert to XML.
- * @param options Options for parsing the object and formatting the resulting
- *                XML.
- *
- * @returns An XML string representation of the specified object.
+ * `root` is the name of the root XML element. When the object is converted
+ * to XML, it will be a child of this root element.
  */
 export function parse(root: string, object: any, options?: IOptions): string {
-    const opts: Options = new Options(options);
-    const document = parseToDocument(root, object, opts);
+    const opts = new Options(options);
+    const document = new XmlDocument(
+        {
+            validation: opts.validation
+        }
+    );
+    if (opts.declaration.include) {
+        document.decl(opts.declaration);
+    }
+    if (opts.dtd.include) {
+        document.dtd(
+            {
+                // Validated in options.ts
+                name: opts.dtd.name!,
+                pubId: opts.dtd.pubId,
+                sysId: opts.dtd.sysId
+            }
+        );
+    }
+    const rootElement = document.element(
+        {
+            name: root,
+            replaceInvalidCharsInName: opts.replaceInvalidChars,
+            useSelfClosingTagIfEmpty: opts.useSelfClosingTagIfEmpty
+        }
+    );
+    parseToExistingElement(rootElement, object, options);
     return document.toString(opts.format);
 }

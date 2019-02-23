@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "lib": [
       "dom",
       "es5",
@@ -8,12 +10,10 @@
     ],
     "module": "commonjs",
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
     "noImplicitReturns": true,
-    "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strictNullChecks": true,
+    "strict": true,
     "target": "es5"
   },
   "include": [

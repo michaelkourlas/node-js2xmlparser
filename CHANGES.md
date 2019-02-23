@@ -1,3 +1,14 @@
+## 4.0.0 ##
+
+* Do not indent multi-line strings
+* Use self-closing tags, unless otherwise specified
+* Add option to automatically replace invalid characters with U+FFFD
+* Add option to suppress certain values from output
+* Add support for adding to existing xmlcreate object
+* Remove certain unnecessary validation rules
+* Bug fixes
+* Correct errors in documentation
+
 ## 3.0.0 ##
 
 * Bug fixes

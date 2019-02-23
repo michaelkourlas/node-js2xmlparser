@@ -1,9 +1,8 @@
 language: node_js
 node_js:
   - node
-  - 6
-  - 5
-  - 4
+  - 8
+  - 10
 install:
   - npm install -g gulp
   - npm install
