@@ -111,14 +111,14 @@ function parseString(str: string,
         } else {
             parentElement.charData(
                 {
-                    charData: str,
+                    charData: str.replace(/\x1B[[(?);]{0,2}(;?\d)*./g, ""),
                     replaceInvalidCharsInCharData: options.replaceInvalidChars
                 });
         }
     } else {
         parentElement.text(
             {
-                charData: str,
+                charData: str.replace(/\x1B[[(?);]{0,2}(;?\d)*./g, ""),
                 replaceInvalidCharsInCharData: options.replaceInvalidChars
             });
     }
