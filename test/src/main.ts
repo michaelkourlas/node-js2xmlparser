@@ -45,7 +45,6 @@ describe("parser", () => {
         });
 
         it("object versions of primitives", () => {
-            /* tslint:disable no-construct */
             // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(parse("root", new String("string"),
                                      simpleOptions),
@@ -57,7 +56,6 @@ describe("parser", () => {
             assert.strictEqual(parse("root", new Boolean(true),
                                      simpleOptions),
                                "<root>true</root>");
-            /* tslint:enable no-construct */
         });
 
         it("simple objects and maps", () => {
@@ -108,7 +106,6 @@ describe("parser", () => {
         });
 
         it("primitives in objects and maps", () => {
-            /* tslint:disable no-construct */
             // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
                 parse(
@@ -158,11 +155,9 @@ describe("parser", () => {
                     simpleOptions),
                 "<root><false>str1</false><undefined>str2</undefined>"
                 + "<null>str3</null></root>");
-            /* tslint:enable no-construct */
         });
 
         it("primitives in arrays and sets", () => {
-            /* tslint:disable no-construct */
             // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
                 parse(
@@ -184,7 +179,6 @@ describe("parser", () => {
                 "<root><root>test</root><root>3</root><root>false</root>"
                 + "<root>undefined</root><root>null</root><root>str1"
                 + "</root><root>5</root><root>false</root></root>");
-            /* tslint:enable no-construct */
         });
 
         it("nested objects and maps", () => {

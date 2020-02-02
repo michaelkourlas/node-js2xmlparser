@@ -141,14 +141,12 @@ describe("utils", () => {
 
         it("should return a valid string representation for all object"
            + " versions of primitive types", () => {
-            /* tslint:disable no-construct */
             // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(stringify(new Number(3)), "3");
             // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(stringify(new String("test")), "test");
             // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(stringify(new Boolean(true)), "true");
-            /* tslint:enable no-construct */
         });
     });
 });

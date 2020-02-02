@@ -28,15 +28,12 @@ export function isNull(val: unknown): val is null {
     return Object.prototype.toString.call(val) === "[object Null]";
 }
 
-/* tslint:disable:ban-types */
 /**
  * @private
  */
 export function isObject(val: unknown): val is Record<string, unknown> {
     return Object.prototype.toString.call(val) === "[object Object]";
 }
-
-/* tslint:enable:ban-types */
 
 /**
  * @private
@@ -45,15 +42,12 @@ export function isArray(val: unknown): val is unknown[] {
     return Object.prototype.toString.call(val) === "[object Array]";
 }
 
-/* tslint:disable:ban-types */
 /**
  * @private
  */
 export function isFunction(val: unknown): val is Function {
     return Object.prototype.toString.call(val) === "[object Function]";
 }
-
-/* tslint:enable:ban-types */
 
 /**
  * @private
