@@ -131,16 +131,17 @@ describe("parser", () => {
             assert.strictEqual(
                 parse(
                     "root",
-                    new Map<string, any>([
-                                             ["test", "str"],
-                                             ["test2", 3],
-                                             ["test3", true],
-                                             ["test4", undefined],
-                                             ["test5", null],
-                                             ["test6", new String("str2")],
-                                             ["test7", new Number(6)],
-                                             ["test8", new Boolean(false)]
-                                         ]),
+                    new Map<string, unknown>(
+                        [
+                            ["test", "str"],
+                            ["test2", 3],
+                            ["test3", true],
+                            ["test4", undefined],
+                            ["test5", null],
+                            ["test6", new String("str2")],
+                            ["test7", new Number(6)],
+                            ["test8", new Boolean(false)]
+                        ]),
                     simpleOptions),
                 "<root><test>str</test><test2>3</test2><test3>true</test3>"
                 + "<test4>undefined</test4><test5>null</test5><test6>str2"
@@ -196,7 +197,7 @@ describe("parser", () => {
                                 "test18": "test19",
                                 "test20": "test21"
                             },
-                            "test2": new Map<string, any>(
+                            "test2": new Map<string, unknown>(
                                 [
                                     ["test3",
                                      "test4"],
@@ -273,7 +274,7 @@ describe("parser", () => {
                             ],
                             "test43": "test44"
                         },
-                        "test22": new Map<string, any>(
+                        "test22": new Map<string, unknown>(
                             [
                                 ["test45",
                                  "test46"],
@@ -371,7 +372,7 @@ describe("parser", () => {
                 assert.strictEqual(
                     parse(
                         "root",
-                        new Map<string, any>(
+                        new Map<string, unknown>(
                             [
                                 ["test1", "test2"],
                                 ["test3", {
@@ -765,7 +766,11 @@ describe("parser", () => {
             it("typeHandlers", () => {
                 const typeHandlers: ITypeHandlers = {
                     "[object Null]": () => Absent.instance,
+                    // @formatter:off
+                    // eslint-disable-next-line max-len
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     "[object Number]": (val: any) => val + 17
+                    // @formatter:on
                 };
                 const typeHandlersOptions: IOptions = {
                     declaration: {
@@ -778,14 +783,22 @@ describe("parser", () => {
                 };
 
                 const typeHandlersWildcard: ITypeHandlers = {
+                    // @formatter:off
+                    // eslint-disable-next-line max-len
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     "*": (val: any) => {
+                        // @formatter:on
                         if (typeof val === "string") {
                             return val + "abc";
                         } else {
                             return val;
                         }
                     },
+                    // @formatter:off
+                    // eslint-disable-next-line max-len
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     "[object Number]": (val: any) => val + 17
+                    // @formatter:on
                 };
                 const typeHandlersWildcardOptions: IOptions = {
                     declaration: {
@@ -956,7 +969,11 @@ describe("parser", () => {
                 const wrapHandlers: IWrapHandlers = {
                     "test1": () => "test2",
                     "test17": () => null,
+                    // @formatter:off
+                    // eslint-disable-next-line max-len
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     "test3": (key: string, value: any) =>
+                        // @formatter:on
                         "test4" + key + (isSet(value)
                                          ? value.values().next().value :
                                          value[0])
@@ -974,7 +991,11 @@ describe("parser", () => {
                 const wrapHandlersWildcard: IWrapHandlers = {
                     "*": () => "test5",
                     "test1": () => "test2",
+                    // @formatter:off
+                    // eslint-disable-next-line max-len
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     "test3": (key: string, value: any) =>
+                    // @formatter:on
                         "test4" + key + (isSet(value)
                                          ? value.values().next().value :
                                          value[0])
@@ -997,7 +1018,7 @@ describe("parser", () => {
                                 "test6",
                                 "test7"
                             ],
-                            "test10": new Map<string, any>(
+                            "test10": new Map<string, unknown>(
                                 [
                                     ["test1", [
                                         "test11",
@@ -1037,7 +1058,7 @@ describe("parser", () => {
                                 "test6",
                                 "test7"
                             ],
-                            "test10": new Map<string, any>(
+                            "test10": new Map<string, unknown>(
                                 [
                                     ["test1", [
                                         "test11",

@@ -1,24 +1,21 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "lib": [
-      "es5",
-      "es2015.collection"
+      "es6"
     ],
     "module": "commonjs",
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
     "noImplicitReturns": true,
-    "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strictNullChecks": true,
+    "outDir": "lib",
+    "strict": true,
     "target": "es5",
     "types": [
       "chai",
       "mocha"
     ]
-  },
-  "include": [
-    "src/*"
-  ]
+  }
 }

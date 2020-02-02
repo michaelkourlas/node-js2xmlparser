@@ -1,3 +1,9 @@
+## 4.0.1 ##
+
+* Update dependencies
+* Use ESLint instead of TSLint
+* Use npm instead of gulp
+
 ## 4.0.0 ##
 
 * Do not indent multi-line strings

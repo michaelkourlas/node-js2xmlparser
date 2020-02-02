@@ -50,15 +50,15 @@ export class Absent {
  *
  * @private
  */
-function getHandler(value: any,
-                    options: Options): ((value: any) => any) | undefined
+function getHandler(value: unknown,
+                    options: Options): ((value: unknown) => unknown) | undefined
 {
     const type = Object.prototype.toString.call(value);
-    let handler: ((value: any) => any) | undefined;
-    if (options.typeHandlers.hasOwnProperty("*")) {
+    let handler: ((value: unknown) => unknown) | undefined;
+    if (Object.prototype.hasOwnProperty.call(options.typeHandlers, "*")) {
         handler = options.typeHandlers["*"];
     }
-    if (options.typeHandlers.hasOwnProperty(type)) {
+    if (Object.prototype.hasOwnProperty.call(options.typeHandlers, type)) {
         handler = options.typeHandlers[type];
     }
     return handler;
@@ -70,7 +70,7 @@ function getHandler(value: any,
  * @private
  */
 function parseString(str: string,
-                     parentElement: XmlAttribute<any> | XmlElement<any>,
+                     parentElement: XmlAttribute<unknown> | XmlElement<unknown>,
                      options: Options): void
 {
     const requiresCdata = (s: string) => {
@@ -130,7 +130,7 @@ function parseString(str: string,
  * @private
  */
 function parseAttribute(name: string, value: string,
-                        parentElement: XmlElement<any>,
+                        parentElement: XmlElement<unknown>,
                         options: Options): void
 {
     const attribute = parentElement.attribute(
@@ -146,8 +146,8 @@ function parseAttribute(name: string, value: string,
  *
  * @private
  */
-function parseObjectOrMapEntry(key: string, value: any,
-                               parentElement: XmlElement<any>,
+function parseObjectOrMapEntry(key: string, value: unknown,
+                               parentElement: XmlElement<unknown>,
                                options: Options): void
 {
     // Alias key
@@ -157,7 +157,7 @@ function parseObjectOrMapEntry(key: string, value: any,
     }
 
     // Attributes key
-    if (key.indexOf(options.attributeString) === 0) {
+    if (key.indexOf(options.attributeString) === 0 && isObject(value)) {
         for (const subkey of Object.keys(value)) {
             parseAttribute(subkey, stringify(value[subkey]),
                            parentElement, options);
@@ -197,11 +197,13 @@ function parseObjectOrMapEntry(key: string, value: any,
  *
  * @private
  */
-function parseObjectOrMap(objectOrMap: any, parentElement: XmlElement<any>,
-                          options: Options): void
+function parseObjectOrMap(
+    objectOrMap: Record<string, unknown> | Map<unknown, unknown>,
+    parentElement: XmlElement<unknown>,
+    options: Options): void
 {
     if (isMap(objectOrMap)) {
-        objectOrMap.forEach((value: any, key: any) => {
+        objectOrMap.forEach((value: unknown, key: unknown) => {
             parseObjectOrMapEntry(stringify(key), value, parentElement,
                                   options);
         });
@@ -218,15 +220,16 @@ function parseObjectOrMap(objectOrMap: any, parentElement: XmlElement<any>,
  *
  * @private
  */
-function parseArrayOrSet(key: string, arrayOrSet: any,
-                         parentElement: XmlElement<any>,
+function parseArrayOrSet(key: string, arrayOrSet: unknown[] | Set<unknown>,
+                         parentElement: XmlElement<unknown>,
                          options: Options): void
 {
-    let arrayNameFunc: ((key: string, value: any) => string | null) | undefined;
-    if (options.wrapHandlers.hasOwnProperty("*")) {
+    let arrayNameFunc: ((key: string, value: unknown)
+        => string | null) | undefined;
+    if (Object.prototype.hasOwnProperty.call(options.wrapHandlers, "*")) {
         arrayNameFunc = options.wrapHandlers["*"];
     }
-    if (options.wrapHandlers.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(options.wrapHandlers, key)) {
         arrayNameFunc = options.wrapHandlers[key];
     }
 
@@ -246,7 +249,7 @@ function parseArrayOrSet(key: string, arrayOrSet: any,
         }
     }
 
-    arrayOrSet.forEach((item: any) => {
+    arrayOrSet.forEach((item: unknown) => {
         let element = arrayElement;
         if (!isArray(item) && !isSet(item)) {
             // If handler for value returns absent, then do not add element
@@ -275,7 +278,8 @@ function parseArrayOrSet(key: string, arrayOrSet: any,
  *
  * @private
  */
-function parseValue(key: string, value: any, parentElement: XmlElement<any>,
+function parseValue(key: string, value: unknown,
+                    parentElement: XmlElement<unknown>,
                     options: Options): void
 {
     // If a handler for a particular type is user-defined, use that handler
@@ -305,7 +309,8 @@ function parseValue(key: string, value: any, parentElement: XmlElement<any>,
  * XML declaration or DTD, and the associated options in {@link IOptions} are
  * ignored. If desired, these must be added manually.
  */
-export function parseToExistingElement(element: XmlElement<any>, object: any,
+export function parseToExistingElement(element: XmlElement<unknown>,
+                                       object: unknown,
                                        options?: IOptions)
 {
     const opts: Options = new Options(options);
@@ -319,7 +324,9 @@ export function parseToExistingElement(element: XmlElement<any>, object: any,
  * `root` is the name of the root XML element. When the object is converted
  * to XML, it will be a child of this root element.
  */
-export function parse(root: string, object: any, options?: IOptions): string {
+export function parse(root: string, object: unknown,
+                      options?: IOptions): string
+{
     const opts = new Options(options);
     const document = new XmlDocument(
         {
@@ -333,7 +340,11 @@ export function parse(root: string, object: any, options?: IOptions): string {
         document.dtd(
             {
                 // Validated in options.ts
+                // @formatter:off
+                // eslint-disable-next-line max-len
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 name: opts.dtd.name!,
+                // @formatter:on
                 pubId: opts.dtd.pubId,
                 sysId: opts.dtd.sysId
             }

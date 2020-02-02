@@ -303,18 +303,18 @@ export interface IOptions {
  * @private
  */
 export class Options implements IOptions {
-    public aliasString: string = "=";
-    public attributeString: string = "@";
-    public cdataInvalidChars: boolean = false;
+    public aliasString = "=";
+    public attributeString = "@";
+    public cdataInvalidChars = false;
     public cdataKeys: string[] = [];
     public declaration: DeclarationOptions;
     public dtd: DtdOptions;
     public format: FormatOptions;
-    public replaceInvalidChars: boolean = false;
+    public replaceInvalidChars = false;
     public typeHandlers: TypeHandlers;
-    public useSelfClosingTagIfEmpty: boolean = true;
-    public validation: boolean = true;
-    public valueString: string = "#";
+    public useSelfClosingTagIfEmpty = true;
+    public validation = true;
+    public valueString = "#";
     public wrapHandlers: WrapHandlers;
 
     constructor(options: IOptions = {}) {
@@ -402,7 +402,7 @@ export interface IDeclarationOptions {
  * @private
  */
 export class DeclarationOptions implements IDeclarationOptions {
-    public include: boolean = true;
+    public include = true;
     public encoding?: string;
     public standalone?: string;
     public version?: string;
@@ -459,7 +459,7 @@ export interface IDtdOptions {
  * @private
  */
 export class DtdOptions implements IDtdOptions {
-    public include: boolean = false;
+    public include = false;
     public name?: string;
     public sysId?: string;
     public pubId?: string;
@@ -534,7 +534,8 @@ export interface ITypeHandlers {
      * Mapping between the type of a value in an object to a function taking
      * this value and returning a replacement value.
      */
-    [type: string]: (value: any) => any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [type: string]: (value: any) => unknown;
 }
 
 /**
@@ -544,11 +545,12 @@ export interface ITypeHandlers {
  * @private
  */
 export class TypeHandlers implements ITypeHandlers {
-    [type: string]: (value: any) => any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [type: string]: (value: any) => unknown;
 
     constructor(typeHandlers: ITypeHandlers = {}) {
         for (const key in typeHandlers) {
-            if (typeHandlers.hasOwnProperty(key)) {
+            if (Object.prototype.hasOwnProperty.call(typeHandlers, key)) {
                 this[key] = typeHandlers[key];
             }
         }
@@ -568,6 +570,7 @@ export interface IWrapHandlers {
      * XML element for each item in the array or set, or `null` to indicate that
      * wrapping should not occur.
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: (key: string, value: any) => string | null;
 }
 
@@ -578,11 +581,12 @@ export interface IWrapHandlers {
  * @private
  */
 export class WrapHandlers implements IWrapHandlers {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: (key: string, value: any) => string | null;
 
     constructor(wrapHandlers: IWrapHandlers = {}) {
         for (const key in wrapHandlers) {
-            if (wrapHandlers.hasOwnProperty(key)) {
+            if (Object.prototype.hasOwnProperty.call(wrapHandlers, key)) {
                 this[key] = wrapHandlers[key];
             }
         }

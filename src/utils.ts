@@ -17,14 +17,14 @@
 /**
  * @private
  */
-export function isUndefined(val: any): val is undefined {
+export function isUndefined(val: unknown): val is undefined {
     return Object.prototype.toString.call(val) === "[object Undefined]";
 }
 
 /**
  * @private
  */
-export function isNull(val: any): val is null {
+export function isNull(val: unknown): val is null {
     return Object.prototype.toString.call(val) === "[object Null]";
 }
 
@@ -32,7 +32,7 @@ export function isNull(val: any): val is null {
 /**
  * @private
  */
-export function isObject(val: any): val is Object {
+export function isObject(val: unknown): val is Record<string, unknown> {
     return Object.prototype.toString.call(val) === "[object Object]";
 }
 
@@ -41,7 +41,7 @@ export function isObject(val: any): val is Object {
 /**
  * @private
  */
-export function isArray(val: any): val is any[] {
+export function isArray(val: unknown): val is unknown[] {
     return Object.prototype.toString.call(val) === "[object Array]";
 }
 
@@ -49,7 +49,7 @@ export function isArray(val: any): val is any[] {
 /**
  * @private
  */
-export function isFunction(val: any): val is Function {
+export function isFunction(val: unknown): val is Function {
     return Object.prototype.toString.call(val) === "[object Function]";
 }
 
@@ -58,14 +58,14 @@ export function isFunction(val: any): val is Function {
 /**
  * @private
  */
-export function isSet(val: any): boolean {
+export function isSet(val: unknown): val is Set<unknown> {
     return Object.prototype.toString.call(val) === "[object Set]";
 }
 
 /**
  * @private
  */
-export function isMap(val: any): boolean {
+export function isMap(val: unknown): val is Map<unknown, unknown> {
     return Object.prototype.toString.call(val) === "[object Map]";
 }
 
@@ -80,9 +80,10 @@ export function isMap(val: any): boolean {
  *
  * @private
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function stringify(value: any): string {
     if (!isUndefined(value) && !isNull(value)) {
-        if (!isFunction(value.toString)) {
+        if (!isFunction(value?.toString)) {
             value = value.toString();
         }
     }
