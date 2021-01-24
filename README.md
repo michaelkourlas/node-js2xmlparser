@@ -1,6 +1,6 @@
 # js2xmlparser
 
-[![Build Status](https://travis-ci.org/michaelkourlas/node-js2xmlparser.svg?branch=master)](https://travis-ci.org/michaelkourlas/node-js2xmlparser)
+![Node.js CI](https://github.com/michaelkourlas/node-js2xmlparser/workflows/Node.js%20CI/badge.svg)
 [![npm version](https://badge.fury.io/js/js2xmlparser.svg)](https://badge.fury.io/js/js2xmlparser)
 
 ## Overview
