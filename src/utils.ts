@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2019 Michael Kourlas
+ * Copyright (C) 2016-2020 Michael Kourlas
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,11 @@ export function isArray(val: unknown): val is unknown[] {
     return Object.prototype.toString.call(val) === "[object Array]";
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function isFunction(val: unknown): val is Function {
+    return Object.prototype.toString.call(val) === "[object Function]";
+}
+
 export function isSet(val: unknown): val is Set<unknown> {
     return Object.prototype.toString.call(val) === "[object Set]";
 }
@@ -51,7 +56,7 @@ export function isMap(val: unknown): val is Map<unknown, unknown> {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
 export function stringify(value: any): string {
     if (!isUndefined(value) && !isNull(value)) {
-        if (value?.toString) {
+        if (isFunction(value?.toString)) {
             value = value.toString();
         }
     }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016-2019 Michael Kourlas
+ * Copyright (C) 2016-2020 Michael Kourlas
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import {
     isMap,
     isNull,
     isObject,
+    isFunction,
     isSet,
     isUndefined,
     stringify,
@@ -80,6 +81,21 @@ describe("utils", () => {
             assert.isFalse(isArray(undefined));
             assert.isFalse(isArray(true));
             assert.isFalse(isArray(null));
+        });
+    });
+
+    describe("#isFunction", () => {
+        it("should return true for functions", () => {
+            assert.isTrue(isFunction(() => 0));
+            assert.isTrue(isFunction(() => "test"));
+        });
+
+        it("should return false for values that are not functions", () => {
+            assert.isFalse(isFunction("test"));
+            assert.isFalse(isFunction(3));
+            assert.isFalse(isFunction(undefined));
+            assert.isFalse(isFunction(true));
+            assert.isFalse(isFunction(null));
         });
     });
 
