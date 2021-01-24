@@ -150,4 +150,4 @@ development version includes source maps.
 ## License
 
 js2xmlparser is licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
-Please see the LICENSE.md file for more information.
+Please see the LICENSE file for more information.
