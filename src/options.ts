@@ -299,8 +299,6 @@ export interface IOptions {
 /**
  * Implementation of the IOptions interface used to provide default values
  * to fields.
- *
- * @private
  */
 export class Options implements IOptions {
     public aliasString = "=";
@@ -398,8 +396,6 @@ export interface IDeclarationOptions {
 /**
  * Implementation of the IDeclarationOptions interface used to provide default
  * values to fields.
- *
- * @private
  */
 export class DeclarationOptions implements IDeclarationOptions {
     public include = true;
@@ -455,8 +451,6 @@ export interface IDtdOptions {
 /**
  * Implementation of the IDtdOptions interface used to provide default values
  * to fields.
- *
- * @private
  */
 export class DtdOptions implements IDtdOptions {
     public include = false;
@@ -509,8 +503,6 @@ export interface IFormatOptions {
 /**
  * Implementation of the IFormatOptions interface used to provide default values
  * to fields.
- *
- * @private
  */
 export class FormatOptions implements IFormatOptions {
     public doubleQuotes?: boolean;
@@ -541,8 +533,6 @@ export interface ITypeHandlers {
 /**
  * Implementation of the ITypeHandlers interface used to provide default values
  * to fields.
- *
- * @private
  */
 export class TypeHandlers implements ITypeHandlers {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -577,8 +567,6 @@ export interface IWrapHandlers {
 /**
  * Implementation of the IWrapHandlers interface used to provide default values
  * to fields.
- *
- * @private
  */
 export class WrapHandlers implements IWrapHandlers {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -17,7 +17,6 @@
 import {assert} from "chai";
 import {
     isArray,
-    isFunction,
     isMap,
     isNull,
     isObject,
@@ -81,21 +80,6 @@ describe("utils", () => {
             assert.isFalse(isArray(undefined));
             assert.isFalse(isArray(true));
             assert.isFalse(isArray(null));
-        });
-    });
-
-    describe("#isFunction", () => {
-        it("should return true for functions", () => {
-            assert.isTrue(isFunction(() => 0));
-            assert.isTrue(isFunction(() => "test"));
-        });
-
-        it("should return false for values that are not functions", () => {
-            assert.isFalse(isFunction("test"));
-            assert.isFalse(isFunction(3));
-            assert.isFalse(isFunction(undefined));
-            assert.isFalse(isFunction(true));
-            assert.isFalse(isFunction(null));
         });
     });
 

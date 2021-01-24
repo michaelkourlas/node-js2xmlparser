@@ -1,5 +1,5 @@
-# WebStorm
-.idea/
+# Visual Studio Code
+.vscode/
 
 # JavaScript and TypeScript
 lib/

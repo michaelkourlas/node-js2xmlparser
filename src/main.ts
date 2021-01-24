@@ -25,6 +25,14 @@ import {
     stringify
 } from "./utils";
 
+export {
+    IOptions,
+    IDeclarationOptions,
+    IDtdOptions,
+    ITypeHandlers,
+    IWrapHandlers,
+} from "./options";
+
 /**
  * Indicates that an object of a particular type should be suppressed from the
  * XML output.
@@ -40,15 +48,13 @@ export class Absent {
     /**
      * Returns the sole instance of Absent.
      */
-    public static get instance() {
+    public static get instance(): Absent {
         return Absent._instance;
     }
 }
 
 /**
  * Gets the type handler associated with a value.
- *
- * @private
  */
 function getHandler(value: unknown,
                     options: Options): ((value: unknown) => unknown) | undefined
@@ -66,8 +72,6 @@ function getHandler(value: unknown,
 
 /**
  * Parses a string into XML and adds it to the parent element or attribute.
- *
- * @private
  */
 function parseString(str: string,
                      parentElement: XmlAttribute<unknown> | XmlElement<unknown>,
@@ -126,8 +130,6 @@ function parseString(str: string,
 
 /**
  * Parses an attribute into XML and adds it to the parent element.
- *
- * @private
  */
 function parseAttribute(name: string, value: string,
                         parentElement: XmlElement<unknown>,
@@ -143,8 +145,6 @@ function parseAttribute(name: string, value: string,
 
 /**
  * Parses an object or Map entry into XML and adds it to the parent element.
- *
- * @private
  */
 function parseObjectOrMapEntry(key: string, value: unknown,
                                parentElement: XmlElement<unknown>,
@@ -194,8 +194,6 @@ function parseObjectOrMapEntry(key: string, value: unknown,
 
 /**
  * Parses an Object or Map into XML and adds it to the parent element.
- *
- * @private
  */
 function parseObjectOrMap(
     objectOrMap: Record<string, unknown> | Map<unknown, unknown>,
@@ -217,8 +215,6 @@ function parseObjectOrMap(
 
 /**
  * Parses an array or Set into XML and adds it to the parent element.
- *
- * @private
  */
 function parseArrayOrSet(key: string, arrayOrSet: unknown[] | Set<unknown>,
                          parentElement: XmlElement<unknown>,
@@ -275,8 +271,6 @@ function parseArrayOrSet(key: string, arrayOrSet: unknown[] | Set<unknown>,
 /**
  * Parses an arbitrary JavaScript value into XML and adds it to the parent
  * element.
- *
- * @private
  */
 function parseValue(key: string, value: unknown,
                     parentElement: XmlElement<unknown>,
@@ -303,7 +297,7 @@ function parseValue(key: string, value: unknown,
 
 /**
  * Converts the specified object to XML and adds the XML representation to the
- * specified XmlDocument object using the specified options.
+ * specified XmlElement object using the specified options.
  *
  * This function does not add a root element. In addition, it does not add an
  * XML declaration or DTD, and the associated options in {@link IOptions} are
@@ -311,7 +305,7 @@ function parseValue(key: string, value: unknown,
  */
 export function parseToExistingElement(element: XmlElement<unknown>,
                                        object: unknown,
-                                       options?: IOptions)
+                                       options?: IOptions): void
 {
     const opts: Options = new Options(options);
     parseValue(element.name, object, element, opts);

@@ -14,51 +14,26 @@
  * limitations under the License.
  */
 
-/**
- * @private
- */
 export function isUndefined(val: unknown): val is undefined {
     return Object.prototype.toString.call(val) === "[object Undefined]";
 }
 
-/**
- * @private
- */
 export function isNull(val: unknown): val is null {
     return Object.prototype.toString.call(val) === "[object Null]";
 }
 
-/**
- * @private
- */
 export function isObject(val: unknown): val is Record<string, unknown> {
     return Object.prototype.toString.call(val) === "[object Object]";
 }
 
-/**
- * @private
- */
 export function isArray(val: unknown): val is unknown[] {
     return Object.prototype.toString.call(val) === "[object Array]";
 }
 
-/**
- * @private
- */
-export function isFunction(val: unknown): val is Function {
-    return Object.prototype.toString.call(val) === "[object Function]";
-}
-
-/**
- * @private
- */
 export function isSet(val: unknown): val is Set<unknown> {
     return Object.prototype.toString.call(val) === "[object Set]";
 }
 
-/**
- * @private
- */
 export function isMap(val: unknown): val is Map<unknown, unknown> {
     return Object.prototype.toString.call(val) === "[object Map]";
 }
@@ -71,13 +46,12 @@ export function isMap(val: unknown): val is Map<unknown, unknown> {
  * @param value The value to convert to a string.
  *
  * @returns A string representation of the specified value.
- *
- * @private
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line max-len
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
 export function stringify(value: any): string {
     if (!isUndefined(value) && !isNull(value)) {
-        if (!isFunction(value?.toString)) {
+        if (value?.toString) {
             value = value.toString();
         }
     }
