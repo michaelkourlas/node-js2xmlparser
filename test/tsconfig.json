@@ -1,21 +1,16 @@
 {
-  "compilerOptions": {
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "es6"
-    ],
-    "module": "commonjs",
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "outDir": "lib",
-    "strict": true,
-    "target": "es5",
-    "types": [
-      "chai",
-      "mocha"
-    ]
-  }
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "lib": ["es6"],
+        "module": "commonjs",
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "outDir": "lib",
+        "strict": true,
+        "target": "es5",
+        "types": ["chai", "mocha"]
+    }
 }

@@ -1,0 +1,5 @@
+examples
+node_modules
+lib
+docs
+package-lock.json

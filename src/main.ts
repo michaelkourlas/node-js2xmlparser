@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {XmlAttribute, XmlDocument, XmlElement} from "xmlcreate";
-import {IOptions, Options} from "./options";
+import { XmlAttribute, XmlDocument, XmlElement } from "xmlcreate";
+import { IOptions, Options } from "./options";
 import {
     isArray,
     isMap,
@@ -22,7 +22,7 @@ import {
     isObject,
     isSet,
     isUndefined,
-    stringify
+    stringify,
 } from "./utils";
 
 export {
@@ -42,8 +42,7 @@ export {
 export class Absent {
     private static _instance = new Absent();
 
-    private constructor() {
-    }
+    private constructor() {}
 
     /**
      * Returns the sole instance of Absent.
@@ -56,9 +55,10 @@ export class Absent {
 /**
  * Gets the type handler associated with a value.
  */
-function getHandler(value: unknown,
-                    options: Options): ((value: unknown) => unknown) | undefined
-{
+function getHandler(
+    value: unknown,
+    options: Options,
+): ((value: unknown) => unknown) | undefined {
     const type = Object.prototype.toString.call(value);
     let handler: ((value: unknown) => unknown) | undefined;
     if (Object.prototype.hasOwnProperty.call(options.typeHandlers, "*")) {
@@ -73,15 +73,18 @@ function getHandler(value: unknown,
 /**
  * Parses a string into XML and adds it to the parent element or attribute.
  */
-function parseString(str: string,
-                     parentElement: XmlAttribute<unknown> | XmlElement<unknown>,
-                     options: Options): void
-{
+function parseString(
+    str: string,
+    parentElement: XmlAttribute<unknown> | XmlElement<unknown>,
+    options: Options,
+): void {
     const requiresCdata = (s: string) => {
-        return (options.cdataInvalidChars && (s.indexOf("<") !== -1
-                                              || s.indexOf("&") !== -1))
-               || options.cdataKeys.indexOf(parentElement.name) !== -1
-               || options.cdataKeys.indexOf("*") !== -1;
+        return (
+            (options.cdataInvalidChars &&
+                (s.indexOf("<") !== -1 || s.indexOf("&") !== -1)) ||
+            options.cdataKeys.indexOf(parentElement.name) !== -1 ||
+            options.cdataKeys.indexOf("*") !== -1
+        );
     };
 
     if (parentElement instanceof XmlElement) {
@@ -89,67 +92,65 @@ function parseString(str: string,
             const cdataStrs = str.split("]]>");
             for (let i = 0; i < cdataStrs.length; i++) {
                 if (requiresCdata(cdataStrs[i])) {
-                    parentElement.cdata(
-                        {
-                            charData: cdataStrs[i],
-                            replaceInvalidCharsInCharData:
-                            options.replaceInvalidChars
-                        });
+                    parentElement.cdata({
+                        charData: cdataStrs[i],
+                        replaceInvalidCharsInCharData:
+                            options.replaceInvalidChars,
+                    });
                 } else {
-                    parentElement.charData(
-                        {
-                            charData: cdataStrs[i],
-                            replaceInvalidCharsInCharData:
-                            options.replaceInvalidChars
-                        });
+                    parentElement.charData({
+                        charData: cdataStrs[i],
+                        replaceInvalidCharsInCharData:
+                            options.replaceInvalidChars,
+                    });
                 }
                 if (i < cdataStrs.length - 1) {
-                    parentElement.charData(
-                        {
-                            charData: "]]>",
-                            replaceInvalidCharsInCharData:
-                            options.replaceInvalidChars
-                        });
+                    parentElement.charData({
+                        charData: "]]>",
+                        replaceInvalidCharsInCharData:
+                            options.replaceInvalidChars,
+                    });
                 }
             }
         } else {
-            parentElement.charData(
-                {
-                    charData: str,
-                    replaceInvalidCharsInCharData: options.replaceInvalidChars
-                });
+            parentElement.charData({
+                charData: str,
+                replaceInvalidCharsInCharData: options.replaceInvalidChars,
+            });
         }
     } else {
-        parentElement.text(
-            {
-                charData: str,
-                replaceInvalidCharsInCharData: options.replaceInvalidChars
-            });
+        parentElement.text({
+            charData: str,
+            replaceInvalidCharsInCharData: options.replaceInvalidChars,
+        });
     }
 }
 
 /**
  * Parses an attribute into XML and adds it to the parent element.
  */
-function parseAttribute(name: string, value: string,
-                        parentElement: XmlElement<unknown>,
-                        options: Options): void
-{
-    const attribute = parentElement.attribute(
-        {
-            name,
-            replaceInvalidCharsInName: options.replaceInvalidChars
-        });
+function parseAttribute(
+    name: string,
+    value: string,
+    parentElement: XmlElement<unknown>,
+    options: Options,
+): void {
+    const attribute = parentElement.attribute({
+        name,
+        replaceInvalidCharsInName: options.replaceInvalidChars,
+    });
     parseString(stringify(value), attribute, options);
 }
 
 /**
  * Parses an object or Map entry into XML and adds it to the parent element.
  */
-function parseObjectOrMapEntry(key: string, value: unknown,
-                               parentElement: XmlElement<unknown>,
-                               options: Options): void
-{
+function parseObjectOrMapEntry(
+    key: string,
+    value: unknown,
+    parentElement: XmlElement<unknown>,
+    options: Options,
+): void {
     // Alias key
     if (key === options.aliasString) {
         parentElement.name = stringify(value);
@@ -159,8 +160,12 @@ function parseObjectOrMapEntry(key: string, value: unknown,
     // Attributes key
     if (key.indexOf(options.attributeString) === 0 && isObject(value)) {
         for (const subkey of Object.keys(value)) {
-            parseAttribute(subkey, stringify(value[subkey]),
-                           parentElement, options);
+            parseAttribute(
+                subkey,
+                stringify(value[subkey]),
+                parentElement,
+                options,
+            );
         }
         return;
     }
@@ -182,12 +187,11 @@ function parseObjectOrMapEntry(key: string, value: unknown,
             }
         }
 
-        element = parentElement.element(
-            {
-                name: key,
-                replaceInvalidCharsInName: options.replaceInvalidChars,
-                useSelfClosingTagIfEmpty: options.useSelfClosingTagIfEmpty
-            });
+        element = parentElement.element({
+            name: key,
+            replaceInvalidCharsInName: options.replaceInvalidChars,
+            useSelfClosingTagIfEmpty: options.useSelfClosingTagIfEmpty,
+        });
     }
     parseValue(key, value, element, options);
 }
@@ -198,17 +202,25 @@ function parseObjectOrMapEntry(key: string, value: unknown,
 function parseObjectOrMap(
     objectOrMap: Record<string, unknown> | Map<unknown, unknown>,
     parentElement: XmlElement<unknown>,
-    options: Options): void
-{
+    options: Options,
+): void {
     if (isMap(objectOrMap)) {
         objectOrMap.forEach((value: unknown, key: unknown) => {
-            parseObjectOrMapEntry(stringify(key), value, parentElement,
-                                  options);
+            parseObjectOrMapEntry(
+                stringify(key),
+                value,
+                parentElement,
+                options,
+            );
         });
     } else {
         for (const key of Object.keys(objectOrMap)) {
-            parseObjectOrMapEntry(key, objectOrMap[key], parentElement,
-                                  options);
+            parseObjectOrMapEntry(
+                key,
+                objectOrMap[key],
+                parentElement,
+                options,
+            );
         }
     }
 }
@@ -216,12 +228,15 @@ function parseObjectOrMap(
 /**
  * Parses an array or Set into XML and adds it to the parent element.
  */
-function parseArrayOrSet(key: string, arrayOrSet: unknown[] | Set<unknown>,
-                         parentElement: XmlElement<unknown>,
-                         options: Options): void
-{
-    let arrayNameFunc: ((key: string, value: unknown)
-        => string | null) | undefined;
+function parseArrayOrSet(
+    key: string,
+    arrayOrSet: unknown[] | Set<unknown>,
+    parentElement: XmlElement<unknown>,
+    options: Options,
+): void {
+    let arrayNameFunc:
+        | ((key: string, value: unknown) => string | null)
+        | undefined;
     if (Object.prototype.hasOwnProperty.call(options.wrapHandlers, "*")) {
         arrayNameFunc = options.wrapHandlers["*"];
     }
@@ -235,13 +250,11 @@ function parseArrayOrSet(key: string, arrayOrSet: unknown[] | Set<unknown>,
         const arrayNameFuncKey = arrayNameFunc(arrayKey, arrayOrSet);
         if (!isNull(arrayNameFuncKey)) {
             arrayKey = arrayNameFuncKey;
-            arrayElement = parentElement.element(
-                {
-                    name: key,
-                    replaceInvalidCharsInName: options.replaceInvalidChars,
-                    useSelfClosingTagIfEmpty: options.useSelfClosingTagIfEmpty
-                }
-            );
+            arrayElement = parentElement.element({
+                name: key,
+                replaceInvalidCharsInName: options.replaceInvalidChars,
+                useSelfClosingTagIfEmpty: options.useSelfClosingTagIfEmpty,
+            });
         }
     }
 
@@ -256,13 +269,11 @@ function parseArrayOrSet(key: string, arrayOrSet: unknown[] | Set<unknown>,
                 }
             }
 
-            element = arrayElement.element(
-                {
-                    name: arrayKey,
-                    replaceInvalidCharsInName: options.replaceInvalidChars,
-                    useSelfClosingTagIfEmpty: options.useSelfClosingTagIfEmpty
-                }
-            );
+            element = arrayElement.element({
+                name: arrayKey,
+                replaceInvalidCharsInName: options.replaceInvalidChars,
+                useSelfClosingTagIfEmpty: options.useSelfClosingTagIfEmpty,
+            });
         }
         parseValue(arrayKey, item, element, options);
     });
@@ -272,10 +283,12 @@ function parseArrayOrSet(key: string, arrayOrSet: unknown[] | Set<unknown>,
  * Parses an arbitrary JavaScript value into XML and adds it to the parent
  * element.
  */
-function parseValue(key: string, value: unknown,
-                    parentElement: XmlElement<unknown>,
-                    options: Options): void
-{
+function parseValue(
+    key: string,
+    value: unknown,
+    parentElement: XmlElement<unknown>,
+    options: Options,
+): void {
     // If a handler for a particular type is user-defined, use that handler
     // instead of the defaults
     const handler = getHandler(value, options);
@@ -303,10 +316,11 @@ function parseValue(key: string, value: unknown,
  * XML declaration or DTD, and the associated options in {@link IOptions} are
  * ignored. If desired, these must be added manually.
  */
-export function parseToExistingElement(element: XmlElement<unknown>,
-                                       object: unknown,
-                                       options?: IOptions): void
-{
+export function parseToExistingElement(
+    element: XmlElement<unknown>,
+    object: unknown,
+    options?: IOptions,
+): void {
     const opts: Options = new Options(options);
     parseValue(element.name, object, element, opts);
 }
@@ -318,39 +332,32 @@ export function parseToExistingElement(element: XmlElement<unknown>,
  * `root` is the name of the root XML element. When the object is converted
  * to XML, it will be a child of this root element.
  */
-export function parse(root: string, object: unknown,
-                      options?: IOptions): string
-{
+export function parse(
+    root: string,
+    object: unknown,
+    options?: IOptions,
+): string {
     const opts = new Options(options);
-    const document = new XmlDocument(
-        {
-            validation: opts.validation
-        }
-    );
+    const document = new XmlDocument({
+        validation: opts.validation,
+    });
     if (opts.declaration.include) {
         document.decl(opts.declaration);
     }
     if (opts.dtd.include) {
-        document.dtd(
-            {
-                // Validated in options.ts
-                // @formatter:off
-                // eslint-disable-next-line max-len
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                name: opts.dtd.name!,
-                // @formatter:on
-                pubId: opts.dtd.pubId,
-                sysId: opts.dtd.sysId
-            }
-        );
+        document.dtd({
+            // Validated in options.ts
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            name: opts.dtd.name!,
+            pubId: opts.dtd.pubId,
+            sysId: opts.dtd.sysId,
+        });
     }
-    const rootElement = document.element(
-        {
-            name: root,
-            replaceInvalidCharsInName: opts.replaceInvalidChars,
-            useSelfClosingTagIfEmpty: opts.useSelfClosingTagIfEmpty
-        }
-    );
+    const rootElement = document.element({
+        name: root,
+        replaceInvalidCharsInName: opts.replaceInvalidChars,
+        useSelfClosingTagIfEmpty: opts.useSelfClosingTagIfEmpty,
+    });
     parseToExistingElement(rootElement, object, options);
     return document.toString(opts.format);
 }

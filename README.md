@@ -1,19 +1,19 @@
-# js2xmlparser #
+# js2xmlparser
 
 [![Build Status](https://travis-ci.org/michaelkourlas/node-js2xmlparser.svg?branch=master)](https://travis-ci.org/michaelkourlas/node-js2xmlparser)
 [![npm version](https://badge.fury.io/js/js2xmlparser.svg)](https://badge.fury.io/js/js2xmlparser)
 
-## Overview ##
+## Overview
 
 js2xmlparser is a Node.js module that parses JavaScript objects into XML.
 
-## Features ##
+## Features
 
-Since XML is a data-interchange format, js2xmlparser is designed primarily for 
-JSON-type objects, arrays and primitive data types, like many of the other 
+Since XML is a data-interchange format, js2xmlparser is designed primarily for
+JSON-type objects, arrays and primitive data types, like many of the other
 JavaScript to XML parsers currently available for Node.js.
 
-However, js2xmlparser is capable of parsing any object, including native 
+However, js2xmlparser is capable of parsing any object, including native
 JavaScript objects such as `Date` and `RegExp`, by taking advantage of each
 object's `toString` function or, if this function does not exist, the `String`
 constructor.
@@ -21,18 +21,18 @@ constructor.
 js2xmlparser also has support for the `Map` and `Set` objects introduced in
 ECMAScript 2015, treating them as JSON-type objects and arrays respectively.
 Support for `Map`s is necessary to generate XML with elements in a specific
-order, since JSON-type objects do not guarantee insertion order. `Map` keys are 
+order, since JSON-type objects do not guarantee insertion order. `Map` keys are
 always converted to strings using the method described above.
 
 js2xmlparser also supports a number of constructs unique to XML:
 
-* attributes (through an attribute property in objects)
-* mixed content (through value properties in objects)
-* multiple elements with the same name (through arrays)
+-   attributes (through an attribute property in objects)
+-   mixed content (through value properties in objects)
+-   multiple elements with the same name (through arrays)
 
 js2xmlparser can also pretty-print the XML it outputs.
 
-## Installation ##
+## Installation
 
 The easiest way to install js2xmlparser is using npm:
 
@@ -53,10 +53,10 @@ tests, and build the documentation.
 
 You can build the production variant without running tests using the script
 `prod`. You can also build the development version using the script `dev`.
-The only difference between the two is that the development version includes 
+The only difference between the two is that the development version includes
 source maps.
 
-## Usage ##
+## Usage
 
 The documentation for the current version is available [here](http://www.kourlas.com/node-js2xmlparser/docs/4.0.1/).
 
@@ -66,7 +66,7 @@ You can also build the documentation using npm:
 npm run-script docs
 ```
 
-## Examples ##
+## Examples
 
 The following example illustrates the basic usage of js2xmlparser:
 
@@ -74,39 +74,39 @@ The following example illustrates the basic usage of js2xmlparser:
 var js2xmlparser = require("js2xmlparser");
 
 var obj = {
-    "firstName": "John",
-    "lastName": "Smith",
-    "dateOfBirth": new Date(1964, 7, 26),
-    "address": {
+    firstName: "John",
+    lastName: "Smith",
+    dateOfBirth: new Date(1964, 7, 26),
+    address: {
         "@": {
-            "type": "home"
+            type: "home",
         },
         "streetAddress": "3212 22nd St",
         "city": "Chicago",
         "state": "Illinois",
-        "zip": 10000
+        "zip": 10000,
     },
-    "phone": [
+    phone: [
         {
             "@": {
-                "type": "home"
+                type: "home",
             },
-            "#": "123-555-4567"
+            "#": "123-555-4567",
         },
         {
             "@": {
-                "type": "cell"
+                type: "cell",
             },
-            "#": "890-555-1234"
+            "#": "890-555-1234",
         },
         {
             "@": {
-                "type": "work"
+                type: "work",
             },
-            "#": "567-555-8901"
-        }
+            "#": "567-555-8901",
+        },
     ],
-    "email": "john@smith.com"
+    email: "john@smith.com",
 };
 
 console.log(js2xmlparser.parse("person", obj));
@@ -135,7 +135,7 @@ This example produces the following XML:
 
 Additional examples can be found in the examples directory.
 
-## Tests ##
+## Tests
 
 js2xmlparser includes a set of tests to verify core functionality. You can run
 the tests using npm:
@@ -144,10 +144,10 @@ the tests using npm:
 npm run-script test-prod
 ```
 
-The only difference between the `test-prod` and `test-dev` scripts is that the 
+The only difference between the `test-prod` and `test-dev` scripts is that the
 development version includes source maps.
 
-## License ##
+## License
 
 js2xmlparser is licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 Please see the LICENSE.md file for more information.

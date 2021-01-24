@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import {assert} from "chai";
+import { assert } from "chai";
 import {
     isArray,
     isMap,
@@ -22,7 +22,7 @@ import {
     isObject,
     isSet,
     isUndefined,
-    stringify
+    stringify,
 } from "../../lib/utils";
 
 describe("utils", () => {
@@ -54,7 +54,7 @@ describe("utils", () => {
 
     describe("#isObject", () => {
         it("should return true for objects", () => {
-            assert.isTrue(isObject({a: "b"}));
+            assert.isTrue(isObject({ a: "b" }));
             assert.isTrue(isObject({}));
         });
 
@@ -101,7 +101,14 @@ describe("utils", () => {
     describe("#isMap", () => {
         it("should return true for sets", () => {
             assert.isTrue(isMap(new Map()));
-            assert.isTrue(isMap(new Map([["a", "b"], ["c", "d"]])));
+            assert.isTrue(
+                isMap(
+                    new Map([
+                        ["a", "b"],
+                        ["c", "d"],
+                    ]),
+                ),
+            );
         });
 
         it("should return false for values that are not sets", () => {
@@ -114,8 +121,7 @@ describe("utils", () => {
     });
 
     describe("#stringify", () => {
-        it("should return a valid string representation for all primitive"
-           + " types", () => {
+        it("should return a valid string representation for all primitive types", () => {
             assert.strictEqual(stringify(null), "null");
             assert.strictEqual(stringify(undefined), "undefined");
             assert.strictEqual(stringify(3), "3");
@@ -123,14 +129,17 @@ describe("utils", () => {
             assert.strictEqual(stringify(true), "true");
         });
 
-        it("should return a valid string representation for all object"
-           + " versions of primitive types", () => {
-            // noinspection JSPrimitiveTypeWrapperUsage
-            assert.strictEqual(stringify(new Number(3)), "3");
-            // noinspection JSPrimitiveTypeWrapperUsage
-            assert.strictEqual(stringify(new String("test")), "test");
-            // noinspection JSPrimitiveTypeWrapperUsage
-            assert.strictEqual(stringify(new Boolean(true)), "true");
-        });
+        it(
+            "should return a valid string representation for all object" +
+                " versions of primitive types",
+            () => {
+                // noinspection JSPrimitiveTypeWrapperUsage
+                assert.strictEqual(stringify(new Number(3)), "3");
+                // noinspection JSPrimitiveTypeWrapperUsage
+                assert.strictEqual(stringify(new String("test")), "test");
+                // noinspection JSPrimitiveTypeWrapperUsage
+                assert.strictEqual(stringify(new Boolean(true)), "true");
+            },
+        );
     });
 });
