@@ -29,6 +29,7 @@ export {
     IOptions,
     IDeclarationOptions,
     IDtdOptions,
+    IFormatOptions,
     ITypeHandlers,
     IWrapHandlers,
 } from "./options";
