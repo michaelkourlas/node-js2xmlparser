@@ -133,6 +133,29 @@ This example produces the following XML:
 </person>
 ```
 
+Should you like to use a root element with attributes, simply include the `'@'` key in the object:
+```js
+var js2xmlparser = require("js2xmlparser");
+
+var data = {
+    "@": {
+        "attrib":"value"
+    },
+    "firstName": "John",
+    "lastName": "Smith"
+};
+
+console.log(js2xmlparser("person", data));
+```
+
+```xml
+> <?xml version="1.0" encoding="UTF-8"?>
+> <person attrib="value">
+>     <firstName>John</firstName>
+>     <lastName>Smith</lastName>
+> </person>
+```
+
 Additional examples can be found in the examples directory.
 
 ## Tests
