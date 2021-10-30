@@ -74,6 +74,9 @@ The following example illustrates the basic usage of js2xmlparser:
 var js2xmlparser = require("js2xmlparser");
 
 var obj = {
+    "@": {
+        type: "natural",
+    }
     firstName: "John",
     lastName: "Smith",
     dateOfBirth: new Date(1964, 7, 26),
@@ -116,7 +119,7 @@ This example produces the following XML:
 
 ```xml
 <?xml version='1.0'?>
-<person>
+<person type='natural'>
     <firstName>John</firstName>
     <lastName>Smith</lastName>
     <dateOfBirth>Wed Aug 26 1964 00:00:00 GMT-0400 (Eastern Summer Time)</dateOfBirth>
@@ -150,4 +153,3 @@ development version includes source maps.
 ## License
 
 js2xmlparser is licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
-Please see the LICENSE file for more information.
