@@ -34,6 +34,9 @@ example1();
  */
 const example2 = () => {
     const obj = {
+        "@": {
+            "type": "natural"
+        },
         "firstName": "John",
         "lastName": "Smith",
         "dateOfBirth": new Date(1964, 7, 26),

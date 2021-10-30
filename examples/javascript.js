@@ -36,6 +36,9 @@ example1();
  */
 var example2 = function() {
     var obj = {
+        "@": {
+            "type": "natural"
+        },
         "firstName": "John",
         "lastName": "Smith",
         "dateOfBirth": new Date(1964, 7, 26),
