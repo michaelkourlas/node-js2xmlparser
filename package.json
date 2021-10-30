@@ -22,8 +22,8 @@
     "files": [
         "lib",
         "CHANGES.md",
-        "LICENSE.md",
-        "NOTICE.md",
+        "LICENSE",
+        "NOTICE",
         "package.json",
         "README.md"
     ],
