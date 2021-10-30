@@ -1,6 +1,6 @@
 # js2xmlparser
 
-![Node.js CI](https://github.com/michaelkourlas/node-js2xmlparser/workflows/Node.js%20CI/badge.svg)
+[![Node.js CI](https://github.com/michaelkourlas/node-js2xmlparser/actions/workflows/node.js.yml/badge.svg)](https://github.com/michaelkourlas/node-js2xmlparser/actions/workflows/node.js.yml)
 [![npm version](https://badge.fury.io/js/js2xmlparser.svg)](https://badge.fury.io/js/js2xmlparser)
 
 ## Overview
