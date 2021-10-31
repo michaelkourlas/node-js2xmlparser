@@ -25,8 +25,6 @@ import {
     stringify,
 } from "./utils";
 
-export {XmlElement} from "xmlcreate";
-
 export {
     IOptions,
     IDeclarationOptions,
