@@ -84,10 +84,10 @@ var obj = {
         "@": {
             type: "home",
         },
-        "streetAddress": "3212 22nd St",
-        "city": "Chicago",
-        "state": "Illinois",
-        "zip": 10000,
+        streetAddress: "3212 22nd St",
+        city: "Chicago",
+        state: "Illinois",
+        zip: 10000,
     },
     phone: [
         {
