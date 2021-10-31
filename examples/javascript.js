@@ -21,10 +21,10 @@ var js2xmlparser = require("../lib/main");
 /**
  * This example demonstrates a very simple usage of js2xmlparser.
  */
-var example1 = function() {
+var example1 = function () {
     var obj = {
-        "firstName": "John",
-        "lastName": "Smith"
+        firstName: "John",
+        lastName: "Smith",
     };
     console.log(js2xmlparser.parse("person", obj));
     console.log();
@@ -34,44 +34,44 @@ example1();
 /**
  * This example demonstrates a more complex usage of j2xmlparser.
  */
-var example2 = function() {
+var example2 = function () {
     var obj = {
         "@": {
-            "type": "natural"
+            type: "natural",
         },
-        "firstName": "John",
-        "lastName": "Smith",
-        "dateOfBirth": new Date(1964, 7, 26),
-        "address": {
+        firstName: "John",
+        lastName: "Smith",
+        dateOfBirth: new Date(1964, 7, 26),
+        address: {
             "@": {
-                "type": "home"
+                type: "home",
             },
-            "streetAddress": "3212 22nd St",
-            "city": "Chicago",
-            "state": "Illinois",
-            "zip": 10000
+            streetAddress: "3212 22nd St",
+            city: "Chicago",
+            state: "Illinois",
+            zip: 10000,
         },
-        "phone": [
+        phone: [
             {
                 "@": {
-                    "type": "home"
+                    type: "home",
                 },
-                "#": "123-555-4567"
+                "#": "123-555-4567",
             },
             {
                 "@": {
-                    "type": "cell"
+                    type: "cell",
                 },
-                "#": "890-555-1234"
+                "#": "890-555-1234",
             },
             {
                 "@": {
-                    "type": "work"
+                    type: "work",
                 },
-                "#": "567-555-8901"
-            }
+                "#": "567-555-8901",
+            },
         ],
-        "email": "john@smith.com"
+        email: "john@smith.com",
     };
     console.log(js2xmlparser.parse("person", obj));
     console.log();
@@ -81,107 +81,107 @@ example2();
 /**
  * This example demonstrates some of js2xmlparser's options.
  */
-var example3 = function() {
+var example3 = function () {
     var options = {
         aliasString: "exAlias",
         attributeString: "exAttr",
-        cdataKeys: [
-            "exCdata",
-            "exCdata2"
-        ],
+        cdataKeys: ["exCdata", "exCdata2"],
         declaration: {
             include: true,
             encoding: "UTF-16",
             standalone: "yes",
-            version: "1.1"
+            version: "1.1",
         },
         dtd: {
             include: true,
             name: "exName",
             sysId: "exSysId",
-            pubId: "exPubId"
+            pubId: "exPubId",
         },
         format: {
             doubleQuotes: true,
             indent: "\t",
             newline: "\r\n",
-            pretty: true
+            pretty: true,
         },
         typeHandlers: {
-            "[object Number]": function(value) {
+            "[object Number]": function (value) {
                 return value + 17;
-            }
+            },
         },
         valueString: "exVal",
         wrapHandlers: {
-            "exArr": function() {
+            exArr: function () {
                 return "exArrInner";
-            }
-        }
+            },
+        },
     };
 
     var obj = {
-        "ex1": "ex2",
-        "exVal_1": 123,
-        "ex3": ["ex4", "ex5"],
-        "ex6": {
-            "exAttr_1": {
-                "ex7": "ex8",
-                "ex9": "ex10"
+        ex1: "ex2",
+        exVal_1: 123,
+        ex3: ["ex4", "ex5"],
+        ex6: {
+            exAttr_1: {
+                ex7: "ex8",
+                ex9: "ex10",
             },
-            "ex11": "ex12",
-            "ex13": {
-                "ex14": "ex15"
+            ex11: "ex12",
+            ex13: {
+                ex14: "ex15",
             },
-            "ex16": [
+            ex16: [
                 "ex17",
                 {
-                    "ex18": "ex19"
-                }
+                    ex18: "ex19",
+                },
             ],
-            "exArr": [
+            exArr: [
                 "ex20",
                 {
-                    "ex21": "ex22"
-                }
+                    ex21: "ex22",
+                },
             ],
-            "exAttr_2": {
-                "ex23": "ex24",
-                "ex25": "ex26"
-            }
+            exAttr_2: {
+                ex23: "ex24",
+                ex25: "ex26",
+            },
         },
-        "exVal_2": "ex27",
-        "ex28": [
-            "ex29",
-            "ex30"
-        ],
-        "ex31": true,
-        "ex32": undefined,
-        "ex33": null,
-        "ex34": 3.4,
-        "ex35": function() {
+        exVal_2: "ex27",
+        ex28: ["ex29", "ex30"],
+        ex31: true,
+        ex32: undefined,
+        ex33: null,
+        ex34: 3.4,
+        ex35: function () {
             return "ex36";
         },
-        "ex37": "i<j&",
-        "exCdata": "i<j&",
-        "exCdata2": "ddd",
-        "ex38": {
-            "exAlias": "ex39",
-            "ex40": "ex41"
+        ex37: "i<j&",
+        exCdata: "i<j&",
+        exCdata2: "ddd",
+        ex38: {
+            exAlias: "ex39",
+            ex40: "ex41",
         },
-        "ex42": ["ex43", "ex44", "ex45", ["ex46", "ex47"],
-                 new Set(["ex48", "ex49"])],
-        "ex50": new Map([
+        ex42: [
+            "ex43",
+            "ex44",
+            "ex45",
+            ["ex46", "ex47"],
+            new Set(["ex48", "ex49"]),
+        ],
+        ex50: new Map([
             ["ex51", "ex52"],
             ["exVal_1", "ex53"],
             ["ex54", "ex55"],
-            ["exAttr_1",
+            [
+                "exAttr_1",
                 {
-                    "ex56": "ex57",
-                    "ex58": "ex59"
-                }
-            ]
-        ])
+                    ex56: "ex57",
+                    ex58: "ex59",
+                },
+            ],
+        ]),
     };
     console.log(js2xmlparser.parse("ex0", obj, options));
     console.log();
