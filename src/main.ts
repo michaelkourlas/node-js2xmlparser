@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { XmlAttribute, XmlDocument, XmlElement } from "xmlcreate";
-import { IOptions, Options } from "./options";
+import {XmlAttribute, XmlDocument, XmlElement} from "xmlcreate";
+import {IOptions, Options} from "./options";
 import {
     isArray,
     isMap,
@@ -58,7 +58,7 @@ export class Absent {
  */
 function getHandler(
     value: unknown,
-    options: Options,
+    options: Options
 ): ((value: unknown) => unknown) | undefined {
     const type = Object.prototype.toString.call(value);
     let handler: ((value: unknown) => unknown) | undefined;
@@ -77,7 +77,7 @@ function getHandler(
 function parseString(
     str: string,
     parentElement: XmlAttribute<unknown> | XmlElement<unknown>,
-    options: Options,
+    options: Options
 ): void {
     const requiresCdata = (s: string) => {
         return (
@@ -134,7 +134,7 @@ function parseAttribute(
     name: string,
     value: string,
     parentElement: XmlElement<unknown>,
-    options: Options,
+    options: Options
 ): void {
     const attribute = parentElement.attribute({
         name,
@@ -150,7 +150,7 @@ function parseObjectOrMapEntry(
     key: string,
     value: unknown,
     parentElement: XmlElement<unknown>,
-    options: Options,
+    options: Options
 ): void {
     // Alias key
     if (key === options.aliasString) {
@@ -165,7 +165,7 @@ function parseObjectOrMapEntry(
                 subkey,
                 stringify(value[subkey]),
                 parentElement,
-                options,
+                options
             );
         }
         return;
@@ -203,7 +203,7 @@ function parseObjectOrMapEntry(
 function parseObjectOrMap(
     objectOrMap: Record<string, unknown> | Map<unknown, unknown>,
     parentElement: XmlElement<unknown>,
-    options: Options,
+    options: Options
 ): void {
     if (isMap(objectOrMap)) {
         objectOrMap.forEach((value: unknown, key: unknown) => {
@@ -211,7 +211,7 @@ function parseObjectOrMap(
                 stringify(key),
                 value,
                 parentElement,
-                options,
+                options
             );
         });
     } else {
@@ -220,7 +220,7 @@ function parseObjectOrMap(
                 key,
                 objectOrMap[key],
                 parentElement,
-                options,
+                options
             );
         }
     }
@@ -233,7 +233,7 @@ function parseArrayOrSet(
     key: string,
     arrayOrSet: unknown[] | Set<unknown>,
     parentElement: XmlElement<unknown>,
-    options: Options,
+    options: Options
 ): void {
     let arrayNameFunc:
         | ((key: string, value: unknown) => string | null)
@@ -288,7 +288,7 @@ function parseValue(
     key: string,
     value: unknown,
     parentElement: XmlElement<unknown>,
-    options: Options,
+    options: Options
 ): void {
     // If a handler for a particular type is user-defined, use that handler
     // instead of the defaults
@@ -320,7 +320,7 @@ function parseValue(
 export function parseToExistingElement(
     element: XmlElement<unknown>,
     object: unknown,
-    options?: IOptions,
+    options?: IOptions
 ): void {
     const opts: Options = new Options(options);
     parseValue(element.name, object, element, opts);
@@ -336,7 +336,7 @@ export function parseToExistingElement(
 export function parse(
     root: string,
     object: unknown,
-    options?: IOptions,
+    options?: IOptions
 ): string {
     const opts = new Options(options);
     const document = new XmlDocument({

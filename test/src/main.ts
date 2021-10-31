@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { assert } from "chai";
-import { document } from "xmlcreate";
-import { Absent, parse, parseToExistingElement } from "../../lib/main";
-import { IOptions, ITypeHandlers, IWrapHandlers } from "../../lib/options";
-import { isSet } from "../../lib/utils";
+import {assert} from "chai";
+import {document} from "xmlcreate";
+import {Absent, parse, parseToExistingElement} from "../../lib/main";
+import {IOptions, ITypeHandlers, IWrapHandlers} from "../../lib/options";
+import {isSet} from "../../lib/utils";
 
 const simpleOptions: IOptions = {
     declaration: {
@@ -34,23 +34,23 @@ describe("parser", () => {
         it("primitives", () => {
             assert.strictEqual(
                 parse("root", "string", simpleOptions),
-                "<root>string</root>",
+                "<root>string</root>"
             );
             assert.strictEqual(
                 parse("root", 3, simpleOptions),
-                "<root>3</root>",
+                "<root>3</root>"
             );
             assert.strictEqual(
                 parse("root", true, simpleOptions),
-                "<root>true</root>",
+                "<root>true</root>"
             );
             assert.strictEqual(
                 parse("root", undefined, simpleOptions),
-                "<root>undefined</root>",
+                "<root>undefined</root>"
             );
             assert.strictEqual(
                 parse("root", null, simpleOptions),
-                "<root>null</root>",
+                "<root>null</root>"
             );
         });
 
@@ -58,37 +58,37 @@ describe("parser", () => {
             // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
                 parse("root", new String("string"), simpleOptions),
-                "<root>string</root>",
+                "<root>string</root>"
             );
             // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
                 parse("root", new Number(3), simpleOptions),
-                "<root>3</root>",
+                "<root>3</root>"
             );
             // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
                 parse("root", new Boolean(true), simpleOptions),
-                "<root>true</root>",
+                "<root>true</root>"
             );
         });
 
         it("simple objects and maps", () => {
             assert.strictEqual(parse("root", {}, simpleOptions), "<root/>");
             assert.strictEqual(
-                parse("root", { test: "123" }, simpleOptions),
-                "<root><test>123</test></root>",
+                parse("root", {test: "123"}, simpleOptions),
+                "<root><test>123</test></root>"
             );
             assert.strictEqual(
-                parse("root", { test: "123", test2: "456" }, simpleOptions),
-                "<root><test>123</test><test2>456</test2>" + "</root>",
+                parse("root", {test: "123", test2: "456"}, simpleOptions),
+                "<root><test>123</test><test2>456</test2>" + "</root>"
             );
             assert.strictEqual(
                 parse("root", new Map(), simpleOptions),
-                "<root/>",
+                "<root/>"
             );
             assert.strictEqual(
                 parse("root", new Map([["test", "123"]]), simpleOptions),
-                "<root><test>123</test></root>",
+                "<root><test>123</test></root>"
             );
             assert.strictEqual(
                 parse(
@@ -97,9 +97,9 @@ describe("parser", () => {
                         ["test", "123"],
                         ["test2", "456"],
                     ]),
-                    simpleOptions,
+                    simpleOptions
                 ),
-                "<root><test>123</test><test2>456</test2></root>",
+                "<root><test>123</test><test2>456</test2></root>"
             );
         });
 
@@ -107,26 +107,26 @@ describe("parser", () => {
             assert.strictEqual(parse("root", [], simpleOptions), "<root/>");
             assert.strictEqual(
                 parse("root", ["test", "123"], simpleOptions),
-                "<root><root>test</root><root>123</root>" + "</root>",
+                "<root><root>test</root><root>123</root>" + "</root>"
             );
             assert.strictEqual(
                 parse("root", new Set(), simpleOptions),
-                "<root/>",
+                "<root/>"
             );
             assert.strictEqual(
                 parse("root", new Set(["test", "123"]), simpleOptions),
-                "<root><root>test</root><root>123</root>" + "</root>",
+                "<root><root>test</root><root>123</root>" + "</root>"
             );
         });
 
         it("functions and regular expressions", () => {
             assert.strictEqual(
                 parse("root", () => "test", simpleOptions),
-                '<root>function () { return "test"; }' + "</root>",
+                '<root>function () { return "test"; }' + "</root>"
             );
             assert.strictEqual(
                 parse("root", /test/, simpleOptions),
-                "<root>/test/</root>",
+                "<root>/test/</root>"
             );
         });
 
@@ -145,11 +145,11 @@ describe("parser", () => {
                         test7: new Number(6),
                         test8: new Boolean(false),
                     },
-                    simpleOptions,
+                    simpleOptions
                 ),
                 "<root><test>str</test><test2>3</test2><test3>true</test3>" +
                     "<test4>undefined</test4><test5>null</test5><test6>str2" +
-                    "</test6><test7>6</test7><test8>false</test8></root>",
+                    "</test6><test7>6</test7><test8>false</test8></root>"
             );
             // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
@@ -165,11 +165,11 @@ describe("parser", () => {
                         ["test7", new Number(6)],
                         ["test8", new Boolean(false)],
                     ]),
-                    simpleOptions,
+                    simpleOptions
                 ),
                 "<root><test>str</test><test2>3</test2><test3>true</test3>" +
                     "<test4>undefined</test4><test5>null</test5><test6>str2" +
-                    "</test6><test7>6</test7><test8>false</test8></root>",
+                    "</test6><test7>6</test7><test8>false</test8></root>"
             );
             // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
@@ -180,10 +180,10 @@ describe("parser", () => {
                         [undefined, "str2"],
                         [null, "str3"],
                     ]),
-                    simpleOptions,
+                    simpleOptions
                 ),
                 "<root><false>str1</false><undefined>str2</undefined>" +
-                    "<null>str3</null></root>",
+                    "<null>str3</null></root>"
             );
         });
 
@@ -202,11 +202,11 @@ describe("parser", () => {
                         new Number(5),
                         new Boolean(false),
                     ],
-                    simpleOptions,
+                    simpleOptions
                 ),
                 "<root><root>test</root><root>3</root><root>false</root>" +
                     "<root>undefined</root><root>null</root><root>str1" +
-                    "</root><root>5</root><root>false</root></root>",
+                    "</root><root>5</root><root>false</root></root>"
             );
             // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
@@ -222,11 +222,11 @@ describe("parser", () => {
                         new Number(5),
                         new Boolean(false),
                     ]),
-                    simpleOptions,
+                    simpleOptions
                 ),
                 "<root><root>test</root><root>3</root><root>false</root>" +
                     "<root>undefined</root><root>null</root><root>str1" +
-                    "</root><root>5</root><root>false</root></root>",
+                    "</root><root>5</root><root>false</root></root>"
             );
         });
 
@@ -260,14 +260,14 @@ describe("parser", () => {
                             ]),
                         },
                     },
-                    simpleOptions,
+                    simpleOptions
                 ),
                 "<root><test><test15>test16</test15><test17>" +
                     "<test18>test19</test18><test20>test21</test20>" +
                     "</test17><test2><test3>test4</test3><test5><test6>" +
                     "test7</test6><test8>test9</test8></test5><test10>" +
                     "<test11>test12</test11><test13>test14</test13>" +
-                    "</test10></test2></test></root>",
+                    "</test10></test2></test></root>"
             );
         });
 
@@ -285,12 +285,12 @@ describe("parser", () => {
                             ["k", "l"],
                         ]),
                     ],
-                    simpleOptions,
+                    simpleOptions
                 ),
                 "<root><root>a</root><root>b</root><root>c</root><root>" +
                     "d</root><root>e</root><root>f</root><root>g</root>" +
                     "<root>h</root><root>i</root><root>j</root><root>k" +
-                    "</root><root>l</root></root>",
+                    "</root><root>l</root></root>"
             );
         });
 
@@ -356,7 +356,7 @@ describe("parser", () => {
                             ],
                         ]),
                     },
-                    simpleOptions,
+                    simpleOptions
                 ),
                 "<root><test1><test12>test13</test12><test12><test14>" +
                     "test15</test14><test16>test17</test16></test12>" +
@@ -370,7 +370,7 @@ describe("parser", () => {
                     "</test29><test31>test32</test31></test23><test33>test34" +
                     "</test33><test33><test35>test36</test35><test37>test38" +
                     "</test37></test33><test33><test39>test40</test39>" +
-                    "<test41>test42</test41></test33></test22></root>",
+                    "<test41>test42</test41></test33></test22></root>"
             );
         });
 
@@ -391,13 +391,13 @@ describe("parser", () => {
                         "root",
                         {
                             "=": "testRoot",
-                            "test1": "test2",
-                            "test3": "test4",
+                            test1: "test2",
+                            test3: "test4",
                         },
-                        simpleOptions,
+                        simpleOptions
                     ),
                     "<testRoot><test1>test2</test1>" +
-                        "<test3>test4</test3></testRoot>",
+                        "<test3>test4</test3></testRoot>"
                 );
                 assert.strictEqual(
                     parse(
@@ -407,10 +407,10 @@ describe("parser", () => {
                             ["test1", "test2"],
                             ["test3", "test4"],
                         ]),
-                        simpleOptions,
+                        simpleOptions
                     ),
                     "<testRoot><test1>test2</test1>" +
-                        "<test3>test4</test3></testRoot>",
+                        "<test3>test4</test3></testRoot>"
                 );
                 assert.strictEqual(
                     parse(
@@ -419,18 +419,18 @@ describe("parser", () => {
                             test1: "test2",
                             test3: {
                                 "=": "test4",
-                                "test5": "test6",
+                                test5: "test6",
                             },
                             test7: new Map([
                                 ["=", "test8"],
                                 ["test9", "test10"],
                             ]),
                         },
-                        simpleOptions,
+                        simpleOptions
                     ),
                     "<root><test1>test2</test1><test4><test5>test6</test5>" +
                         "</test4><test8><test9>test10</test9></test8>" +
-                        "</root>",
+                        "</root>"
                 );
                 assert.strictEqual(
                     parse(
@@ -441,7 +441,7 @@ describe("parser", () => {
                                 "test3",
                                 {
                                     "=": "test4",
-                                    "test5": "test6",
+                                    test5: "test6",
                                 },
                             ],
                             [
@@ -452,11 +452,11 @@ describe("parser", () => {
                                 ]),
                             ],
                         ]),
-                        simpleOptions,
+                        simpleOptions
                     ),
                     "<root><test1>test2</test1><test4><test5>test6</test5>" +
                         "</test4><test8><test9>test10</test9></test8>" +
-                        "</root>",
+                        "</root>"
                 );
                 assert.strictEqual(
                     parse(
@@ -464,7 +464,7 @@ describe("parser", () => {
                         [
                             {
                                 "=": "test1",
-                                "test2": "test3",
+                                test2: "test3",
                             },
                             new Map([
                                 ["=", "test4"],
@@ -475,7 +475,7 @@ describe("parser", () => {
                                 test9: [
                                     {
                                         "=": "test10",
-                                        "test11": "test12",
+                                        test11: "test12",
                                     },
                                     new Map([
                                         ["=", "test13"],
@@ -484,13 +484,13 @@ describe("parser", () => {
                                 ],
                             },
                         ],
-                        simpleOptions,
+                        simpleOptions
                     ),
                     "<root><test1><test2>test3</test2></test1><test4>" +
                         "<test5>test6</test5></test4><root><test7>test8" +
                         "</test7><test10><test11>test12</test11></test10>" +
                         "<test13><test14>test15</test14></test13></root>" +
-                        "</root>",
+                        "</root>"
                 );
                 assert.strictEqual(
                     parse(
@@ -498,7 +498,7 @@ describe("parser", () => {
                         new Set([
                             {
                                 "=": "test1",
-                                "test2": "test3",
+                                test2: "test3",
                             },
                             new Map([
                                 ["=", "test4"],
@@ -509,7 +509,7 @@ describe("parser", () => {
                                 test9: new Set([
                                     {
                                         "=": "test10",
-                                        "test11": "test12",
+                                        test11: "test12",
                                     },
                                     new Map([
                                         ["=", "test13"],
@@ -518,13 +518,13 @@ describe("parser", () => {
                                 ]),
                             },
                         ]),
-                        simpleOptions,
+                        simpleOptions
                     ),
                     "<root><test1><test2>test3</test2></test1><test4>" +
                         "<test5>test6</test5></test4><root><test7>test8" +
                         "</test7><test10><test11>test12</test11></test10>" +
                         "<test13><test14>test15</test14></test13></root>" +
-                        "</root>",
+                        "</root>"
                 );
                 assert.strictEqual(
                     parse(
@@ -537,10 +537,10 @@ describe("parser", () => {
                                 test6: "test7",
                             },
                         },
-                        aliasStringOptions,
+                        aliasStringOptions
                     ),
                     "<test1><test2>test3</test2><test5><test6>test7" +
-                        "</test6></test5></test1>",
+                        "</test6></test5></test1>"
                 );
             });
 
@@ -569,10 +569,10 @@ describe("parser", () => {
                                 test8: true,
                             },
                         },
-                        simpleOptions,
+                        simpleOptions
                     ),
                     "<root test1='test2' test3='test4' test5='3' " +
-                        "test6='null' test7='undefined' test8='true'/>",
+                        "test6='null' test7='undefined' test8='true'/>"
                 );
 
                 assert.strictEqual(
@@ -584,13 +584,13 @@ describe("parser", () => {
                                     test1: "test2",
                                     test3: "test4",
                                 },
-                                "test6": "test7",
+                                test6: "test7",
                             },
                         },
-                        simpleOptions,
+                        simpleOptions
                     ),
                     "<root><test5 test1='test2' test3='test4'><test6>" +
-                        "test7</test6></test5></root>",
+                        "test7</test6></test5></root>"
                 );
 
                 assert.throws(() => {
@@ -608,7 +608,7 @@ describe("parser", () => {
                                 },
                             },
                         },
-                        attributeStringOptions,
+                        attributeStringOptions
                     );
                 });
             });
@@ -632,10 +632,10 @@ describe("parser", () => {
                             test2: "c<d",
                             test3: "a&b<c]]>d&e<f",
                         },
-                        simpleOptions,
+                        simpleOptions
                     ),
                     "<root><test1>a&amp;b</test1><test2>c&lt;d</test2>" +
-                        "<test3>a&amp;b&lt;c]]&gt;d&amp;e&lt;f</test3></root>",
+                        "<test3>a&amp;b&lt;c]]&gt;d&amp;e&lt;f</test3></root>"
                 );
 
                 assert.strictEqual(
@@ -646,12 +646,12 @@ describe("parser", () => {
                             test2: "c<d",
                             test3: "a&b<c]]>d&e<f]]>cdata_not_required",
                         },
-                        cdataInvalidCharsOptions,
+                        cdataInvalidCharsOptions
                     ),
                     "<root><test1><![CDATA[a&b]]></test1><test2>" +
                         "<![CDATA[c<d]]></test2><test3><![CDATA[a&b<c]]>" +
                         "]]&gt;<![CDATA[d&e<f]]>]]&gt;cdata_not_required" +
-                        "</test3></root>",
+                        "</test3></root>"
                 );
             });
 
@@ -689,13 +689,13 @@ describe("parser", () => {
                                 test1: "ab&]]>no_cdata_required",
                             },
                         },
-                        cdataKeysOptions,
+                        cdataKeysOptions
                     ),
                     "<root><test1><![CDATA[ab]]></test1><test2><test1>" +
                         "<![CDATA[ab&]]></test1></test2><test3>ab&amp;" +
                         "</test3><test4>cd</test4><test5><test1>" +
                         "<![CDATA[ab&]]>]]&gt;<![CDATA[no_cdata_required]]>" +
-                        "</test1></test5></root>",
+                        "</test1></test5></root>"
                 );
 
                 assert.strictEqual(
@@ -712,13 +712,13 @@ describe("parser", () => {
                                 test1: "ab&]]>no_cdata_required",
                             },
                         },
-                        cdataKeysWildcardOptions,
+                        cdataKeysWildcardOptions
                     ),
                     "<root><test1><![CDATA[ab]]></test1><test2><test1>" +
                         "<![CDATA[ab&]]></test1></test2><test3>" +
                         "<![CDATA[ab&]]></test3><test4><![CDATA[cd]]>" +
                         "</test4><test5><test1><![CDATA[ab&]]>]]&gt;" +
-                        "<![CDATA[no_cdata_required]]></test1></test5></root>",
+                        "<![CDATA[no_cdata_required]]></test1></test5></root>"
                 );
             });
 
@@ -741,10 +741,10 @@ describe("parser", () => {
                         {
                             test1: "test2",
                         },
-                        declOptions,
+                        declOptions
                     ),
                     "<?xml version='1.0' encoding='UTF-8'" +
-                        " standalone='yes'?><root><test1>test2</test1></root>",
+                        " standalone='yes'?><root><test1>test2</test1></root>"
                 );
             });
 
@@ -770,10 +770,10 @@ describe("parser", () => {
                         {
                             test1: "test2",
                         },
-                        dtdOptions,
+                        dtdOptions
                     ),
                     "<!DOCTYPE a PUBLIC 'c' 'b'><root><test1>test2" +
-                        "</test1></root>",
+                        "</test1></root>"
                 );
             });
 
@@ -797,10 +797,10 @@ describe("parser", () => {
                             test1: "test2",
                             test3: "test4\ntest5",
                         },
-                        formatOptions,
+                        formatOptions
                     ),
                     "<root>\r\n\t<test1>test2</test1>\r\n\t<test3>" +
-                        "test4\ntest5</test3>\r\n</root>",
+                        "test4\ntest5</test3>\r\n</root>"
                 );
             });
 
@@ -821,9 +821,9 @@ describe("parser", () => {
                         {
                             test1: "test2\u0001",
                         },
-                        replaceInvalidCharsOptions,
+                        replaceInvalidCharsOptions
                     ),
-                    "<root><test1>test2\uFFFD</test1></root>",
+                    "<root><test1>test2\uFFFD</test1></root>"
                 );
             });
 
@@ -873,9 +873,9 @@ describe("parser", () => {
                             test2: "test3",
                             test4: null,
                         },
-                        typeHandlersOptions,
+                        typeHandlersOptions
                     ),
-                    "<root><test1>20</test1><test2>test3</test2></root>",
+                    "<root><test1>20</test1><test2>test3</test2></root>"
                 );
 
                 assert.strictEqual(
@@ -886,10 +886,10 @@ describe("parser", () => {
                             test2: "test3",
                             test4: null,
                         },
-                        typeHandlersWildcardOptions,
+                        typeHandlersWildcardOptions
                     ),
                     "<root><test1>20</test1><test2>test3abc</test2>" +
-                        "<test4>null</test4></root>",
+                        "<test4>null</test4></root>"
                 );
             });
 
@@ -910,9 +910,9 @@ describe("parser", () => {
                         {
                             test1: "",
                         },
-                        useSelfClosingTagIfEmptyOptions,
+                        useSelfClosingTagIfEmptyOptions
                     ),
-                    "<root><test1></test1></root>",
+                    "<root><test1></test1></root>"
                 );
                 assert.strictEqual(
                     parse(
@@ -920,9 +920,9 @@ describe("parser", () => {
                         {
                             test1: "",
                         },
-                        simpleOptions,
+                        simpleOptions
                     ),
-                    "<root><test1/></root>",
+                    "<root><test1/></root>"
                 );
             });
 
@@ -943,9 +943,9 @@ describe("parser", () => {
                         {
                             test1: "\u0001",
                         },
-                        validationOptions,
+                        validationOptions
                     ),
-                    "<root><test1>\u0001</test1></root>",
+                    "<root><test1>\u0001</test1></root>"
                 );
                 assert.throws(() =>
                     parse(
@@ -953,8 +953,8 @@ describe("parser", () => {
                         {
                             test1: "\u0001",
                         },
-                        simpleOptions,
-                    ),
+                        simpleOptions
+                    )
                 );
             });
 
@@ -975,8 +975,8 @@ describe("parser", () => {
                         {
                             test1: {
                                 "#": "test6",
-                                "test2": "test3",
-                                "test4": "test5",
+                                test2: "test3",
+                                test4: "test5",
                             },
                             test13: {
                                 "#": 3,
@@ -996,13 +996,13 @@ describe("parser", () => {
                                 ["test11", "test12"],
                             ]),
                         },
-                        simpleOptions,
+                        simpleOptions
                     ),
                     "<root><test1>test6<test2>test3</test2><test4>test5" +
                         "</test4></test1><test13>3</test13><test14>true" +
                         "</test14><test15>null</test15><test16>undefined" +
                         "</test16><test7><test8>test9</test8>test10<test11>" +
-                        "test12</test11></test7></root>",
+                        "test12</test11></test7></root>"
                 );
 
                 assert.strictEqual(
@@ -1015,10 +1015,10 @@ describe("parser", () => {
                                 valueString: "test6",
                             },
                         },
-                        valueStringOptions,
+                        valueStringOptions
                     ),
                     "<root><test1><test2>test3</test2><test4>test5" +
-                        "</test4>test6</test1></root>",
+                        "</test4>test6</test1></root>"
                 );
             });
 
@@ -1044,9 +1044,9 @@ describe("parser", () => {
 
                 const wrapHandlersWildcard: IWrapHandlers = {
                     "*": () => "test5",
-                    "test1": () => "test2",
+                    test1: () => "test2",
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    "test3": (key: string, value: any) =>
+                    test3: (key: string, value: any) =>
                         "test4" +
                         key +
                         (isSet(value) ? value.values().next().value : value[0]),
@@ -1073,7 +1073,7 @@ describe("parser", () => {
                             test17: ["test18", "test19"],
                             test3: new Set(["test8", "test9"]),
                         },
-                        wrapHandlersOptions,
+                        wrapHandlersOptions
                     ),
                     "<root><test1><test2>test6</test2><test2>test7" +
                         "</test2></test1><test10><test1><test2>test11" +
@@ -1083,7 +1083,7 @@ describe("parser", () => {
                         "</test3></test10><test17>test18</test17>" +
                         "<test17>test19</test17><test3><test4test3test8>" +
                         "test8</test4test3test8><test4test3test8>test9" +
-                        "</test4test3test8></test3></root>",
+                        "</test4test3test8></test3></root>"
                 );
 
                 assert.strictEqual(
@@ -1098,7 +1098,7 @@ describe("parser", () => {
                             test17: ["test18", "test19"],
                             test3: new Set(["test8", "test9"]),
                         },
-                        wrapHandlersWildcardOptions,
+                        wrapHandlersWildcardOptions
                     ),
                     "<root><test1><test2>test6</test2><test2>test7</test2>" +
                         "</test1><test10><test1><test2>test11</test2><test2>" +
@@ -1108,7 +1108,7 @@ describe("parser", () => {
                         "test18</test5><test5>test19</test5></test17><test3>" +
                         "<test4test3test8>test8</test4test3test8>" +
                         "<test4test3test8>test9</test4test3test8></test3>" +
-                        "</root>",
+                        "</root>"
                 );
             });
         });
@@ -1116,12 +1116,12 @@ describe("parser", () => {
 
     it("#parseToExistingElement", () => {
         const d = document();
-        d.procInst({ target: "test4" });
-        const e = d.element({ name: "test" });
-        parseToExistingElement(e, { test2: "test3" }, simpleOptions);
+        d.procInst({target: "test4"});
+        const e = d.element({name: "test"});
+        parseToExistingElement(e, {test2: "test3"}, simpleOptions);
         assert.strictEqual(
-            d.toString({ pretty: false }),
-            "<?test4?><test><test2>test3</test2></test>",
+            d.toString({pretty: false}),
+            "<?test4?><test><test2>test3</test2></test>"
         );
     });
 });

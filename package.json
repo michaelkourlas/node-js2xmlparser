@@ -38,11 +38,11 @@
         "clean": "rimraf lib",
         "clean-docs": "rimraf docs",
         "clean-test": "rimraf test/lib",
-        "dev": "npm run-script clean && npm run-script lint && tsc -p tsconfig.json --sourceMap",
+        "dev": "npm run-script clean && npm run-script format && npm run-script lint && tsc -p tsconfig.json --sourceMap",
         "docs": "npm run-script clean-docs && typedoc src/main.ts",
         "format": "prettier --write .",
         "lint": "eslint . --ext .ts",
-        "prod": "npm run-script clean && npm run-script lint && tsc -p tsconfig.json",
+        "prod": "npm run-script clean && npm run-script format && npm run-script lint && tsc -p tsconfig.json",
         "test-dev": "npm run-script clean-test && tsc -p test/tsconfig.json --sourceMap && mocha test/lib",
         "test-prod": "npm run-script clean-test && tsc -p test/tsconfig.json && mocha test/lib"
     },

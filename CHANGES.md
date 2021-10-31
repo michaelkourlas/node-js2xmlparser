@@ -45,7 +45,7 @@
     var js2xmlparser = require("js2xmlparser");
 
     var root = "root";
-    var data = { hello: "world" };
+    var data = {hello: "world"};
     var options = {};
 
     // old method (no longer works):

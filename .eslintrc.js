@@ -30,7 +30,7 @@ module.exports = {
     ],
     rules: {
         // Maximum line length of 100
-        "max-len": ["error", { code: 100 }],
+        "max-len": ["error", {code: 100}],
 
         // Too late to change this, since interfaces are part of the public API
         "@typescript-eslint/interface-name-prefix": 0,
@@ -44,7 +44,7 @@ module.exports = {
         // Allow private constructors
         "@typescript-eslint/no-empty-function": [
             "error",
-            { allow: ["private-constructors"] },
+            {allow: ["private-constructors"]},
         ],
     },
 };

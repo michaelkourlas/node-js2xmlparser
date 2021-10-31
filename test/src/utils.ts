@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { assert } from "chai";
+import {assert} from "chai";
 import {
     isArray,
     isMap,
@@ -55,7 +55,7 @@ describe("utils", () => {
 
     describe("#isObject", () => {
         it("should return true for objects", () => {
-            assert.isTrue(isObject({ a: "b" }));
+            assert.isTrue(isObject({a: "b"}));
             assert.isTrue(isObject({}));
         });
 
@@ -122,8 +122,8 @@ describe("utils", () => {
                     new Map([
                         ["a", "b"],
                         ["c", "d"],
-                    ]),
-                ),
+                    ])
+                )
             );
         });
 
@@ -155,7 +155,7 @@ describe("utils", () => {
                 assert.strictEqual(stringify(new String("test")), "test");
                 // noinspection JSPrimitiveTypeWrapperUsage
                 assert.strictEqual(stringify(new Boolean(true)), "true");
-            },
+            }
         );
     });
 });

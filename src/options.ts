@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { isUndefined } from "./utils";
+import {isUndefined} from "./utils";
 
 /**
  * The options associated with parsing an object and formatting the resulting
@@ -466,7 +466,7 @@ export class DtdOptions implements IDtdOptions {
         if (validation && isUndefined(dtdOptions.name) && this.include) {
             throw new Error(
                 "options.dtd.name should be defined if" +
-                    " options.dtd.include is true",
+                    " options.dtd.include is true"
             );
         }
 

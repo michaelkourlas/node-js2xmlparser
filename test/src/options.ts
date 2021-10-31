@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { assert } from "chai";
-import { ITypeHandlers, IWrapHandlers, Options } from "../../lib/options";
+import {assert} from "chai";
+import {ITypeHandlers, IWrapHandlers, Options} from "../../lib/options";
 
 describe("options", () => {
     describe("#Options", () => {
@@ -26,13 +26,13 @@ describe("options", () => {
                 };
                 assert.strictEqual(
                     new Options(options).aliasString,
-                    options.aliasString,
+                    options.aliasString
                 );
 
                 options.aliasString = "test";
                 assert.strictEqual(
                     new Options(options).aliasString,
-                    options.aliasString,
+                    options.aliasString
                 );
             });
 
@@ -42,7 +42,7 @@ describe("options", () => {
                 () => {
                     const options = {};
                     assert.strictEqual(new Options(options).aliasString, "=");
-                },
+                }
             );
         });
 
@@ -53,13 +53,13 @@ describe("options", () => {
                 };
                 assert.strictEqual(
                     new Options(options).attributeString,
-                    options.attributeString,
+                    options.attributeString
                 );
 
                 options.attributeString = "test";
                 assert.strictEqual(
                     new Options(options).attributeString,
-                    options.attributeString,
+                    options.attributeString
                 );
             });
 
@@ -70,9 +70,9 @@ describe("options", () => {
                     const options = {};
                     assert.strictEqual(
                         new Options(options).attributeString,
-                        "@",
+                        "@"
                     );
-                },
+                }
             );
         });
 
@@ -83,13 +83,13 @@ describe("options", () => {
                 };
                 assert.strictEqual(
                     new Options(options).cdataInvalidChars,
-                    options.cdataInvalidChars,
+                    options.cdataInvalidChars
                 );
 
                 options.cdataInvalidChars = true;
                 assert.strictEqual(
                     new Options(options).cdataInvalidChars,
-                    options.cdataInvalidChars,
+                    options.cdataInvalidChars
                 );
             });
 
@@ -100,9 +100,9 @@ describe("options", () => {
                     const options = {};
                     assert.strictEqual(
                         new Options(options).cdataInvalidChars,
-                        false,
+                        false
                     );
-                },
+                }
             );
         });
 
@@ -113,13 +113,13 @@ describe("options", () => {
                 };
                 assert.deepEqual(
                     new Options(options).cdataKeys,
-                    options.cdataKeys,
+                    options.cdataKeys
                 );
 
                 options.cdataKeys = [];
                 assert.deepEqual(
                     new Options(options).cdataKeys,
-                    options.cdataKeys,
+                    options.cdataKeys
                 );
             });
 
@@ -129,7 +129,7 @@ describe("options", () => {
                 () => {
                     const options = {};
                     assert.deepEqual(new Options(options).cdataKeys, []);
-                },
+                }
             );
         });
 
@@ -145,7 +145,7 @@ describe("options", () => {
                 };
                 assert.deepEqual(
                     new Options(options).declaration,
-                    options.declaration,
+                    options.declaration
                 );
 
                 options.declaration = {
@@ -156,7 +156,7 @@ describe("options", () => {
                 };
                 assert.deepEqual(
                     new Options(options).declaration,
-                    options.declaration,
+                    options.declaration
                 );
             });
 
@@ -171,7 +171,7 @@ describe("options", () => {
                         standalone: undefined,
                         version: undefined,
                     });
-                },
+                }
             );
         });
 
@@ -213,7 +213,7 @@ describe("options", () => {
                         },
                     };
                     assert.throws(() => new Options(options));
-                },
+                }
             );
 
             it(
@@ -227,7 +227,7 @@ describe("options", () => {
                         pubId: undefined,
                         sysId: undefined,
                     });
-                },
+                }
             );
         });
 
@@ -255,7 +255,7 @@ describe("options", () => {
                         newline: undefined,
                         pretty: undefined,
                     });
-                },
+                }
             );
         });
 
@@ -266,13 +266,13 @@ describe("options", () => {
                 };
                 assert.strictEqual(
                     new Options(options).replaceInvalidChars,
-                    options.replaceInvalidChars,
+                    options.replaceInvalidChars
                 );
 
                 options.replaceInvalidChars = true;
                 assert.strictEqual(
                     new Options(options).replaceInvalidChars,
-                    options.replaceInvalidChars,
+                    options.replaceInvalidChars
                 );
             });
 
@@ -283,9 +283,9 @@ describe("options", () => {
                     const options = {};
                     assert.strictEqual(
                         new Options(options).replaceInvalidChars,
-                        false,
+                        false
                     );
-                },
+                }
             );
         });
 
@@ -304,13 +304,13 @@ describe("options", () => {
                 };
                 assert.deepEqual(
                     new Options(options).typeHandlers,
-                    options.typeHandlers,
+                    options.typeHandlers
                 );
 
                 options.typeHandlers = {};
                 assert.deepEqual(
                     new Options(options).typeHandlers,
-                    options.typeHandlers,
+                    options.typeHandlers
                 );
             });
 
@@ -320,7 +320,7 @@ describe("options", () => {
                 () => {
                     const options = {};
                     assert.deepEqual(new Options(options).typeHandlers, {});
-                },
+                }
             );
         });
 
@@ -331,13 +331,13 @@ describe("options", () => {
                 };
                 assert.strictEqual(
                     new Options(options).useSelfClosingTagIfEmpty,
-                    options.useSelfClosingTagIfEmpty,
+                    options.useSelfClosingTagIfEmpty
                 );
 
                 options.useSelfClosingTagIfEmpty = false;
                 assert.strictEqual(
                     new Options(options).useSelfClosingTagIfEmpty,
-                    options.useSelfClosingTagIfEmpty,
+                    options.useSelfClosingTagIfEmpty
                 );
             });
 
@@ -348,9 +348,9 @@ describe("options", () => {
                     const options = {};
                     assert.strictEqual(
                         new Options(options).useSelfClosingTagIfEmpty,
-                        true,
+                        true
                     );
-                },
+                }
             );
         });
 
@@ -361,13 +361,13 @@ describe("options", () => {
                 };
                 assert.strictEqual(
                     new Options(options).validation,
-                    options.validation,
+                    options.validation
                 );
 
                 options.validation = false;
                 assert.strictEqual(
                     new Options(options).validation,
-                    options.validation,
+                    options.validation
                 );
             });
 
@@ -377,7 +377,7 @@ describe("options", () => {
                 () => {
                     const options = {};
                     assert.strictEqual(new Options(options).validation, true);
-                },
+                }
             );
         });
 
@@ -388,13 +388,13 @@ describe("options", () => {
                 };
                 assert.strictEqual(
                     new Options(options).valueString,
-                    options.valueString,
+                    options.valueString
                 );
 
                 options.valueString = "test";
                 assert.strictEqual(
                     new Options(options).valueString,
-                    options.valueString,
+                    options.valueString
                 );
             });
 
@@ -404,7 +404,7 @@ describe("options", () => {
                 () => {
                     const options = {};
                     assert.strictEqual(new Options(options).valueString, "#");
-                },
+                }
             );
         });
 
@@ -423,13 +423,13 @@ describe("options", () => {
                 };
                 assert.deepEqual(
                     new Options(options).wrapHandlers,
-                    options.wrapHandlers,
+                    options.wrapHandlers
                 );
 
                 options.wrapHandlers = {};
                 assert.deepEqual(
                     new Options(options).wrapHandlers,
-                    options.wrapHandlers,
+                    options.wrapHandlers
                 );
             });
 
@@ -439,7 +439,7 @@ describe("options", () => {
                 () => {
                     const options = {};
                     assert.deepEqual(new Options(options).wrapHandlers, {});
-                },
+                }
             );
         });
     });
