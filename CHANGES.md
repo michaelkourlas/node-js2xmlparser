@@ -2,6 +2,7 @@
 
 -   Update dependencies
 -   Export options interfaces in main module
+-   Update example to include root attribute
 
 ## 4.0.1
 

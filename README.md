@@ -58,7 +58,7 @@ source maps.
 
 ## Usage
 
-The documentation for the current version is available [here](http://www.kourlas.com/node-js2xmlparser/docs/4.0.1/).
+The documentation for the current version is available [here](http://www.kourlas.com/node-js2xmlparser/docs/4.0.2/).
 
 You can also build the documentation using npm:
 
@@ -76,7 +76,7 @@ var js2xmlparser = require("js2xmlparser");
 var obj = {
     "@": {
         type: "natural",
-    }
+    },
     firstName: "John",
     lastName: "Smith",
     dateOfBirth: new Date(1964, 7, 26),
