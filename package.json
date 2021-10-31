@@ -34,7 +34,7 @@
         "url": "git://github.com/michaelkourlas/node-js2xmlparser.git"
     },
     "scripts": {
-        "build": "npm run-script format && npm run-script prod && npm run-script test-prod && npm run-script docs",
+        "build": "npm run-script prod && npm run-script test-prod && npm run-script docs",
         "clean": "rimraf lib",
         "clean-docs": "rimraf docs",
         "clean-test": "rimraf test/lib",
