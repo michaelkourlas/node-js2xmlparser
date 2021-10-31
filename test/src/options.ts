@@ -206,6 +206,7 @@ describe("options", () => {
                 "should throw an error if the specified options object" +
                     " contains invalid options",
                 () => {
+                    // eslint-disable-next-line max-len
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     const options: any = {
                         dtd: {

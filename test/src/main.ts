@@ -55,17 +55,14 @@ describe("parser", () => {
         });
 
         it("object versions of primitives", () => {
-            // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
                 parse("root", new String("string"), simpleOptions),
                 "<root>string</root>"
             );
-            // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
                 parse("root", new Number(3), simpleOptions),
                 "<root>3</root>"
             );
-            // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
                 parse("root", new Boolean(true), simpleOptions),
                 "<root>true</root>"
@@ -131,7 +128,6 @@ describe("parser", () => {
         });
 
         it("primitives in objects and maps", () => {
-            // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
                 parse(
                     "root",
@@ -151,7 +147,6 @@ describe("parser", () => {
                     "<test4>undefined</test4><test5>null</test5><test6>str2" +
                     "</test6><test7>6</test7><test8>false</test8></root>"
             );
-            // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
                 parse(
                     "root",
@@ -171,7 +166,6 @@ describe("parser", () => {
                     "<test4>undefined</test4><test5>null</test5><test6>str2" +
                     "</test6><test7>6</test7><test8>false</test8></root>"
             );
-            // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
                 parse(
                     "root",
@@ -188,7 +182,6 @@ describe("parser", () => {
         });
 
         it("primitives in arrays and sets", () => {
-            // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
                 parse(
                     "root",
@@ -208,7 +201,6 @@ describe("parser", () => {
                     "<root>undefined</root><root>null</root><root>str1" +
                     "</root><root>5</root><root>false</root></root>"
             );
-            // noinspection JSPrimitiveTypeWrapperUsage
             assert.strictEqual(
                 parse(
                     "root",
@@ -555,7 +547,6 @@ describe("parser", () => {
                     },
                 };
 
-                // noinspection HtmlUnknownAttribute
                 assert.strictEqual(
                     parse(
                         "root",
@@ -830,6 +821,7 @@ describe("parser", () => {
             it("typeHandlers", () => {
                 const typeHandlers: ITypeHandlers = {
                     "[object Null]": () => Absent.instance,
+                    // eslint-disable-next-line max-len
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     "[object Number]": (val: any) => val + 17,
                 };
@@ -844,6 +836,7 @@ describe("parser", () => {
                 };
 
                 const typeHandlersWildcard: ITypeHandlers = {
+                    // eslint-disable-next-line max-len
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     "*": (val: any) => {
                         if (typeof val === "string") {
@@ -852,6 +845,7 @@ describe("parser", () => {
                             return val;
                         }
                     },
+                    // eslint-disable-next-line max-len
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     "[object Number]": (val: any) => val + 17,
                 };
@@ -1026,6 +1020,7 @@ describe("parser", () => {
                 const wrapHandlers: IWrapHandlers = {
                     test1: () => "test2",
                     test17: () => null,
+                    // eslint-disable-next-line max-len
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     test3: (key: string, value: any) =>
                         "test4" +
@@ -1045,6 +1040,7 @@ describe("parser", () => {
                 const wrapHandlersWildcard: IWrapHandlers = {
                     "*": () => "test5",
                     test1: () => "test2",
+                    // eslint-disable-next-line max-len
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     test3: (key: string, value: any) =>
                         "test4" +

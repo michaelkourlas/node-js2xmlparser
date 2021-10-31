@@ -137,23 +137,24 @@ describe("utils", () => {
     });
 
     describe("#stringify", () => {
-        it("should return a valid string representation for all primitive types", () => {
-            assert.strictEqual(stringify(null), "null");
-            assert.strictEqual(stringify(undefined), "undefined");
-            assert.strictEqual(stringify(3), "3");
-            assert.strictEqual(stringify("test"), "test");
-            assert.strictEqual(stringify(true), "true");
-        });
+        it(
+            "should return a valid string representation for all primitive" +
+                " types",
+            () => {
+                assert.strictEqual(stringify(null), "null");
+                assert.strictEqual(stringify(undefined), "undefined");
+                assert.strictEqual(stringify(3), "3");
+                assert.strictEqual(stringify("test"), "test");
+                assert.strictEqual(stringify(true), "true");
+            }
+        );
 
         it(
             "should return a valid string representation for all object" +
                 " versions of primitive types",
             () => {
-                // noinspection JSPrimitiveTypeWrapperUsage
                 assert.strictEqual(stringify(new Number(3)), "3");
-                // noinspection JSPrimitiveTypeWrapperUsage
                 assert.strictEqual(stringify(new String("test")), "test");
-                // noinspection JSPrimitiveTypeWrapperUsage
                 assert.strictEqual(stringify(new Boolean(true)), "true");
             }
         );
