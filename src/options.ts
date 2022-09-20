@@ -43,6 +43,8 @@ export interface IOptions {
      * </root>
      * ```
      *
+     * The handlers in `typeHandlers` are not applied to the value.
+     *
      * The default alias string is `"="`.
      */
     aliasString?: string;
@@ -79,6 +81,8 @@ export interface IOptions {
      *     </abc>
      * </root>
      * ```
+     *
+     * The handlers in `typeHandlers` are applied to the values.
      *
      * The default attribute string is `"@"`.
      */
@@ -234,6 +238,8 @@ export interface IOptions {
      *     jkl
      * </root>
      * ```
+     *
+     * The handlers in `typeHandlers` are applied to the value.
      *
      * The default value is `"#"`.
      */

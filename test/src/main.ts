@@ -876,6 +876,26 @@ describe("parser", () => {
                     parse(
                         "root",
                         {
+                            test1: {
+                                "@": {
+                                    test2: null,
+                                    test3: 26,
+                                },
+                                "#": null,
+                            },
+                            "#": 3,
+                            test4: "test5",
+                        },
+                        typeHandlersOptions
+                    ),
+                    "<root><test1 test3='43'/>20<test4>test5</test4>" +
+                        "</root>"
+                );
+
+                assert.strictEqual(
+                    parse(
+                        "root",
+                        {
                             test1: 3,
                             test2: "test3",
                             test4: null,

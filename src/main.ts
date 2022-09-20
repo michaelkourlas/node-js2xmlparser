@@ -132,7 +132,7 @@ function parseString(
  */
 function parseAttribute(
     name: string,
-    value: string,
+    value: unknown,
     parentElement: XmlElement<unknown>,
     options: Options
 ): void {
@@ -161,19 +161,24 @@ function parseObjectOrMapEntry(
     // Attributes key
     if (key.indexOf(options.attributeString) === 0 && isObject(value)) {
         for (const subkey of Object.keys(value)) {
-            parseAttribute(
-                subkey,
-                stringify(value[subkey]),
-                parentElement,
-                options
-            );
+            let subvalue = value[subkey];
+
+            const handler = getHandler(subvalue, options);
+            if (!isUndefined(handler)) {
+                subvalue = handler(subvalue);
+                if (handler(value) === Absent.instance) {
+                    continue;
+                }
+            }
+
+            parseAttribute(subkey, subvalue, parentElement, options);
         }
         return;
     }
 
     // Value key
     if (key.indexOf(options.valueString) === 0) {
-        parseValue(key, stringify(value), parentElement, options);
+        parseValue(key, value, parentElement, options);
         return;
     }
 

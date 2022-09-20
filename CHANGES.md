@@ -1,3 +1,8 @@
+## 5.0.0
+
+-   Allow typeHandlers to be used with bare text and attribute values
+-   Clarify that typeHandlers cannot be used with aliases in documentation
+
 ## 4.0.2
 
 -   Update dependencies
