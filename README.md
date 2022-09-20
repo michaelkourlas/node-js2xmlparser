@@ -58,7 +58,7 @@ source maps.
 
 ## Usage
 
-The documentation for the current version is available [here](http://www.kourlas.com/node-js2xmlparser/docs/4.0.2/).
+The documentation for the current version is available [here](http://www.kourlas.com/node-js2xmlparser/docs/5.0.0/).
 
 You can also build the documentation using npm:
 
